@@ -39,6 +39,8 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,13 +49,66 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataContext\HaberSepetiContext.cs" />
+    <Compile Include="Model\Haber.cs">
+      <DependentUpon>HaberSepetiModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\HaberSepetiModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HaberSepetiModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\HaberSepetiModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HaberSepetiModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\HaberSepetiModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HaberSepetiModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Kullanici.cs">
+      <DependentUpon>HaberSepetiModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Resim.cs">
+      <DependentUpon>HaberSepetiModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Rol.cs">
+      <DependentUpon>HaberSepetiModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\sysdiagram.cs">
+      <DependentUpon>HaberSepetiModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <EntityDeploy Include="Model\HaberSepetiModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>HaberSepetiModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Model\HaberSepetiModel.edmx.diagram">
+      <DependentUpon>HaberSepetiModel.edmx</DependentUpon>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Content Include="Model\HaberSepetiModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>HaberSepetiModel.edmx</DependentUpon>
+      <LastGenOutput>HaberSepetiModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Model\HaberSepetiModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>HaberSepetiModel.edmx</DependentUpon>
+      <LastGenOutput>HaberSepetiModel.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
