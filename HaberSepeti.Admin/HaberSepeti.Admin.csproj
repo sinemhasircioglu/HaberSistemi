@@ -106,6 +106,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Class\BootStrapper.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -114,6 +116,7 @@
   <ItemGroup>
     <Content Include="Views\web.config" />
     <None Include="packages.config" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -123,8 +126,20 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\" />
+    <Folder Include="Content\" />
     <Folder Include="Models\" />
+    <Folder Include="Scripts\" />
+    <Folder Include="Views\Home\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HaberSepeti.Core\HaberSepeti.Core.csproj">
+      <Project>{7ec4d360-95a5-44b6-a4c9-94d43e0756e4}</Project>
+      <Name>HaberSepeti.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HaberSepeti.Data\HaberSepeti.Data.csproj">
+      <Project>{8a78ac81-52f5-4e84-9434-f7b8f4079aa5}</Project>
+      <Name>HaberSepeti.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

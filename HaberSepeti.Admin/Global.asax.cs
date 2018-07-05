@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HaberSepeti.Admin.Class;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,6 +14,7 @@ namespace HaberSepeti.Admin
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+            BootStrapper.RunConfig();
         }
     }
 }
