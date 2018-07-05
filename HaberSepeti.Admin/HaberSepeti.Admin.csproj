@@ -101,7 +101,64 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\icheck\minimal%402x.png" />
+    <Content Include="Content\icheck\minimal.css" />
+    <Content Include="Content\icheck\minimal.png" />
+    <Content Include="Content\main.css" />
+    <Content Include="Content\main.min.css" />
+    <Content Include="Content\plugins.min.css" />
+    <Content Include="Content\typicons.min.css" />
+    <Content Include="fonts\fontawesome-webfontba72.svg" />
+    <Content Include="fonts\footable.svg" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\typicons.svg" />
     <Content Include="Global.asax" />
+    <Content Include="img\dark_wood.html" />
+    <Content Include="img\loaders\loader1.gif" />
+    <Content Include="img\loaders\loader10.gif" />
+    <Content Include="img\loaders\loader11.gif" />
+    <Content Include="img\loaders\loader12.gif" />
+    <Content Include="img\loaders\loader13.gif" />
+    <Content Include="img\loaders\loader14.gif" />
+    <Content Include="img\loaders\loader15.gif" />
+    <Content Include="img\loaders\loader16.gif" />
+    <Content Include="img\loaders\loader17.gif" />
+    <Content Include="img\loaders\loader2.gif" />
+    <Content Include="img\loaders\loader3.gif" />
+    <Content Include="img\loaders\loader4.gif" />
+    <Content Include="img\loaders\loader5.gif" />
+    <Content Include="img\loaders\loader6.gif" />
+    <Content Include="img\loaders\loader7.gif" />
+    <Content Include="img\loaders\loader8.gif" />
+    <Content Include="img\loaders\loader9.gif" />
+    <Content Include="img\logo.png" />
+    <Content Include="img\tickc81e.html" />
+    <Content Include="Scripts\main.js" />
+    <Content Include="Scripts\page-bootstrap.js" />
+    <Content Include="Scripts\page-calendar.js" />
+    <Content Include="Scripts\page-charts.js" />
+    <Content Include="Scripts\page-dashboard.js" />
+    <Content Include="Scripts\page-form-elements.js" />
+    <Content Include="Scripts\plugins\bootstrap.min.js" />
+    <Content Include="Scripts\plugins\calendar\calendar.min.js" />
+    <Content Include="Scripts\plugins\calendar\underscore.min.js" />
+    <Content Include="Scripts\plugins\datepicker\datetimepicker.min.js" />
+    <Content Include="Scripts\plugins\datepicker\moment.min.js" />
+    <Content Include="Scripts\plugins\enscroll.min.js" />
+    <Content Include="Scripts\plugins\flot.min.js" />
+    <Content Include="Scripts\plugins\footable.min.js" />
+    <Content Include="Scripts\plugins\icheck.min.js" />
+    <Content Include="Scripts\plugins\jquery.min.js" />
+    <Content Include="Scripts\plugins\knob.min.js" />
+    <Content Include="Scripts\plugins\maskedinput.min.js" />
+    <Content Include="Scripts\plugins\modernizr.min.js" />
+    <Content Include="Scripts\plugins\multimenu.min.js" />
+    <Content Include="Scripts\plugins\rickshaw\d3.v3.js" />
+    <Content Include="Scripts\plugins\rickshaw\rickshaw.min.js" />
+    <Content Include="Scripts\plugins\sparkline.min.js" />
+    <Content Include="Scripts\plugins\summernote.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -115,8 +172,25 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
+    <Content Include="fonts\fontawesome-webfontba72.eot" />
+    <Content Include="fonts\fontawesome-webfontba72.ttf" />
+    <Content Include="fonts\fontawesome-webfontba72.woff" />
+    <Content Include="fonts\fontawesome-webfontd41d.eot" />
+    <Content Include="fonts\footable.eot" />
+    <Content Include="fonts\footable.ttf" />
+    <Content Include="fonts\footable.woff" />
+    <Content Include="fonts\footabled41d.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regulard41d.eot" />
+    <Content Include="fonts\typicons.eot" />
+    <Content Include="fonts\typicons.ttf" />
+    <Content Include="fonts\typicons.woff" />
+    <Content Include="fonts\typiconsd41d.eot" />
     <None Include="packages.config" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -126,10 +200,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\" />
     <Folder Include="Models\" />
-    <Folder Include="Scripts\" />
-    <Folder Include="Views\Home\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HaberSepeti.Core\HaberSepeti.Core.csproj">
