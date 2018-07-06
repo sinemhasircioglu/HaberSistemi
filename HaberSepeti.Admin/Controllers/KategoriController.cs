@@ -1,4 +1,5 @@
-﻿using HaberSepeti.Core.Infrastructure;
+﻿using HaberSepeti.Admin.Class;
+using HaberSepeti.Core.Infrastructure;
 using HaberSepeti.Data.Model;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,6 @@ namespace HaberSepeti.Admin.Controllers
             _kategoriRepository = kategoriRepository;
         }
 
-        // GET: Kategori
         public ActionResult Index()
         {
             return View();
@@ -32,7 +32,16 @@ namespace HaberSepeti.Admin.Controllers
         [HttpPost]
         public JsonResult Ekle(Kategori kategori)
         {
-            return Json(1, JsonRequestBehavior.AllowGet);
+            try
+            {
+                _kategoriRepository.Insert(kategori);
+                _kategoriRepository.Save();
+                return Json(new ResultJson { Success = true, Message = "Ekleme işleminiz başarılı" });
+            }
+            catch (Exception)
+            {
+                return Json(new ResultJson { Success = false, Message = "Ekleme işleminiz başarısız!" });
+            }
         }
     }
 }
