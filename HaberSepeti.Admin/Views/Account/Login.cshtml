@@ -1,0 +1,82 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from karlomikus.com/saltkin/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 14 Apr 2016 14:52:57 GMT -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Saltkin &dash; Responsive Admin &amp; Dashboard UI Template</title>
+    <!-- Fonts -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800,400italic%7cMontserrat:400,700" rel="stylesheet" type="text/css">
+    <!-- Icons -->
+    <link href="~/Content/typicons.min.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet">
+    <!-- Template -->
+    <link href="~/Content/main.min.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+      <script src="~/Scripts/plugins/shiv.min.js"></script>
+      <script src="~/Scripts/plugins/respond.min.js"></script>
+      <script src="~/Scripts/plugins/excanvas.min.js"></script>
+    <![endif]-->
+</head>
+<body class="login-page">
+
+    <!-- Page container -->
+    <div class="container">
+        <p class="text-center">
+            MVC HABER SEPETİ
+        </p>
+        <div class="login-buttons">
+            <button class="btn btn-login" data-toggle="modal" data-target="#loginModal">Giriş Yap</button>
+        </div>
+    </div>
+    <!-- /Page container -->
+    <!-- Login modal -->
+    @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Giriş yapınız</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form">
+                            <div class="form-group">
+                                <input type="email" class="form-control" placeholder="Email" name="Email" required autofocus>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control" placeholder="Şifre" name="Sifre" required>
+                            </div>
+                            <label class="checkbox">
+                                <input type="checkbox" value="remember-me"> Beni hatırla
+                            </label>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">İptal</button>
+                        <button type="submit" class="btn btn-primary">Giriş yap</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    <!-- SCRIPTS -->
+    <script src="~/Scripts/plugins/jquery.min.js"></script>
+    <script src="~/Scripts/plugins/modernizr.min.js"></script>
+    <script src="~/Scripts/plugins/bootstrap.min.js"></script>
+    <!-- Site -->
+    <script src="~/Scripts/main.js"></script>
+</body>
+<!-- Mirrored from karlomikus.com/saltkin/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 14 Apr 2016 14:52:57 GMT -->
+</html>

@@ -12,28 +12,21 @@ namespace HaberSepeti.Data.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Haber
+    public partial class Kategori
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Haber()
+        public Kategori()
         {
-            this.Resims = new HashSet<Resim>();
+            this.Habers = new HashSet<Haber>();
         }
     
         public int Id { get; set; }
-        public string Baslik { get; set; }
-        public string KisaAciklama { get; set; }
-        public string Aciklama { get; set; }
+        public string Ad { get; set; }
+        public int ParentId { get; set; }
         public bool AktifMi { get; set; }
-        public System.DateTime EklenmeTarihi { get; set; }
-        public int Okunma { get; set; }
-        public string Resim { get; set; }
-        public int KullaniciId { get; set; }
-        public int KategoriId { get; set; }
+        public string URL { get; set; }
     
-        public virtual Kullanici Kullanici { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Resim> Resims { get; set; }
-        public virtual Kategori Kategori { get; set; }
+        public virtual ICollection<Haber> Habers { get; set; }
     }
 }

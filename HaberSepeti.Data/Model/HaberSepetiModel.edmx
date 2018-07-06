@@ -9,7 +9,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Baslik" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="KisaAciklama" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="Aciklama" Type="nvarchar(max)" Nullable="false" />
@@ -18,6 +18,17 @@
           <Property Name="Okunma" Type="int" Nullable="false" />
           <Property Name="Resim" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="KullaniciId" Type="int" Nullable="false" />
+          <Property Name="KategoriId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Kategori">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ad" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ParentId" Type="int" Nullable="false" />
+          <Property Name="AktifMi" Type="bit" Nullable="false" />
+          <Property Name="URL" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="Kullanici">
           <Key>
@@ -35,7 +46,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ResimUrl" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="HaberId" Type="int" Nullable="false" />
         </EntityType>
@@ -56,6 +67,18 @@
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
+        <Association Name="FK_Haber_Kategori">
+          <End Role="Kategori" Type="Self.Kategori" Multiplicity="1" />
+          <End Role="Haber" Type="Self.Haber" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategori">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Haber">
+              <PropertyRef Name="KategoriId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Haber_Kullanici">
           <End Role="Kullanici" Type="Self.Kullanici" Multiplicity="1" />
           <End Role="Haber" Type="Self.Haber" Multiplicity="*" />
@@ -94,10 +117,15 @@
         </Association>
         <EntityContainer Name="HaberSepetiModelStoreContainer">
           <EntitySet Name="Haber" EntityType="Self.Haber" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Kategori" EntityType="Self.Kategori" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Kullanici" EntityType="Self.Kullanici" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Resim" EntityType="Self.Resim" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Haber_Kategori" Association="Self.FK_Haber_Kategori">
+            <End Role="Kategori" EntitySet="Kategori" />
+            <End Role="Haber" EntitySet="Haber" />
+          </AssociationSet>
           <AssociationSet Name="FK_Haber_Kullanici" Association="Self.FK_Haber_Kullanici">
             <End Role="Kullanici" EntitySet="Kullanici" />
             <End Role="Haber" EntitySet="Haber" />
@@ -177,6 +205,11 @@
             <End Role="Haber" EntitySet="Habers" />
             <End Role="Resim" EntitySet="Resims" />
           </AssociationSet>
+          <EntitySet Name="Kategoris" EntityType="HaberSepetiModel.Kategori" />
+          <AssociationSet Name="FK_Haber_Kategori" Association="HaberSepetiModel.FK_Haber_Kategori">
+            <End Role="Kategori" EntitySet="Kategoris" />
+            <End Role="Haber" EntitySet="Habers" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Haber">
           <Key>
@@ -193,6 +226,8 @@
           <Property Name="KullaniciId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Kullanici" Relationship="HaberSepetiModel.FK_Haber_Kullanici" FromRole="Haber" ToRole="Kullanici" />
           <NavigationProperty Name="Resims" Relationship="HaberSepetiModel.FK_Resim_Haber" FromRole="Haber" ToRole="Resim" />
+          <Property Name="KategoriId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Kategori" Relationship="HaberSepetiModel.FK_Haber_Kategori" FromRole="Haber" ToRole="Kategori" />
         </EntityType>
         <EntityType Name="Resim">
           <Key>
@@ -224,6 +259,29 @@
             </Principal>
             <Dependent Role="Resim">
               <PropertyRef Name="HaberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Kategori">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ad" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ParentId" Type="Int32" Nullable="false" />
+          <Property Name="AktifMi" Type="Boolean" Nullable="false" />
+          <Property Name="URL" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Habers" Relationship="HaberSepetiModel.FK_Haber_Kategori" FromRole="Kategori" ToRole="Haber" />
+        </EntityType>
+        <Association Name="FK_Haber_Kategori">
+          <End Type="HaberSepetiModel.Kategori" Role="Kategori" Multiplicity="1" />
+          <End Type="HaberSepetiModel.Haber" Role="Haber" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategori">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Haber">
+              <PropertyRef Name="KategoriId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -268,6 +326,7 @@
           <EntitySetMapping Name="Habers">
             <EntityTypeMapping TypeName="HaberSepetiModel.Haber">
               <MappingFragment StoreEntitySet="Haber">
+                <ScalarProperty Name="KategoriId" ColumnName="KategoriId" />
                 <ScalarProperty Name="KullaniciId" ColumnName="KullaniciId" />
                 <ScalarProperty Name="Resim" ColumnName="Resim" />
                 <ScalarProperty Name="Okunma" ColumnName="Okunma" />
@@ -285,6 +344,17 @@
               <MappingFragment StoreEntitySet="Resim">
                 <ScalarProperty Name="HaberId" ColumnName="HaberId" />
                 <ScalarProperty Name="ResimUrl" ColumnName="ResimUrl" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kategoris">
+            <EntityTypeMapping TypeName="HaberSepetiModel.Kategori">
+              <MappingFragment StoreEntitySet="Kategori">
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="AktifMi" ColumnName="AktifMi" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

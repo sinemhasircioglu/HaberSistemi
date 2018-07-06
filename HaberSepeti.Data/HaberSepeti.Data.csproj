@@ -67,6 +67,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>HaberSepetiModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Model\Kategori.cs">
+      <DependentUpon>HaberSepetiModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Kullanici.cs">
       <DependentUpon>HaberSepetiModel.tt</DependentUpon>
     </Compile>
