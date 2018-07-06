@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "Kategori Ekle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <!-- Basic form -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <header class="panel-heading">@ViewBag.Title</header>
+                <div class="panel-body">
+                    <form role="form">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Parent kategori</label>
+                            selectbox gelecek
+                        </div>
+                        <div class="form-group">
+                            <label for="kategoriAdi">Kategori Adı</label>
+                            <input type="text" class="form-control" id="kategoriAdi" placeholder="Kategori Adı">
+                        </div>
+                        <div class="form-group">
+                            <label for="kategoriUrl">Kategori Url</label>
+                            <input type="text" class="form-control" id="kategoriUrl" placeholder="Kategori Url">
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" checked id="kategoriAktifMi"> Aktif Mi
+                            </label>
+                        </div>
+                        <a href="#" class="btn btn-default" onclick="KategoriEkle();">Ekle</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Basic form -->
+</div>
+<script src="~/Scripts/Global.js"></script>

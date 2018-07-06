@@ -8,18 +8,18 @@
     <!-- /Sidebar header -->
     <!-- Sidebar group -->
     <ul class="sidebar-group">
-        <li class="sidebar-group-header">NAVIGATION</li>
+        <li class="sidebar-group-header">MENÜ</li>
         <li>
-            <a href="index-2.html"><i class="typcn typcn-home"></i> <span>Dashboard</span></a>
+            <a href="@Url.Action("Index","Home")"><i class="typcn typcn-home"></i> <span>Anasayfa</span></a>
             <div class="sidebar-link-addon"><span class="badge bg-green">NEW</span></div>
         </li>
         <li class="has-submenu">
-            <a href="#"><i class="typcn typcn-tabs-outline"></i> <span>Layouts</span></a>
+            <a href="#"><i class="typcn typcn-tabs-outline"></i> <span>Kategori Yönetimi</span></a>
             <div class="sidebar-link-addon"><i class="typcn typcn-plus"></i></div>
             <!-- Sidebar submenu -->
             <ul class="sidebar-submenu">
-                <li><a href="blank.html">Default blank page</a></li>
-                <li><a href="sidebar_right.html">Sidebar on right</a></li>
+                <li><a href="@Url.Action("Index","Kategori")">Kategori listele</a></li>
+                <li><a href="@Url.Action("Ekle","Kategori")">Kategori ekle</a></li>
                 <li><a href="sidebar_compact.html">Compact sidebar</a></li>
                 <li><a href="boxed.html">Boxed</a></li>
             </ul>

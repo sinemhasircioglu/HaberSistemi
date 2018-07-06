@@ -135,6 +135,7 @@
     <Content Include="img\loaders\loader9.gif" />
     <Content Include="img\logo.png" />
     <Content Include="img\tickc81e.html" />
+    <Content Include="Scripts\Global.js" />
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\page-bootstrap.js" />
     <Content Include="Scripts\page-calendar.js" />
@@ -166,6 +167,7 @@
     <Compile Include="Class\BootStrapper.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\KategoriController.cs" />
     <Compile Include="CustomFilter\LoginFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -196,6 +198,7 @@
     <Content Include="Views\Shared\_Header.cshtml" />
     <Content Include="Views\Shared\_Sidebar.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Kategori\Ekle.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
