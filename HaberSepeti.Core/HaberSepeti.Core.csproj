@@ -48,12 +48,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Infrastructure\IHaberRepository.cs" />
+    <Compile Include="Infrastructure\IKategoriRepository.cs" />
     <Compile Include="Infrastructure\IKullaniciRepository.cs" />
     <Compile Include="Infrastructure\IRepository.cs" />
     <Compile Include="Infrastructure\IResimRepository.cs" />
     <Compile Include="Infrastructure\IRolRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\HaberRepository.cs" />
+    <Compile Include="Repository\KategoriRepository.cs" />
     <Compile Include="Repository\KullaniciRepository.cs" />
     <Compile Include="Repository\ResimRepository.cs" />
     <Compile Include="Repository\RolRepository.cs" />
