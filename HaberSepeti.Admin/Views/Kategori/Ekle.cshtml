@@ -1,4 +1,4 @@
-﻿
+﻿@model HaberSepeti.Data.Model.Kategori
 @{
     ViewBag.Title = "Kategori Ekle";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -13,8 +13,8 @@
                 <div class="panel-body">
                     <form role="form">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Parent kategori</label>
-                            selectbox gelecek
+                            <label for="ParentId">Üst kategori</label>
+                            @Html.DropDownListFor(Model => Model.Ad , new SelectList(ViewBag.Kategori,"Id","Ad"), ("Seçiniz") ,new { @class="form-control", id="ParentId"})
                         </div>
                         <div class="form-group">
                             <label for="kategoriAdi">Kategori Adı</label>

@@ -18,14 +18,16 @@ namespace HaberSepeti.Admin.Controllers
             _kategoriRepository = kategoriRepository;
         }
 
+        [HttpGet]
         public ActionResult Index()
         {
-            return View();
+            return View(_kategoriRepository.GetAll().ToList());
         }
 
         [HttpGet]
         public ActionResult Ekle()
         {
+            SetKategoriListele();
             return View();
         }
 
@@ -42,6 +44,22 @@ namespace HaberSepeti.Admin.Controllers
             {
                 return Json(new ResultJson { Success = false, Message = "Ekleme işleminiz başarısız!" });
             }
+        }
+
+        public void SetKategoriListele()
+        {
+            var KategoriList = _kategoriRepository.GetMany(x => x.ParentId == 0).ToList();
+            ViewBag.Kategori = KategoriList;
+        }
+
+        public ActionResult Sil(int id)
+        {
+            Kategori kategori = _kategoriRepository.GetById(id);
+            if (kategori == null)
+                throw new Exception("Kategori bulunamadı");
+            _kategoriRepository.Delete(id);
+            _kategoriRepository.Save();
+            return RedirectToAction("Index", "Kategori");
         }
     }
 }

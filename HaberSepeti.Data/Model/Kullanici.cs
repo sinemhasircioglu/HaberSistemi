@@ -18,6 +18,7 @@ namespace HaberSepeti.Data.Model
         public Kullanici()
         {
             this.Habers = new HashSet<Haber>();
+            this.Kategoris = new HashSet<Kategori>();
         }
     
         public int Id { get; set; }
@@ -31,5 +32,7 @@ namespace HaberSepeti.Data.Model
         public virtual Rol Rol { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Haber> Habers { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Kategori> Kategoris { get; set; }
     }
 }

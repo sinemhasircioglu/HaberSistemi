@@ -4,17 +4,24 @@
     Kategori.Ad = $("#kategoriAdi").val();
     Kategori.URL = $("#kategoriUrl").val();
     Kategori.AktifMi = $("#kategoriAktifMi").is(":checked");
+    Kategori.ParentId = $("#ParentId").val();
+
+    alert(Kategori.ParentId);
 
     $.ajax({
-        url: "Kategori/Ekle",
+        url: "/Kategori/Ekle",
         data: Kategori,
         type: "POST",
         success: function (response) {
-            if (response.success) {
-                alert(1);
+            if (response.Success)
+            {
+                bootbox.alert(response.Message, function () {
+                    location.reload();
+                });
             }
-            else {
-                alert(2);
+            else
+            {
+                bootbox.alert(response.Message);
             }
         }
     })
