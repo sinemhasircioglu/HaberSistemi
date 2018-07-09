@@ -39,11 +39,11 @@
                                         <b class="label label-danger">Pasif</b>
                                     }
                                 </td>
-                                <td><a href="#">@item.Kullanici.AdSoyad</a></td>
+                                <td><a href="#">@item.KullaniciId</a></td>
                                 <td>
                                     <button class="btn btn-default btn-sm">Düzenle</button>
-                                    @Html.ActionLink("Sil","Sil", new { Id=item.Id , @class="btn btn-default btn-sm"}, new { onclick="return confirm('Kategoriyi silmek istediğinize emin misiniz?')"})
-                                </td>
+                                    <button class="btn btn-default btn-sm" id="KategoriDelete" onclick="KategoriSil();" data-id="@item.Id">Sil</button>
+                                </td> 
                             </tr>
                         }
                     </tbody>
@@ -52,4 +52,4 @@
         </div>
     </div>
 </div>
-
+<script src="~/Scripts/Global.js"></script>

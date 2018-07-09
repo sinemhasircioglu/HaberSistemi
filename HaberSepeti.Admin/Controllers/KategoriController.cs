@@ -52,14 +52,14 @@ namespace HaberSepeti.Admin.Controllers
             ViewBag.Kategori = KategoriList;
         }
 
-        public ActionResult Sil(int id)
+        public JsonResult Sil(int id)
         {
             Kategori kategori = _kategoriRepository.GetById(id);
             if (kategori == null)
-                throw new Exception("Kategori bulunamadı");
+                return Json(new ResultJson { Success = false, Message = "Kategori bulunamadı!" });
             _kategoriRepository.Delete(id);
             _kategoriRepository.Save();
-            return RedirectToAction("Index", "Kategori");
+            return Json(new ResultJson { Success = true, Message = "Kategori silme işleminiz başarılı" });
         }
     }
 }

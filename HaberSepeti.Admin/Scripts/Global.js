@@ -6,8 +6,6 @@
     Kategori.AktifMi = $("#kategoriAktifMi").is(":checked");
     Kategori.ParentId = $("#ParentId").val();
 
-    alert(Kategori.ParentId);
-
     $.ajax({
         url: "/Kategori/Ekle",
         data: Kategori,
@@ -21,6 +19,27 @@
             }
             else
             {
+                bootbox.alert(response.Message);
+            }
+        }
+    })
+}
+
+function KategoriSil()
+{
+    var gelenId = $("#KategoriDelete").attr("data-id");
+    alert(gelenId);
+    $.ajax({
+        url: '/Kategori/Sil/' + gelenId,
+        type: "POST",
+        dataType: 'json',
+        success: function (response) {
+            if (response.Success) {
+                bootbox.alert(response.Message, function () {
+                    location.reload();
+                });
+            }
+            else {
                 bootbox.alert(response.Message);
             }
         }
