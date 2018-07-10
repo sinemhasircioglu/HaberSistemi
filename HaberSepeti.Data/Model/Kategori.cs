@@ -25,10 +25,8 @@ namespace HaberSepeti.Data.Model
         public int ParentId { get; set; }
         public bool AktifMi { get; set; }
         public string URL { get; set; }
-        public Nullable<int> KullaniciId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Haber> Habers { get; set; }
-        public virtual Kullanici Kullanici { get; set; }
     }
 }

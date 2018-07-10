@@ -1,4 +1,5 @@
-﻿@model IEnumerable<HaberSepeti.Data.Model.Kategori>
+﻿@using PagedList.Mvc;
+@model PagedList.IPagedList<HaberSepeti.Data.Model.Kategori>
 @{
     ViewBag.Title = "Kategori Listesi";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -41,7 +42,7 @@
                                 </td>
                                 <td><a href="#">@item.KullaniciId</a></td>
                                 <td>
-                                    <button class="btn btn-default btn-sm">Düzenle</button>
+                                    <a href="@Url.Action("Duzenle","Kategori",new { Id=item.Id})" class="btn btn-default btn-sm">Düzenle</a>
                                     <button class="btn btn-default btn-sm" id="KategoriDelete" onclick="KategoriSil();" data-id="@item.Id">Sil</button>
                                 </td> 
                             </tr>
@@ -49,6 +50,7 @@
                     </tbody>
                 </table>
             </div>
+            @Html.PagedListPager(Model , sayfa => Url.Action("Index",new { sayfa }),PagedListRenderOptions.Classic)
         </div>
     </div>
 </div>

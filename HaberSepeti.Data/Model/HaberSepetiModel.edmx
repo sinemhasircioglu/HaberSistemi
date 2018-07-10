@@ -25,11 +25,10 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Ad" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Ad" Type="nvarchar" MaxLength="50" />
           <Property Name="ParentId" Type="int" Nullable="false" />
           <Property Name="AktifMi" Type="bit" Nullable="false" />
           <Property Name="URL" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="KullaniciId" Type="int" />
         </EntityType>
         <EntityType Name="Kullanici">
           <Key>
@@ -92,18 +91,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Kategori_Kullanici">
-          <End Role="Kullanici" Type="Self.Kullanici" Multiplicity="0..1" />
-          <End Role="Kategori" Type="Self.Kategori" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Kullanici">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Kategori">
-              <PropertyRef Name="KullaniciId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Kullanici_Rol">
           <End Role="Rol" Type="Self.Rol" Multiplicity="1" />
           <End Role="Kullanici" Type="Self.Kullanici" Multiplicity="*" />
@@ -143,10 +130,6 @@
             <End Role="Kullanici" EntitySet="Kullanici" />
             <End Role="Haber" EntitySet="Haber" />
           </AssociationSet>
-          <AssociationSet Name="FK_Kategori_Kullanici" Association="Self.FK_Kategori_Kullanici">
-            <End Role="Kullanici" EntitySet="Kullanici" />
-            <End Role="Kategori" EntitySet="Kategori" />
-          </AssociationSet>
           <AssociationSet Name="FK_Kullanici_Rol" Association="Self.FK_Kullanici_Rol">
             <End Role="Rol" EntitySet="Rol" />
             <End Role="Kullanici" EntitySet="Kullanici" />
@@ -173,7 +156,6 @@
           <Property Name="RolId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Rol" Relationship="Self.FK_Kullanici_Rol" FromRole="Kullanici" ToRole="Rol" />
           <NavigationProperty Name="Habers" Relationship="HaberSepetiModel.FK_Haber_Kullanici" FromRole="Kullanici" ToRole="Haber" />
-          <NavigationProperty Name="Kategoris" Relationship="HaberSepetiModel.FK_Kategori_Kullanici" FromRole="Kullanici" ToRole="Kategori" />
         </EntityType>
         <EntityType Name="Rol">
           <Key>
@@ -227,10 +209,6 @@
           <AssociationSet Name="FK_Haber_Kategori" Association="HaberSepetiModel.FK_Haber_Kategori">
             <End Role="Kategori" EntitySet="Kategoris" />
             <End Role="Haber" EntitySet="Habers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Kategori_Kullanici" Association="HaberSepetiModel.FK_Kategori_Kullanici">
-            <End Role="Kullanici" EntitySet="Kullanicis" />
-            <End Role="Kategori" EntitySet="Kategoris" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Haber">
@@ -289,13 +267,11 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Ad" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Ad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ParentId" Type="Int32" Nullable="false" />
           <Property Name="AktifMi" Type="Boolean" Nullable="false" />
           <Property Name="URL" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Habers" Relationship="HaberSepetiModel.FK_Haber_Kategori" FromRole="Kategori" ToRole="Haber" />
-          <Property Name="KullaniciId" Type="Int32" />
-          <NavigationProperty Name="Kullanici" Relationship="HaberSepetiModel.FK_Kategori_Kullanici" FromRole="Kategori" ToRole="Kullanici" />
         </EntityType>
         <Association Name="FK_Haber_Kategori">
           <End Type="HaberSepetiModel.Kategori" Role="Kategori" Multiplicity="1" />
@@ -306,18 +282,6 @@
             </Principal>
             <Dependent Role="Haber">
               <PropertyRef Name="KategoriId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Kategori_Kullanici">
-          <End Type="HaberSepetiModel.Kullanici" Role="Kullanici" Multiplicity="0..1" />
-          <End Type="HaberSepetiModel.Kategori" Role="Kategori" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Kullanici">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Kategori">
-              <PropertyRef Name="KullaniciId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -387,7 +351,6 @@
           <EntitySetMapping Name="Kategoris">
             <EntityTypeMapping TypeName="HaberSepetiModel.Kategori">
               <MappingFragment StoreEntitySet="Kategori">
-                <ScalarProperty Name="KullaniciId" ColumnName="KullaniciId" />
                 <ScalarProperty Name="URL" ColumnName="URL" />
                 <ScalarProperty Name="AktifMi" ColumnName="AktifMi" />
                 <ScalarProperty Name="ParentId" ColumnName="ParentId" />

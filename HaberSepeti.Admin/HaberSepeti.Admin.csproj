@@ -209,6 +209,7 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Kategori\Ekle.cshtml" />
     <Content Include="Views\Kategori\Index.cshtml" />
+    <Content Include="Views\Kategori\Duzenle.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

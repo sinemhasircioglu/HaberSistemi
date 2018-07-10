@@ -6,12 +6,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
+using HaberSepeti.Admin.CustomFilter;
 
 namespace HaberSepeti.Admin.Controllers
 {
     public class KategoriController : Controller
     {
         private readonly IKategoriRepository _kategoriRepository;
+        private HaberSepetiEntities db = new HaberSepetiEntities();
 
         public KategoriController(IKategoriRepository kategoriRepository)
         {
@@ -19,9 +22,10 @@ namespace HaberSepeti.Admin.Controllers
         }
 
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(int sayfa = 1)
         {
-            return View(_kategoriRepository.GetAll().ToList());
+            int sayfaBoyutu = 3;
+            return View(_kategoriRepository.GetAll().OrderByDescending(x => x.Id).ToPagedList(sayfa, sayfaBoyutu));
         }
 
         [HttpGet]
@@ -60,6 +64,30 @@ namespace HaberSepeti.Admin.Controllers
             _kategoriRepository.Delete(id);
             _kategoriRepository.Save();
             return Json(new ResultJson { Success = true, Message = "Kategori silme işleminiz başarılı" });
+        }
+
+        [HttpGet]
+        [LoginFilter]
+        public ActionResult Duzenle(int id)
+        {
+            Kategori kategori = _kategoriRepository.GetById(id);
+            if (kategori == null)
+                throw new Exception("Kategori bulunamadı!");
+            SetKategoriListele();
+            return View(kategori);
+        }
+
+        [LoginFilter]
+        [HttpPost]
+        public JsonResult Duzenle(Kategori kategori)
+        {
+            Kategori dbKategori = _kategoriRepository.GetById(kategori.Id);
+            dbKategori.AktifMi = kategori.AktifMi;
+            dbKategori.Ad = kategori.Ad;
+            dbKategori.URL = kategori.URL;
+            dbKategori.ParentId = kategori.ParentId;
+            _kategoriRepository.Save();
+            return Json(new ResultJson { Success = true, Message = "Düzenleme işlemi başarılı" });
         }
     }
 }
