@@ -1,0 +1,53 @@
+﻿@model HaberSepeti.Data.Model.Haber
+@{
+    ViewBag.Title = "Haber Ekle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/ckeditor/ckeditor.js"></script>
+<script src="~/Scripts/Global.js"></script>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <header class="panel-heading">@ViewBag.Title</header>
+                <div class="panel-body">
+                    <form role="form">
+                        @*<div class="form-group">
+                                <label for="ParentId">Kategori</label>
+                                @Html.DropDownListFor(Model => Model.KategoriId, new SelectList(ViewBag.Kategori, "Id", "Ad"), ("Seçiniz"), new { @class = "form-control", id = "KategoriId" })
+                            </div>*@
+                        <div class="form-group">
+                            <label for="Baslik">Haber Başlığı</label>
+                            <input type="text" class="form-control" id="Baslik" placeholder="Haber Başlığı">
+                        </div>
+                        <div class="form-group">
+                            <label for="KisaAciklama">Kısa Açıklama</label>
+                            <input type="text" class="form-control" id="KisaAciklama" placeholder="Kısa Açıklama">
+                        </div>
+                        <div class="form-group">
+                            <label for="Aciklama">Açıklama</label>
+                            @*@Html.TextAreaFor(x=>x.Aciklama, new { @class="form-control", id="Aciklama", placeholder="Açıklama"})*@
+                            @Html.TextArea("Aciklama")
+                            <script type="text/javascript">
+                                var editor = CKEDITOR.instances['Aciklama'];
+                                if (editor) { editor.destroy(true); }
+                                CKEDITOR.replace('Aciklama', { enterMODE: CKEDITOR.ENTER_BR, });
+                            </script>
+                        </div>
+                        <div class="form-group">
+                            <label for="Resim">Resim</label>
+                            <input type="file" class="form-control" id="Resim" accept="image/*" name="haberResim">
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBoxFor(x => x.AktifMi, new { @checked = "checked", id = "AktifMi" }) Aktif Mi
+                            </label>
+                        </div>
+                        <a href="#" class="btn btn-default">Ekle</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

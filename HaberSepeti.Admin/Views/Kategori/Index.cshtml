@@ -5,8 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
-
+<script src="~/Scripts/Global.js"></script>
 <div class="col-md-12">
     <div class="panel panel-default">
         <header class="panel-heading">@ViewBag.Title</header>
@@ -19,7 +18,6 @@
                             <th>Kategori Adı</th>
                             <th>Üst Kategori</th>
                             <th>Durum</th>
-                            <th>Ekleyen</th>
                             <th>İşlemler</th>
                         </tr>
                     </thead>
@@ -29,7 +27,12 @@
                             <tr>
                                 <td><span class="label label-success">@item.Id</span></td>
                                 <td>@item.Ad</td>
-                                <td>@item.ParentId</td>
+                                <td>
+                                    @foreach (var ustKategori in Model.Where(x => x.Id == item.ParentId))
+                                    {
+                                        <span>@ustKategori.Ad</span>
+                                    }
+                                </td>
                                 <td>
                                     @if (item.AktifMi == true)
                                     {
@@ -40,17 +43,16 @@
                                         <b class="label label-danger">Pasif</b>
                                     }
                                 </td>
-                                <td><a href="#">@item.KullaniciId</a></td>
                                 <td>
                                     <a href="@Url.Action("Duzenle","Kategori",new { Id=item.Id})" class="btn btn-default btn-sm">Düzenle</a>
-                                    <button class="btn btn-default btn-sm" id="KategoriDelete" onclick="KategoriSil();" data-id="@item.Id">Sil</button>
-                                </td> 
+                                    <button class="btn btn-default btn-sm" id="KategoriDelete" data-id="@item.Id">Sil</button>
+                                </td>
                             </tr>
                         }
                     </tbody>
                 </table>
             </div>
-            @Html.PagedListPager(Model , sayfa => Url.Action("Index",new { sayfa }),PagedListRenderOptions.Classic)
+            @Html.PagedListPager(Model, sayfa => Url.Action("Index", new { sayfa }), PagedListRenderOptions.Classic)
         </div>
     </div>
 </div>

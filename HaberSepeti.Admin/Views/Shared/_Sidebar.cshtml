@@ -14,14 +14,22 @@
             <div class="sidebar-link-addon"><span class="badge bg-green">NEW</span></div>
         </li>
         <li class="has-submenu">
+            <a href="#"><i class="typcn typcn-tabs-outline"></i> <span>Haber Yönetimi</span></a>
+            <div class="sidebar-link-addon"><i class="typcn typcn-plus"></i></div>
+            <!-- Sidebar submenu -->
+            <ul class="sidebar-submenu">
+                <li><a href="@Url.Action("Index","Haber")">Haber listele</a></li>
+                <li><a href="@Url.Action("Ekle","Haber")">Haber ekle</a></li>
+            </ul>
+            <!-- /Sidebar submenu -->
+        </li>
+        <li class="has-submenu">
             <a href="#"><i class="typcn typcn-tabs-outline"></i> <span>Kategori Yönetimi</span></a>
             <div class="sidebar-link-addon"><i class="typcn typcn-plus"></i></div>
             <!-- Sidebar submenu -->
             <ul class="sidebar-submenu">
                 <li><a href="@Url.Action("Index","Kategori")">Kategori listele</a></li>
                 <li><a href="@Url.Action("Ekle","Kategori")">Kategori ekle</a></li>
-                <li><a href="sidebar_compact.html">Compact sidebar</a></li>
-                <li><a href="boxed.html">Boxed</a></li>
             </ul>
             <!-- /Sidebar submenu -->
         </li>

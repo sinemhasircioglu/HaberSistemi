@@ -3,6 +3,7 @@
     ViewBag.Title = "Kategori Düzenle";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script src="~/Scripts/Global.js"></script>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
@@ -14,7 +15,7 @@
                         @Html.HiddenFor(x => x.Id)
                         <div class="form-group">
                             <label for="ParentId">Üst Kategori</label>
-                            @Html.DropDownListFor(x => x.Ad, new SelectList(ViewBag.Kategori, "Id", "Ad"), ("Seçiniz"), new { @class = "form-control", id = "ParentId" })
+                            @Html.DropDownListFor(x => x.ParentId, new SelectList(ViewBag.Kategori, "Id", "Ad"), ("Seçiniz"), new { @class = "form-control", id = "ParentId" })
                         </div>
                         <div class="form-group">
                             <label for="kategoriAdi">Kategori Adı</label>
@@ -36,4 +37,3 @@
         </div>
     </div>
 </div>
-<script src="~/Scripts/Global.js"></script>

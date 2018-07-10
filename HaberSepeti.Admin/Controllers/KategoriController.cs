@@ -14,7 +14,6 @@ namespace HaberSepeti.Admin.Controllers
     public class KategoriController : Controller
     {
         private readonly IKategoriRepository _kategoriRepository;
-        private HaberSepetiEntities db = new HaberSepetiEntities();
 
         public KategoriController(IKategoriRepository kategoriRepository)
         {
@@ -24,11 +23,12 @@ namespace HaberSepeti.Admin.Controllers
         [HttpGet]
         public ActionResult Index(int sayfa = 1)
         {
-            int sayfaBoyutu = 3;
+            int sayfaBoyutu = 5;
             return View(_kategoriRepository.GetAll().OrderByDescending(x => x.Id).ToPagedList(sayfa, sayfaBoyutu));
         }
 
         [HttpGet]
+        [LoginFilter]
         public ActionResult Ekle()
         {
             SetKategoriListele();
@@ -77,7 +77,6 @@ namespace HaberSepeti.Admin.Controllers
             return View(kategori);
         }
 
-        [LoginFilter]
         [HttpPost]
         public JsonResult Duzenle(Kategori kategori)
         {

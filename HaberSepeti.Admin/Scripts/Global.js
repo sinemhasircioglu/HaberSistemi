@@ -24,6 +24,21 @@
     })
 }
 
+$(document).on("click", "#KategoriDelete", function () {
+    var gelenid = $(this).attr("data-id");
+    var siltr = $(this).closest("tr");
+    $.ajax({
+        url: '/Kategori/Sil/' + gelenid,
+        type: "POST",
+        dataType: 'json',
+        success: function (response) {
+            siltr.fadeOut(300, function () {
+                siltr.remove();
+            })
+        }
+    })
+})
+
 function KategoriEkle()
 {
     Kategori = new Object();
@@ -50,25 +65,3 @@ function KategoriEkle()
         }
     })
 }
-
-function KategoriSil()
-{
-    var gelenId = $("#KategoriDelete").attr("data-id");
-    alert(gelenId);
-    $.ajax({
-        url: '/Kategori/Sil/' + gelenId,
-        type: "POST",
-        dataType: 'json',
-        success: function (response) {
-            if (response.Success) {
-                bootbox.alert(response.Message, function () {
-                    location.reload();
-                });
-            }
-            else {
-                bootbox.alert(response.Message);
-            }
-        }
-    })
-}
-
