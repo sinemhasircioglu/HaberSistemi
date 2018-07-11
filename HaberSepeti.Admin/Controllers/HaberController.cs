@@ -1,6 +1,7 @@
 ﻿using HaberSepeti.Admin.CustomFilter;
 using HaberSepeti.Core.Infrastructure;
 using HaberSepeti.Data.Model;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,9 +25,12 @@ namespace HaberSepeti.Admin.Controllers
             _resimRepository = resimRepository;
         }
 
-        public ActionResult Index()
+        [LoginFilter]
+        public ActionResult Index(int sayfa = 1)
         {
-            return View();
+            int sayfaBoyutu = 5;
+            var HaberListesi = _haberRepository.GetAll().OrderByDescending(x => x.Id).ToPagedList(sayfa, sayfaBoyutu);
+            return View(HaberListesi);
         }
 
         [HttpGet]
@@ -57,7 +61,7 @@ namespace HaberSepeti.Admin.Controllers
             _haberRepository.Insert(haber);
             _haberRepository.Save();
             string cokluResim = System.IO.Path.GetExtension(Request.Files[1].FileName);
-            if(DetayResim != null)
+            if(cokluResim != "")
             {
                 foreach (var file in DetayResim)
                 {
@@ -76,7 +80,8 @@ namespace HaberSepeti.Admin.Controllers
                     }
                 }
             }
-            return View();
+            TempData["Bilgi"] = "Haber ekleme işleminiz başarılı";
+            return RedirectToAction("Index", "Haber");
         }
 
         public void SetKategoriListele(object kategori = null)

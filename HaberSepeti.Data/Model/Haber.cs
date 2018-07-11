@@ -18,6 +18,7 @@ namespace HaberSepeti.Data.Model
         public Haber()
         {
             this.Resims = new HashSet<Resim>();
+            EklenmeTarihi = DateTime.Now;
         }
     
         public int Id { get; set; }
@@ -25,7 +26,7 @@ namespace HaberSepeti.Data.Model
         public string KisaAciklama { get; set; }
         public string Aciklama { get; set; }
         public bool AktifMi { get; set; }
-        public System.DateTime EklenmeTarihi { get { return DateTime.Now; } set { EklenmeTarihi = value; } }
+        public Nullable<System.DateTime> EklenmeTarihi { get; set; }
         public int Okunma { get; set; }
         public int KullaniciId { get; set; }
         public int KategoriId { get; set; }

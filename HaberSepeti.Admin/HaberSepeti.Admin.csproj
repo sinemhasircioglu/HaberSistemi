@@ -542,6 +542,7 @@
     <Content Include="Views\Kategori\Index.cshtml" />
     <Content Include="Views\Kategori\Duzenle.cshtml" />
     <Content Include="Views\Haber\Ekle.cshtml" />
+    <Content Include="Views\Haber\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

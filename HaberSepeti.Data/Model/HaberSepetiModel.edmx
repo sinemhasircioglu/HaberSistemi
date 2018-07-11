@@ -14,7 +14,7 @@
           <Property Name="KisaAciklama" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="Aciklama" Type="nvarchar(max)" Nullable="false" />
           <Property Name="AktifMi" Type="bit" Nullable="false" />
-          <Property Name="EklenmeTarihi" Type="datetime" Nullable="false" />
+          <Property Name="EklenmeTarihi" Type="datetime" />
           <Property Name="Okunma" Type="int" Nullable="false" />
           <Property Name="VitrinResim" Type="nvarchar" MaxLength="255" />
           <Property Name="KullaniciId" Type="int" Nullable="false" />
@@ -220,7 +220,7 @@
           <Property Name="KisaAciklama" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="Aciklama" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="AktifMi" Type="Boolean" Nullable="false" />
-          <Property Name="EklenmeTarihi" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EklenmeTarihi" Type="DateTime" Precision="3" />
           <Property Name="Okunma" Type="Int32" Nullable="false" />
           <Property Name="KullaniciId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Kullanici" Relationship="HaberSepetiModel.FK_Haber_Kullanici" FromRole="Haber" ToRole="Kullanici" />
