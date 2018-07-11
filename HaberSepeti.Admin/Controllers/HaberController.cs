@@ -14,6 +14,15 @@ namespace HaberSepeti.Admin.Controllers
         private readonly IKullaniciRepository _kullaniciRepository;
         private readonly IHaberRepository _haberRepository;
         private readonly IKategoriRepository _kategoriRepository;
+        private readonly IResimRepository _resimRepository;
+
+        public HaberController(IKullaniciRepository kullaniciRepository, IHaberRepository haberRepository, IKategoriRepository kategoriRepository, IResimRepository resimRepository)
+        {
+            _kullaniciRepository = kullaniciRepository;
+            _haberRepository = haberRepository;
+            _kategoriRepository = kategoriRepository;
+            _resimRepository = resimRepository;
+        }
 
         public ActionResult Index()
         {
@@ -28,32 +37,51 @@ namespace HaberSepeti.Admin.Controllers
             return View();
         }
 
-        public ActionResult Ekle(Haber haber, int kategoriId, HttpPostedFileBase vitrinResmi)
+        [HttpPost]
+        [LoginFilter]
+        [ValidateInput(false)]
+        public ActionResult Ekle(Haber haber, int KategoriId, HttpPostedFileBase VitrinResim,IEnumerable<HttpPostedFileBase> DetayResim)
         {
-            var sessionControl = HttpContext.Session["KulaniciEmail"];
-            if (ModelState.IsValid)
+            var sessionControl = HttpContext.Session["KullaniciEmail"];
+            Kullanici kullanici = _kullaniciRepository.Get(x => x.Email == sessionControl);
+            haber.KullaniciId = kullanici.Id;
+            haber.KategoriId = KategoriId;
+            if (VitrinResim != null)
             {
-                Kullanici kullanici = _kullaniciRepository.GetById(Convert.ToInt32(sessionControl));
-                haber.KullaniciId = kullanici.Id;
-                haber.KategoriId = kategoriId;
-                if (vitrinResmi != null)
+                string dosyaAdi = Guid.NewGuid().ToString().Replace("-", "");
+                string uzanti = System.IO.Path.GetExtension(Request.Files[0].FileName);
+                string tamYol = "/External/Haber/" + dosyaAdi + uzanti;
+                Request.Files[0].SaveAs(Server.MapPath(tamYol));
+                haber.VitrinResim = tamYol;
+            }
+            _haberRepository.Insert(haber);
+            _haberRepository.Save();
+            string cokluResim = System.IO.Path.GetExtension(Request.Files[1].FileName);
+            if(DetayResim != null)
+            {
+                foreach (var file in DetayResim)
                 {
-                    string dosyaAdi = Guid.NewGuid().ToString().Replace("-", "");
-                    string uzanti = System.IO.Path.GetExtension(Request.Files[0].FileName);
-                    string tamYol = "/External/Haber/" + dosyaAdi + uzanti;
-                    Request.Files[0].SaveAs(Server.MapPath(tamYol));
-                    haber.Resim = tamYol;
+                    if(file.ContentLength > 0)
+                    {
+                        string dosyaAdi = Guid.NewGuid().ToString().Replace("-", "");
+                        string uzanti = System.IO.Path.GetExtension(Request.Files[1].FileName);
+                        string tamYol = "/External/Haber/" + dosyaAdi + uzanti;
+                        file.SaveAs(Server.MapPath(tamYol));
+                        var resim = new Resim {
+                            ResimUrl = tamYol                           
+                        };
+                        resim.HaberId = haber.Id;
+                        _resimRepository.Insert(resim);
+                        _resimRepository.Save();
+                    }
                 }
-                _haberRepository.Insert(haber);
-                _haberRepository.Save();
-                return View();
             }
             return View();
         }
 
-        public void SetKategoriListele()
+        public void SetKategoriListele(object kategori = null)
         {
-            var KategoriList = _kategoriRepository.GetAll().ToList();
+            var KategoriList = _kategoriRepository.GetMany(x => x.ParentId == 0).ToList();
             ViewBag.Kategori = KategoriList;
         }
     }

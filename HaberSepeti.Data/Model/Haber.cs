@@ -25,11 +25,11 @@ namespace HaberSepeti.Data.Model
         public string KisaAciklama { get; set; }
         public string Aciklama { get; set; }
         public bool AktifMi { get; set; }
-        public System.DateTime EklenmeTarihi { get; set; }
+        public System.DateTime EklenmeTarihi { get { return DateTime.Now; } set { EklenmeTarihi = value; } }
         public int Okunma { get; set; }
-        public string Resim { get; set; }
         public int KullaniciId { get; set; }
         public int KategoriId { get; set; }
+        public string VitrinResim { get; set; }
     
         public virtual Kullanici Kullanici { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

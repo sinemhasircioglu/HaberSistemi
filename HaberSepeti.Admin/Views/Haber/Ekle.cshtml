@@ -11,22 +11,21 @@
             <div class="panel panel-default">
                 <header class="panel-heading">@ViewBag.Title</header>
                 <div class="panel-body">
-                    <form role="form">
-                        @*<div class="form-group">
-                                <label for="ParentId">Kategori</label>
-                                @Html.DropDownListFor(Model => Model.KategoriId, new SelectList(ViewBag.Kategori, "Id", "Ad"), ("Seçiniz"), new { @class = "form-control", id = "KategoriId" })
-                            </div>*@
+                    <form role="form" method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="KategoriId">Kategori</label>
+                            @Html.DropDownListFor(Model => Model.KategoriId, new SelectList(ViewBag.Kategori, "Id", "Ad"), ("Seçiniz"), new { @class = "form-control", id = "KategoriId" })
+                        </div>
                         <div class="form-group">
                             <label for="Baslik">Haber Başlığı</label>
-                            <input type="text" class="form-control" id="Baslik" placeholder="Haber Başlığı">
+                            @Html.TextBoxFor(x => x.Baslik, new { @class = "form-control", id = "Baslik", placeholder = "Başlık" })
                         </div>
                         <div class="form-group">
                             <label for="KisaAciklama">Kısa Açıklama</label>
-                            <input type="text" class="form-control" id="KisaAciklama" placeholder="Kısa Açıklama">
+                            @Html.TextBoxFor(x => x.KisaAciklama, new { @class = "form-control", id = "KisaAciklama", placeholder = "Kısa Açıklama" })
                         </div>
                         <div class="form-group">
                             <label for="Aciklama">Açıklama</label>
-                            @*@Html.TextAreaFor(x=>x.Aciklama, new { @class="form-control", id="Aciklama", placeholder="Açıklama"})*@
                             @Html.TextArea("Aciklama")
                             <script type="text/javascript">
                                 var editor = CKEDITOR.instances['Aciklama'];
@@ -35,15 +34,19 @@
                             </script>
                         </div>
                         <div class="form-group">
-                            <label for="Resim">Resim</label>
-                            <input type="file" class="form-control" id="Resim" accept="image/*" name="haberResim">
+                            <label for="VitrinResim">Vitrin Resmi</label>
+                            <input type="file" class="form-control" accept="image/*" name="VitrinResim" id="VitrinResim">
+                        </div>
+                        <div class="form-group">
+                            <label for="DetayResim">Detay Resim(ler)</label>
+                            <input type="file" class="form-control" accept="image/*" name="DetayResim" id="DetayResim" multiple>
                         </div>
                         <div class="checkbox">
                             <label>
                                 @Html.CheckBoxFor(x => x.AktifMi, new { @checked = "checked", id = "AktifMi" }) Aktif Mi
                             </label>
                         </div>
-                        <a href="#" class="btn btn-default">Ekle</a>
+                        <button type="submit" class="btn btn-default">Ekle</button>
                     </form>
                 </div>
             </div>

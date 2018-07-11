@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity.Migrations; //AddOrUpdate için gerekli
+using System.Data.Entity.Validation;
 
 namespace HaberSepeti.Core.Repository
 {
@@ -53,8 +54,21 @@ namespace HaberSepeti.Core.Repository
         }
 
         public void Save()
-        {
-            _context.SaveChanges();
+        {           
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                foreach (var entityValidationErrors in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationErrors.ValidationErrors)
+                    {
+                        Console.Write("Property: " + validationError.PropertyName + " Error: " + validationError.ErrorMessage);
+                    }
+                }
+            }
         }
 
         public void Update(Haber obj)

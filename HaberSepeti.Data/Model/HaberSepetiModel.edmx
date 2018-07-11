@@ -16,7 +16,7 @@
           <Property Name="AktifMi" Type="bit" Nullable="false" />
           <Property Name="EklenmeTarihi" Type="datetime" Nullable="false" />
           <Property Name="Okunma" Type="int" Nullable="false" />
-          <Property Name="Resim" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="VitrinResim" Type="nvarchar" MaxLength="255" />
           <Property Name="KullaniciId" Type="int" Nullable="false" />
           <Property Name="KategoriId" Type="int" Nullable="false" />
         </EntityType>
@@ -222,12 +222,12 @@
           <Property Name="AktifMi" Type="Boolean" Nullable="false" />
           <Property Name="EklenmeTarihi" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Okunma" Type="Int32" Nullable="false" />
-          <Property Name="Resim" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="KullaniciId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Kullanici" Relationship="HaberSepetiModel.FK_Haber_Kullanici" FromRole="Haber" ToRole="Kullanici" />
           <NavigationProperty Name="Resims" Relationship="HaberSepetiModel.FK_Resim_Haber" FromRole="Haber" ToRole="Resim" />
           <Property Name="KategoriId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Kategori" Relationship="HaberSepetiModel.FK_Haber_Kategori" FromRole="Haber" ToRole="Kategori" />
+          <Property Name="VitrinResim" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Resim">
           <Key>
@@ -326,9 +326,9 @@
           <EntitySetMapping Name="Habers">
             <EntityTypeMapping TypeName="HaberSepetiModel.Haber">
               <MappingFragment StoreEntitySet="Haber">
+                <ScalarProperty Name="VitrinResim" ColumnName="VitrinResim" />
                 <ScalarProperty Name="KategoriId" ColumnName="KategoriId" />
                 <ScalarProperty Name="KullaniciId" ColumnName="KullaniciId" />
-                <ScalarProperty Name="Resim" ColumnName="Resim" />
                 <ScalarProperty Name="Okunma" ColumnName="Okunma" />
                 <ScalarProperty Name="EklenmeTarihi" ColumnName="EklenmeTarihi" />
                 <ScalarProperty Name="AktifMi" ColumnName="AktifMi" />
