@@ -4,6 +4,7 @@ using HaberSepeti.Data.Model;
 using PagedList;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -88,6 +89,34 @@ namespace HaberSepeti.Admin.Controllers
         {
             var KategoriList = _kategoriRepository.GetMany(x => x.ParentId == 0).ToList();
             ViewBag.Kategori = KategoriList;
+        }
+
+        public ActionResult Sil(int id)
+        {
+            Haber dbHaber = _haberRepository.GetById(id);
+            var dbDetayResim = _resimRepository.GetMany(x => x.HaberId == id);
+            if (dbHaber == null)
+                throw new Exception("Haber Bulunamadı!");
+
+            string file_name = dbHaber.VitrinResim;
+            string path = Server.MapPath(file_name);
+            FileInfo file = new FileInfo(path);
+            if (file.Exists) // dosyanın varlığı kontrol ediliyor. fiziksel olarak varsa siliniyor.
+                file.Delete();
+            if(dbDetayResim!=null)
+            {
+                foreach (var item in dbDetayResim)
+                {
+                    string detayPath = Server.MapPath(item.ResimUrl);
+                    FileInfo files = new FileInfo(detayPath);
+                    if (files.Exists)
+                        files.Delete();
+                }
+            }
+            _haberRepository.Delete(id);
+            _haberRepository.Save();
+            TempData["Bilgi"] = "Haber başarıyla silindi";
+            return RedirectToAction("Index", "Haber");
         }
     }
 }

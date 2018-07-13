@@ -7,13 +7,13 @@
 
 <script src="~/Scripts/Global.js"></script>
 <div class="col-md-12">
-    
+
     <div class="panel panel-default">
         <header class="panel-heading">@ViewBag.Title</header>
         <div class="panel-body">
             @if (TempData["Bilgi"] != null)
             {
-                @TempData["Bilgi"]
+                <div class="alert alert-success">@TempData["Bilgi"]</div>
             }
             <div class="table-responsive">
                 <table class="table table-striped">
@@ -47,7 +47,9 @@
                                         <b class="label label-danger">Pasif</b>
                                     }
                                 </td>
-                                <td></td>
+                                <td>
+                                    <a href="@Url.Action("Sil","Haber", new { Id=item.Id })" class="btn btn-default btn-sm">Sil</a>
+                                </td>
                             </tr>
                         }
                     </tbody>
