@@ -26,6 +26,7 @@ namespace HaberSepeti.Admin.Controllers
             _resimRepository = resimRepository;
         }
 
+        [HttpGet]
         [LoginFilter]
         public ActionResult Index(int sayfa = 1)
         {
@@ -45,7 +46,7 @@ namespace HaberSepeti.Admin.Controllers
         [HttpPost]
         [LoginFilter]
         [ValidateInput(false)]
-        public ActionResult Ekle(Haber haber, int KategoriId, HttpPostedFileBase VitrinResim,IEnumerable<HttpPostedFileBase> DetayResim)
+        public ActionResult Ekle(Haber haber, int KategoriId, HttpPostedFileBase VitrinResim, IEnumerable<HttpPostedFileBase> DetayResim)
         {
             var sessionControl = HttpContext.Session["KullaniciEmail"];
             Kullanici kullanici = _kullaniciRepository.Get(x => x.Email == sessionControl);
@@ -62,18 +63,19 @@ namespace HaberSepeti.Admin.Controllers
             _haberRepository.Insert(haber);
             _haberRepository.Save();
             string cokluResim = System.IO.Path.GetExtension(Request.Files[1].FileName);
-            if(cokluResim != "")
+            if (cokluResim != "")
             {
                 foreach (var file in DetayResim)
                 {
-                    if(file.ContentLength > 0)
+                    if (file.ContentLength > 0)
                     {
                         string dosyaAdi = Guid.NewGuid().ToString().Replace("-", "");
                         string uzanti = System.IO.Path.GetExtension(Request.Files[1].FileName);
                         string tamYol = "/External/Haber/" + dosyaAdi + uzanti;
                         file.SaveAs(Server.MapPath(tamYol));
-                        var resim = new Resim {
-                            ResimUrl = tamYol                           
+                        var resim = new Resim
+                        {
+                            ResimUrl = tamYol
                         };
                         resim.HaberId = haber.Id;
                         _resimRepository.Insert(resim);
@@ -91,6 +93,7 @@ namespace HaberSepeti.Admin.Controllers
             ViewBag.Kategori = KategoriList;
         }
 
+        [LoginFilter]
         public ActionResult Sil(int id)
         {
             Haber dbHaber = _haberRepository.GetById(id);
@@ -103,7 +106,7 @@ namespace HaberSepeti.Admin.Controllers
             FileInfo file = new FileInfo(path);
             if (file.Exists) // dosyanın varlığı kontrol ediliyor. fiziksel olarak varsa siliniyor.
                 file.Delete();
-            if(dbDetayResim!=null)
+            if (dbDetayResim != null)
             {
                 foreach (var item in dbDetayResim)
                 {
@@ -116,6 +119,83 @@ namespace HaberSepeti.Admin.Controllers
             _haberRepository.Delete(id);
             _haberRepository.Save();
             TempData["Bilgi"] = "Haber başarıyla silindi";
+            return RedirectToAction("Index", "Haber");
+        }
+
+        [HttpGet]
+        [LoginFilter]
+        [ValidateInput(false)]
+        public ActionResult Duzenle(int id)
+        {
+            Haber gelenHaber = _haberRepository.GetById(id);
+            if (gelenHaber == null)
+                throw new Exception("Haber bulunamadı!");
+            SetKategoriListele();
+            return View(gelenHaber);
+        }
+
+        [HttpPost]
+        [LoginFilter]
+        [ValidateInput(false)]
+        public ActionResult Duzenle(Haber haber, int kategoriId, HttpPostedFileBase VitrinResim, IEnumerable<HttpPostedFileBase> DetayResim)
+        {
+            Haber gelenHaber = _haberRepository.GetById(haber.Id);
+            gelenHaber.Aciklama = haber.Aciklama;
+            gelenHaber.KisaAciklama = haber.KisaAciklama;
+            gelenHaber.Baslik = haber.Baslik;
+            gelenHaber.AktifMi = haber.AktifMi;
+            gelenHaber.KategoriId = kategoriId;
+
+            if(VitrinResim!=null)
+            {
+                string dosyaAdi = gelenHaber.VitrinResim;
+                string dosyaYolu = Server.MapPath(dosyaAdi);
+                FileInfo dosya = new FileInfo(dosyaYolu);
+                if (dosya.Exists)
+                    dosya.Delete();
+                string dosya_adi = Guid.NewGuid().ToString().Replace("-", "");
+                string uzanti = System.IO.Path.GetExtension(Request.Files[0].FileName);
+                string tam_yol = "/External/Haber/" + dosya_adi + uzanti;
+                Request.Files[0].SaveAs(Server.MapPath(tam_yol));
+                gelenHaber.VitrinResim = tam_yol;
+            }
+
+            string cokluResim = System.IO.Path.GetExtension(Request.Files[1].FileName);
+            if(cokluResim!="")
+            {
+                foreach (var detay in DetayResim)
+                {
+                    string dosya_adi = Guid.NewGuid().ToString().Replace("-", "");
+                    string uzanti = System.IO.Path.GetExtension(Request.Files[1].FileName);
+                    string tam_yol = "/External/Haber/" + dosya_adi + uzanti;
+                    Request.Files[1].SaveAs(Server.MapPath(tam_yol));
+                    var img = new Resim {
+                        ResimUrl = tam_yol
+                    };
+                    img.HaberId = gelenHaber.Id;
+                    _resimRepository.Insert(img);
+                    _resimRepository.Save();
+                }
+            }
+
+            _haberRepository.Save();
+            TempData["Bilgi"] = "Haber düzenleme işleminiz başarılı.";
+            return RedirectToAction("Index", "Haber");
+        }
+
+        public ActionResult ResimSil(int id)
+        {
+            Resim dbResim = _resimRepository.GetById(id);
+            if (dbResim == null)
+                throw new Exception("Resim bulunamadı!");
+            string file_name = dbResim.ResimUrl;
+            string path = Server.MapPath(file_name);
+            FileInfo file = new FileInfo(path);
+            if (file.Exists)
+                file.Delete();
+            _resimRepository.Delete(id);
+            _resimRepository.Save();
+            TempData["Bilgi"] = "Resim silme işleminiz başarılı!";
             return RedirectToAction("Index", "Haber");
         }
     }

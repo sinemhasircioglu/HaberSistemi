@@ -10,6 +10,10 @@
     <div class="panel panel-default">
         <header class="panel-heading">@ViewBag.Title</header>
         <div class="panel-body">
+            @if (TempData["Bilgi"] != null)
+            {
+                <div class="alert alert-success">@TempData["Bilgi"]</div>
+            }
             <div class="table-responsive">
                 <table class="table table-striped">
                     <thead>
@@ -28,9 +32,9 @@
                                 <td><span class="label label-success">@item.Id</span></td>
                                 <td>@item.Ad</td>
                                 <td>
-                                    @foreach (var ustKategori in Model.Where(x => x.Id == item.ParentId))
+                                    @foreach (var ustkategori in Model.Where(x => x.Id == item.ParentId))
                                     {
-                                        <span>@ustKategori.Ad</span>
+                                        <span>@ustkategori.Ad</span>
                                     }
                                 </td>
                                 <td>
@@ -45,7 +49,7 @@
                                 </td>
                                 <td>
                                     <a href="@Url.Action("Duzenle","Kategori",new { Id=item.Id})" class="btn btn-default btn-sm">Düzenle</a>
-                                    <button class="btn btn-default btn-sm" id="KategoriDelete" data-id="@item.Id">Sil</button>
+                                    <a href="@Url.Action("Sil","Kategori", new { Id=item.Id })" class="btn btn-default btn-sm">Sil</a>
                                 </td>
                             </tr>
                         }
@@ -56,4 +60,3 @@
         </div>
     </div>
 </div>
-<script src="~/Scripts/Global.js"></script>

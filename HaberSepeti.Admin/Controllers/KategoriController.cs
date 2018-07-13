@@ -21,6 +21,7 @@ namespace HaberSepeti.Admin.Controllers
         }
 
         [HttpGet]
+        [LoginFilter]
         public ActionResult Index(int sayfa = 1)
         {
             int sayfaBoyutu = 5;
@@ -36,18 +37,14 @@ namespace HaberSepeti.Admin.Controllers
         }
 
         [HttpPost]
-        public JsonResult Ekle(Kategori kategori)
+        [LoginFilter]
+        [ValidateInput(false)]
+        public ActionResult Ekle(Kategori kategori)
         {
-            try
-            {
-                _kategoriRepository.Insert(kategori);
-                _kategoriRepository.Save();
-                return Json(new ResultJson { Success = true, Message = "Ekleme işleminiz başarılı" });
-            }
-            catch (Exception)
-            {
-                return Json(new ResultJson { Success = false, Message = "Ekleme işleminiz başarısız!" });
-            }
+            _kategoriRepository.Insert(kategori);
+            _kategoriRepository.Save();
+            TempData["Bilgi"] = "Kategori ekleme işleminiz başarılı";
+            return RedirectToAction("Index", "Kategori");
         }
 
         public void SetKategoriListele()
@@ -56,28 +53,31 @@ namespace HaberSepeti.Admin.Controllers
             ViewBag.Kategori = KategoriList;
         }
 
-        public JsonResult Sil(int id)
+        [LoginFilter]
+        public ActionResult Sil(int id)
         {
             Kategori kategori = _kategoriRepository.GetById(id);
             if (kategori == null)
-                return Json(new ResultJson { Success = false, Message = "Kategori bulunamadı!" });
+                TempData["Bilgi"] = "Kategori bulunamadı!";
             _kategoriRepository.Delete(id);
             _kategoriRepository.Save();
-            return Json(new ResultJson { Success = true, Message = "Kategori silme işleminiz başarılı" });
+            TempData["Bilgi"] = "Kategori başarıyla silindi";
+            return RedirectToAction("Index", "Kategori");
         }
 
         [HttpGet]
         [LoginFilter]
         public ActionResult Duzenle(int id)
         {
-            Kategori kategori = _kategoriRepository.GetById(id);
-            if (kategori == null)
+            Kategori gelenKategori = _kategoriRepository.GetById(id);
+            if (gelenKategori == null)
                 throw new Exception("Kategori bulunamadı!");
             SetKategoriListele();
-            return View(kategori);
+            return View(gelenKategori);
         }
 
         [HttpPost]
+        [LoginFilter]
         public JsonResult Duzenle(Kategori kategori)
         {
             Kategori dbKategori = _kategoriRepository.GetById(kategori.Id);
