@@ -31,5 +31,6 @@ namespace HaberSepeti.Data.Model
         public virtual DbSet<Haber> Habers { get; set; }
         public virtual DbSet<Resim> Resims { get; set; }
         public virtual DbSet<Kategori> Kategoris { get; set; }
+        public virtual DbSet<Etiket> Etikets { get; set; }
     }
 }

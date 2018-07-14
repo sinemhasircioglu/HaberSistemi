@@ -5,6 +5,13 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="HaberSepetiModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Etiket">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EtiketAdi" Type="nvarchar" MaxLength="75" Nullable="false" />
+        </EntityType>
         <EntityType Name="Haber">
           <Key>
             <PropertyRef Name="Id" />
@@ -104,7 +111,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Resim_Haber">
-          <End Role="Haber" Type="Self.Haber" Multiplicity="1" />
+          <End Role="Haber" Type="Self.Haber" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Resim" Type="Self.Resim" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Haber">
@@ -116,6 +125,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="HaberSepetiModelStoreContainer">
+          <EntitySet Name="Etiket" EntityType="Self.Etiket" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Haber" EntityType="Self.Haber" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Kategori" EntityType="Self.Kategori" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Kullanici" EntityType="Self.Kullanici" Schema="dbo" store:Type="Tables" />
@@ -210,6 +220,11 @@
             <End Role="Kategori" EntitySet="Kategoris" />
             <End Role="Haber" EntitySet="Habers" />
           </AssociationSet>
+          <EntitySet Name="Etikets" EntityType="HaberSepetiModel.Etiket" />
+          <AssociationSet Name="HaberEtiket" Association="HaberSepetiModel.HaberEtiket">
+            <End Role="Haber" EntitySet="Habers" />
+            <End Role="Etiket" EntitySet="Etikets" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Haber">
           <Key>
@@ -228,6 +243,7 @@
           <Property Name="KategoriId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Kategori" Relationship="HaberSepetiModel.FK_Haber_Kategori" FromRole="Haber" ToRole="Kategori" />
           <Property Name="VitrinResim" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Etikets" Relationship="HaberSepetiModel.HaberEtiket" FromRole="Haber" ToRole="Etiket" />
         </EntityType>
         <EntityType Name="Resim">
           <Key>
@@ -284,6 +300,18 @@
               <PropertyRef Name="KategoriId" />
             </Dependent>
           </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Etiket">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EtiketAdi" Type="String" Nullable="false" MaxLength="75" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Habers" Relationship="HaberSepetiModel.HaberEtiket" FromRole="Etiket" ToRole="Haber" />
+        </EntityType>
+        <Association Name="HaberEtiket">
+          <End Type="HaberSepetiModel.Haber" Role="Haber" Multiplicity="*" />
+          <End Type="HaberSepetiModel.Etiket" Role="Etiket" Multiplicity="*" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -355,6 +383,14 @@
                 <ScalarProperty Name="AktifMi" ColumnName="AktifMi" />
                 <ScalarProperty Name="ParentId" ColumnName="ParentId" />
                 <ScalarProperty Name="Ad" ColumnName="Ad" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Etikets">
+            <EntityTypeMapping TypeName="HaberSepetiModel.Etiket">
+              <MappingFragment StoreEntitySet="Etiket">
+                <ScalarProperty Name="EtiketAdi" ColumnName="EtiketAdi" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

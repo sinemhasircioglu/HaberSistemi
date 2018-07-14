@@ -49,6 +49,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\Etiket.cs">
+      <DependentUpon>HaberSepetiModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Haber.cs">
       <DependentUpon>HaberSepetiModel.tt</DependentUpon>
     </Compile>

@@ -167,17 +167,16 @@ namespace HaberSepeti.Admin.Controllers
                 {
                     string dosya_adi = Guid.NewGuid().ToString().Replace("-", "");
                     string uzanti = System.IO.Path.GetExtension(Request.Files[1].FileName);
-                    string tam_yol = "/External/Haber/" + dosya_adi + uzanti;
-                    Request.Files[1].SaveAs(Server.MapPath(tam_yol));
+                    string tamyol = "/External/Haber/" + dosya_adi + uzanti;
+                    detay.SaveAs(Server.MapPath(tamyol));
                     var img = new Resim {
-                        ResimUrl = tam_yol
+                        ResimUrl = tamyol
                     };
                     img.HaberId = gelenHaber.Id;
                     _resimRepository.Insert(img);
                     _resimRepository.Save();
                 }
             }
-
             _haberRepository.Save();
             TempData["Bilgi"] = "Haber düzenleme işleminiz başarılı.";
             return RedirectToAction("Index", "Haber");
