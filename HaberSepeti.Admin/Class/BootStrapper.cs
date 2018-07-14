@@ -30,6 +30,7 @@ namespace HaberSepeti.Admin.Class
             builder.RegisterType<KullaniciRepository>().As<IKullaniciRepository>();
             builder.RegisterType<RolRepository>().As<IRolRepository>();
             builder.RegisterType<KategoriRepository>().As<IKategoriRepository>();
+            builder.RegisterType<EtiketRepository>().As<IEtiketRepository>();
 
             var container = builder.Build();
 

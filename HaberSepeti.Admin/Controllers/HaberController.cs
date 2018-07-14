@@ -17,13 +17,15 @@ namespace HaberSepeti.Admin.Controllers
         private readonly IHaberRepository _haberRepository;
         private readonly IKategoriRepository _kategoriRepository;
         private readonly IResimRepository _resimRepository;
+        private readonly IEtiketRepository _etiketRepository;
 
-        public HaberController(IKullaniciRepository kullaniciRepository, IHaberRepository haberRepository, IKategoriRepository kategoriRepository, IResimRepository resimRepository)
+        public HaberController(IKullaniciRepository kullaniciRepository, IHaberRepository haberRepository, IKategoriRepository kategoriRepository, IResimRepository resimRepository, IEtiketRepository etiketRepository)
         {
             _kullaniciRepository = kullaniciRepository;
             _haberRepository = haberRepository;
             _kategoriRepository = kategoriRepository;
             _resimRepository = resimRepository;
+            _etiketRepository = etiketRepository;
         }
 
         [HttpGet]
@@ -62,6 +64,10 @@ namespace HaberSepeti.Admin.Controllers
             }
             _haberRepository.Insert(haber);
             _haberRepository.Save();
+
+            int[] Etiketler = { 1,2};
+            _etiketRepository.HaberEtiketEkle(haber.Id, Etiketler);
+
             string cokluResim = System.IO.Path.GetExtension(Request.Files[1].FileName);
             if (cokluResim != "")
             {
