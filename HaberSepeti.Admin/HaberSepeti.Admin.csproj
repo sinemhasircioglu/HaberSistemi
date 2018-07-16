@@ -421,6 +421,7 @@
     <Content Include="ckeditor\skins\moono-lisa\images\refresh.png" />
     <Content Include="ckeditor\skins\moono-lisa\images\spinner.gif" />
     <Content Include="ckeditor\styles.js" />
+    <Content Include="Content\bootstrap-tagsinput.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\icheck\minimal%402x.png" />
@@ -457,6 +458,7 @@
     <Content Include="img\logo.png" />
     <Content Include="img\tickc81e.html" />
     <Content Include="Scripts\bootbox.min.js" />
+    <Content Include="Scripts\bootstrap-tagsinput.js" />
     <Content Include="Scripts\Global.js" />
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\page-bootstrap.js" />
