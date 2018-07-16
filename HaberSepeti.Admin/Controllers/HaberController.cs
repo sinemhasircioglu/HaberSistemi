@@ -48,7 +48,7 @@ namespace HaberSepeti.Admin.Controllers
         [HttpPost]
         [LoginFilter]
         [ValidateInput(false)]
-        public ActionResult Ekle(Haber haber, int KategoriId, HttpPostedFileBase VitrinResim, IEnumerable<HttpPostedFileBase> DetayResim)
+        public ActionResult Ekle(Haber haber, int KategoriId, HttpPostedFileBase VitrinResim, IEnumerable<HttpPostedFileBase> DetayResim, string Etiket)
         {
             var sessionControl = HttpContext.Session["KullaniciEmail"];
             Kullanici kullanici = _kullaniciRepository.Get(x => x.Email == sessionControl);
@@ -65,8 +65,7 @@ namespace HaberSepeti.Admin.Controllers
             _haberRepository.Insert(haber);
             _haberRepository.Save();
 
-            int[] Etiketler = { 1,2};
-            _etiketRepository.HaberEtiketEkle(haber.Id, Etiketler);
+            _etiketRepository.EtiketEkle(haber.Id, Etiket);
 
             string cokluResim = System.IO.Path.GetExtension(Request.Files[1].FileName);
             if (cokluResim != "")

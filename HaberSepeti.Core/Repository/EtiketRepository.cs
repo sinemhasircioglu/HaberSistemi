@@ -26,9 +26,9 @@ namespace HaberSepeti.Core.Repository
                 _context.Etikets.Remove(etiket);
         }
 
-        public IQueryable<Etiket> Etiketler(int[] etiketler)
+        public IQueryable<Etiket> Etiketler(string[] etiketler)
         {
-            return _context.Etikets.Where(x => etiketler.Contains(x.Id));
+            return _context.Etikets.Where(x => etiketler.Contains(x.EtiketAdi));
         }
 
         public Etiket Get(Expression<Func<Etiket, bool>> expression)
@@ -51,7 +51,27 @@ namespace HaberSepeti.Core.Repository
             return _context.Etikets.Where(expression);
         }
 
-        public void HaberEtiketEkle(int HaberId, int[] etiketler)
+        public void EtiketEkle(int HaberId, string Etiket)
+        {
+            if (Etiket != null && Etiket != "")
+            {
+                string[] Etikets = Etiket.Split(',');
+                foreach (var tag in Etikets)
+                {
+                    Etiket etiket = this.Get(x => x.EtiketAdi.ToLower() == tag.ToLower().Trim());
+                    if (etiket == null)
+                    {
+                        etiket = new Etiket();
+                        etiket.EtiketAdi = tag;
+                        this.Insert(etiket);
+                        this.Save();
+                    }                    
+                }
+                this.HaberEtiketEkle(HaberId, Etikets);
+            }
+        }
+
+        public void HaberEtiketEkle(int HaberId, string[] etiketler)
         {
             var haber = _context.Habers.FirstOrDefault(x => x.Id == HaberId);
             var gelenEtiket = this.Etiketler(etiketler);

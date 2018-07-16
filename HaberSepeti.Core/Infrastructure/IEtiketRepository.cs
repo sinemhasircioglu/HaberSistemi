@@ -9,8 +9,10 @@ namespace HaberSepeti.Core.Infrastructure
 {
     public interface IEtiketRepository : IRepository<Etiket>
     {
-        IQueryable<Etiket> Etiketler(int[] etiketler);
+        IQueryable<Etiket> Etiketler(string[] etiketler);
 
-        void HaberEtiketEkle(int HaberId, int[] etiketler);
+        void EtiketEkle(int HaberId, string Etiket);
+
+        void HaberEtiketEkle(int HaberId, string[] etiketler);
     }
 }
