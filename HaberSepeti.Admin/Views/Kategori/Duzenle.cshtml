@@ -3,15 +3,16 @@
     ViewBag.Title = "Kategori Düzenle";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script src="~/Scripts/Global.js"></script>
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
                 <header class="panel-heading">@ViewBag.Title</header>
                 <div class="panel-body">
-                    @using (Html.BeginForm("DuzenleKaydet", "Kategori", FormMethod.Post))
-                    {
+                    <form role="form" method="post">
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary()
                         @Html.HiddenFor(x => x.Id)
                         <div class="form-group">
                             <label for="ParentId">Üst Kategori</label>
@@ -30,8 +31,8 @@
                                 @Html.CheckBoxFor(x => x.AktifMi, new { @checked = "checked", id = "AktifMi" }) Aktif Mi
                             </label>
                         </div>
-                        <a href="#" class="btn btn-default" onclick="KategoriDuzenle();" > Kaydettttt </a>
-                    }
+                        <button type="submit" class="btn btn-default">Kaydet</button>
+                    </form>
                 </div>
             </div>
         </div>

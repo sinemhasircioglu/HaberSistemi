@@ -71,14 +71,14 @@ namespace HaberSepeti.Admin.Controllers
         {
             Kategori gelenKategori = _kategoriRepository.GetById(id);
             if (gelenKategori == null)
-                throw new Exception("Kategori bulunamadı!");
+                TempData["Bilgi"] = "Kategori bulunamadı!";
             SetKategoriListele();
             return View(gelenKategori);
         }
 
         [HttpPost]
         [LoginFilter]
-        public JsonResult Duzenle(Kategori kategori)
+        public ActionResult Duzenle(Kategori kategori)
         {
             Kategori dbKategori = _kategoriRepository.GetById(kategori.Id);
             dbKategori.AktifMi = kategori.AktifMi;
@@ -86,7 +86,8 @@ namespace HaberSepeti.Admin.Controllers
             dbKategori.URL = kategori.URL;
             dbKategori.ParentId = kategori.ParentId;
             _kategoriRepository.Save();
-            return Json(new ResultJson { Success = true, Message = "Düzenleme işlemi başarılı" });
+            TempData["Bilgi"] = "Kategori düzenleme işleminiz başarılı.";
+            return RedirectToAction("Index", "Kategori");
         }
     }
 }
