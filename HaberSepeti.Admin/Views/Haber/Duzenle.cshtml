@@ -1,9 +1,14 @@
-﻿@model HaberSepeti.Data.Model.Haber
+﻿@model HaberSepeti.Data.ViewModels.HaberEtiketViewModel
 @{
     ViewBag.Title = "Haber Düzenle";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script src="~/ckeditor/ckeditor.js"></script>
+<style>
+    .bootstrap-tagsinput {
+        width: 100%
+    }
+</style>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
@@ -14,45 +19,49 @@
                     {
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary()
-                        @Html.HiddenFor(x => x.Id)
+                        @Html.HiddenFor(x => x.Haber.Id)
                         <div class="form-group">
                             <label for="KategoriId">Kategori</label>
-                            @Html.DropDownListFor(Model => Model.KategoriId, new SelectList(ViewBag.Kategori, "Id", "Ad"), ("Seçiniz"), new { @class = "form-control", id = "KategoriId" })
+                            @Html.DropDownListFor(Model => Model.Haber.KategoriId, new SelectList(ViewBag.Kategori, "Id", "Ad"), ("Seçiniz"), new { @class = "form-control", id = "KategoriId" })
                         </div>
                         <div class="form-group">
                             <label for="Baslik">Haber Başlığı</label>
-                            @Html.TextBoxFor(x => x.Baslik, new { @class = "form-control", id = "Baslik", placeholder = "Başlık" })
+                            @Html.TextBoxFor(x => x.Haber.Baslik, new { @class = "form-control", id = "Baslik", placeholder = "Başlık" })
                         </div>
                         <div class="form-group">
                             <label for="KisaAciklama">Kısa Açıklama</label>
-                            @Html.TextBoxFor(x => x.KisaAciklama, new { @class = "form-control", id = "KisaAciklama", placeholder = "Kısa Açıklama" })
+                            @Html.TextBoxFor(x => x.Haber.KisaAciklama, new { @class = "form-control", id = "KisaAciklama", placeholder = "Kısa Açıklama" })
                         </div>
                         <div class="form-group">
                             <label for="Aciklama">Açıklama</label>
-                            @Html.TextArea("Aciklama")
+                            @Html.TextArea("Haber.Aciklama")
                             <script type="text/javascript">
-                                var editor = CKEDITOR.instances['Aciklama'];
+                                var editor = CKEDITOR.instances['Haber.Aciklama'];
                                 if (editor) { editor.destroy(true); }
-                                CKEDITOR.replace('Aciklama', { enterMODE: CKEDITOR.ENTER_BR, });
+                                CKEDITOR.replace('Haber.Aciklama', { enterMODE: CKEDITOR.ENTER_BR, });
                             </script>
+                        </div>
+                        <div class="form-group">
+                            <label for="Etiket">Etiket</label>
+                            @Html.TextBoxFor(x=>x.EtiketAdi, new { @class="form-control", data_role="tagsinput"})
                         </div>
                         <div class="form-group">
                             <label for="VitrinResim">Vitrin Resmi</label>
                             <input type="file" class="form-control" accept="image/*" name="VitrinResim" id="VitrinResim">
-                            <img src="@Model.VitrinResim" style="width:100px" />
+                            <img src="@Model.Haber.VitrinResim" style="width:100px" />
                         </div>
                         <div class="form-group">
                             <label for="DetayResim">Detay Resim(ler)</label>
                             <input type="file" class="form-control" accept="image/*" name="DetayResim" id="DetayResim" multiple>
-                            @foreach (var item in Model.Resims.Where(x => x.HaberId == Model.Id))
+                            @foreach (var item in Model.Haber.Resims.Where(x => x.HaberId == Model.Haber.Id))
                             {
-                                <img src="@item.ResimUrl" width="100"/>
+                                <img src="@item.ResimUrl" width="100" />
                                 <label><a href="@Url.Action("ResimSil","Haber", new { Id=item.Id})">Resim sil</a></label>
                             }
                         </div>
                         <div class="checkbox">
                             <label>
-                                @Html.CheckBoxFor(x => x.AktifMi, new { @checked = "checked", id = "AktifMi" }) Aktif Mi
+                                @Html.CheckBoxFor(x => x.Haber.AktifMi, new { @checked = "checked", id = "AktifMi" }) Aktif Mi
                             </label>
                         </div>
                         <button type="submit" class="btn btn-default">Kaydet</button>

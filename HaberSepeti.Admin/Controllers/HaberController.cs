@@ -1,11 +1,13 @@
 ﻿using HaberSepeti.Admin.CustomFilter;
 using HaberSepeti.Core.Infrastructure;
 using HaberSepeti.Data.Model;
+using HaberSepeti.Data.ViewModels;
 using PagedList;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -133,23 +135,37 @@ namespace HaberSepeti.Admin.Controllers
         public ActionResult Duzenle(int id)
         {
             Haber gelenHaber = _haberRepository.GetById(id);
+            var gelenEtiket = gelenHaber.Etikets.Select(x => x.EtiketAdi).ToArray();
+            HaberEtiketViewModel model = new HaberEtiketViewModel
+            {
+                Haber = gelenHaber,
+                Etiketler = _etiketRepository.GetAll(),
+                GelenEtiketler = gelenEtiket
+            };
+            StringBuilder birlestir = new StringBuilder();
+            foreach (var etiket in model.GelenEtiketler)
+            {
+                birlestir.Append(etiket.ToString());
+                birlestir.Append(",");
+            }
+            model.EtiketAdi = birlestir.ToString();
             if (gelenHaber == null)
                 throw new Exception("Haber bulunamadı!");
             SetKategoriListele();
-            return View(gelenHaber);
+            return View(model);
         }
 
         [HttpPost]
         [LoginFilter]
         [ValidateInput(false)]
-        public ActionResult Duzenle(Haber haber, int kategoriId, HttpPostedFileBase VitrinResim, IEnumerable<HttpPostedFileBase> DetayResim)
+        public ActionResult Duzenle(Haber haber, HttpPostedFileBase VitrinResim, IEnumerable<HttpPostedFileBase> DetayResim,string EtiketAdi)
         {
             Haber gelenHaber = _haberRepository.GetById(haber.Id);
             gelenHaber.Aciklama = haber.Aciklama;
             gelenHaber.KisaAciklama = haber.KisaAciklama;
             gelenHaber.Baslik = haber.Baslik;
             gelenHaber.AktifMi = haber.AktifMi;
-            gelenHaber.KategoriId = kategoriId;
+            gelenHaber.KategoriId = haber.KategoriId;
 
             if(VitrinResim!=null)
             {
@@ -182,6 +198,8 @@ namespace HaberSepeti.Admin.Controllers
                     _resimRepository.Save();
                 }
             }
+            _etiketRepository.EtiketEkle(haber.Id, EtiketAdi);
+
             _haberRepository.Save();
             TempData["Bilgi"] = "Haber düzenleme işleminiz başarılı.";
             return RedirectToAction("Index", "Haber");
