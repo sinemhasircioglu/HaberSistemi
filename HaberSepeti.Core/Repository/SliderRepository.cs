@@ -10,7 +10,7 @@ using System.Data.Entity.Migrations;
 
 namespace HaberSepeti.Core.Repository
 {
-    class SliderRepository : ISliderRepository
+    public class SliderRepository : ISliderRepository
     {
         private readonly HaberSepetiEntities _context = new HaberSepetiEntities();
 
