@@ -72,6 +72,17 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Ad" Type="nvarchar" MaxLength="15" Nullable="false" />
         </EntityType>
+        <EntityType Name="Slider">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Baslik" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="URL" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Aciklama" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ResimURL" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AktifMi" Type="bit" />
+        </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
             <PropertyRef Name="diagram_id" />
@@ -168,6 +179,7 @@
           <EntitySet Name="Kullanici" EntityType="Self.Kullanici" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Resim" EntityType="Self.Resim" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Slider" EntityType="Self.Slider" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_dbo_HaberEtiket_dbo_Role_UserId" Association="Self.FK_dbo_HaberEtiket_dbo_Role_UserId">
             <End Role="Haber" EntitySet="Haber" />
@@ -270,6 +282,7 @@
             <End Role="Haber" EntitySet="Habers" />
             <End Role="Etiket" EntitySet="Etikets" />
           </AssociationSet>
+          <EntitySet Name="Sliders" EntityType="HaberSepetiModel.Slider" />
         </EntityContainer>
         <EntityType Name="Haber">
           <Key>
@@ -358,6 +371,17 @@
           <End Type="HaberSepetiModel.Haber" Role="Haber" Multiplicity="*" />
           <End Type="HaberSepetiModel.Etiket" Role="Etiket" Multiplicity="*" />
         </Association>
+        <EntityType Name="Slider">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Baslik" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="URL" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Aciklama" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ResimURL" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AktifMi" Type="Boolean" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -448,6 +472,18 @@
               <ScalarProperty Name="Id" ColumnName="HaberId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="Sliders">
+            <EntityTypeMapping TypeName="HaberSepetiModel.Slider">
+              <MappingFragment StoreEntitySet="Slider">
+                <ScalarProperty Name="AktifMi" ColumnName="AktifMi" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ResimURL" ColumnName="ResimURL" />
+                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="Baslik" ColumnName="Baslik" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

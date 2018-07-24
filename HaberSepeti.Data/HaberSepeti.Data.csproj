@@ -82,6 +82,9 @@
     <Compile Include="Model\Rol.cs">
       <DependentUpon>HaberSepetiModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\Slider.cs">
+      <DependentUpon>HaberSepetiModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\sysdiagram.cs">
       <DependentUpon>HaberSepetiModel.tt</DependentUpon>
     </Compile>

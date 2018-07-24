@@ -17,6 +17,7 @@
         <AssociationConnector Association="HaberSepetiModel.FK_Haber_Kategori" />
         <EntityTypeShape EntityType="HaberSepetiModel.Etiket" Width="1.5" PointX="9.375" PointY="3.875" />
         <AssociationConnector Association="HaberSepetiModel.HaberEtiket2" />
+        <EntityTypeShape EntityType="HaberSepetiModel.Slider" Width="1.5" PointX="7.25" PointY="5.125" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
