@@ -1,0 +1,48 @@
+﻿@model HaberSepeti.Data.Model.Slider
+@{
+    ViewBag.Title = "Slider Ekle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/ckeditor/ckeditor.js"></script>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <header class="panel-heading">@ViewBag.Title</header>
+                <div class="panel-body">
+                    <form role="form" method="post" enctype="multipart/form-data" id="SliderForm">
+                        @Html.AntiForgeryToken()
+                        <div class="form-group">
+                            <label for="Baslik">Slider Başlığı</label>
+                            @Html.TextBoxFor(x => x.Baslik, new { @class = "form-control", id = "Baslik", placeholder = "Başlık" })
+                        </div>
+                        <div class="form-group">
+                            <label for="URL">Slider Url</label>
+                            @Html.TextBoxFor(x => x.URL, new { @class = "form-control", id = "URL", placeholder = "URL" })
+                        </div>
+                        <div class="form-group">
+                            <label for="Aciklama">Açıklama</label>
+                            @Html.TextArea("Aciklama")
+                            <script type="text/javascript">
+                                var editor = CKEDITOR.instances['Aciklama'];
+                                if (editor) { editor.destroy(true); }
+                                CKEDITOR.replace('Aciklama', { enterMODE: CKEDITOR.ENTER_BR, });
+                            </script>
+                        </div>
+                        <div class="form-group">
+                            <label for="ResimURL">Resim</label>
+                            <input type="file" class="form-control" accept="image/*" name="ResimURL" id="ResimURL">
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBoxFor(x => x.AktifMi, new { @checked = "checked", id = "AktifMi" }) Aktif Mi
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-default" id="SliderEkle">Ekle</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

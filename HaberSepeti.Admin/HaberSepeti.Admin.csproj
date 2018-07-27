@@ -492,6 +492,7 @@
     <Compile Include="Controllers\HaberController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\KategoriController.cs" />
+    <Compile Include="Controllers\SliderController.cs" />
     <Compile Include="CustomFilter\LoginFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -543,6 +544,8 @@
     <Content Include="Views\Haber\Ekle.cshtml" />
     <Content Include="Views\Haber\Index.cshtml" />
     <Content Include="Views\Haber\Duzenle.cshtml" />
+    <Content Include="Views\Slider\Index.cshtml" />
+    <Content Include="Views\Slider\Ekle.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -553,6 +556,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="External\Haber\" />
+    <Folder Include="External\Slider\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>

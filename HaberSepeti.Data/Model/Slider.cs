@@ -19,6 +19,6 @@ namespace HaberSepeti.Data.Model
         public string Aciklama { get; set; }
         public string ResimURL { get; set; }
         public int Id { get; set; }
-        public Nullable<bool> AktifMi { get; set; }
+        public bool AktifMi { get; set; }
     }
 }
