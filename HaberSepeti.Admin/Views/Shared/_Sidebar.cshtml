@@ -11,7 +11,7 @@
         <li class="sidebar-group-header">MENÜ</li>
         <li>
             <a href="@Url.Action("Index","Home")"><i class="typcn typcn-home"></i> <span>Anasayfa</span></a>
-            <div class="sidebar-link-addon"><span class="badge bg-green">NEW</span></div>
+            <div class="sidebar-link-addon"><span class="badge bg-green">Yeni</span></div>
         </li>
         <li class="has-submenu">
             <a href="#"><i class="typcn typcn-tabs-outline"></i> <span>Haber Yönetimi</span></a>
@@ -34,69 +34,18 @@
             <!-- /Sidebar submenu -->
         </li>
         <li class="has-submenu">
-            <a href="#"><i class="typcn typcn-compass"></i> <span>Elements</span></a>
+            <a href="#"><i class="typcn typcn-tabs-outline"></i> <span>Slider Yönetimi</span></a>
             <div class="sidebar-link-addon"><i class="typcn typcn-plus"></i></div>
             <!-- Sidebar submenu -->
             <ul class="sidebar-submenu">
-                <li><a href="buttons.html">Buttons</a></li>
-                <li><a href="tables.html">Tables</a></li>
-                <li><a href="calendar.html">Calendar</a></li>
-                <li><a href="grid.html">Grid</a></li>
-                <li><a href="panels.html">Panels</a></li>
-                <li><a href="charts.html">Charts</a></li>
-                <li><a href="bootstrap.html">Bootstrap elements</a></li>
+                <li><a href="@Url.Action("Index","Slider")">Slider listele</a></li>
+                <li><a href="@Url.Action("Ekle","Slider")">Slider ekle</a></li>
             </ul>
             <!-- /Sidebar submenu -->
         </li>
-        <li class="has-submenu">
-            <a href="#"><i class="typcn typcn-clipboard"></i> <span>Forms</span></a>
-            <div class="sidebar-link-addon"><i class="typcn typcn-plus"></i></div>
-            <!-- Sidebar submenu -->
-            <ul class="sidebar-submenu">
-                <li><a href="forms.html">Form layouts</a></li>
-                <li><a href="forms_elements.html">Form elements</a></li>
-            </ul>
-            <!-- /Sidebar submenu -->
-        </li>
-        <li>
-            <a href="email.html"><i class="typcn typcn-mail"></i> <span>Email</span></a>
-            <div class="sidebar-link-addon"><span class="badge">12</span></div>
-        </li>
-        <li class="has-submenu">
-            <a href="#"><i class="typcn typcn-document-text"></i> <span>Pages</span></a>
-            <div class="sidebar-link-addon"><i class="typcn typcn-plus"></i></div>
-            <!-- Sidebar submenu -->
-            <ul class="sidebar-submenu">
-                <li><a href="error.html">Error page</a></li>
-                <li><a href="login.html">Login and register</a></li>
-                <li><a href="search.html">Search results</a></li>
-            </ul>
-            <!-- /Sidebar submenu -->
-        </li>
+
+
     </ul>
     <!-- /Sidebar group -->
-    <!-- Sidebar group -->
-    <ul class="sidebar-group">
-        <li class="sidebar-group-header">FAVORITES</li>
-        <li><a href="#"><i class="typcn typcn-starburst text-red"></i> <span>Web design</span></a></li>
-        <li><a href="#"><i class="typcn typcn-starburst text-blue"></i> <span>Technology</span></a></li>
-        <li><a href="#"><i class="typcn typcn-starburst text-green"></i> <span>Gadgets</span></a></li>
-    </ul>
-    <!-- /Sidebar group -->
-    <br>
-    <!-- Sidebar panel -->
-    <div class="sidebar-panel">
-        <h4>Upgrade</h4>
-        <p>
-            Upgrade to premium to get rid of the ads!
-            <br>
-            <button class="btn btn-primary btn-block">Learn more...</button>
-        </p>
-    </div>
-    <!-- /Sidebar panel -->
-    <!-- Sidebar panel -->
-    <div class="sidebar-panel">
-        <button class="btn btn-primary btn-block no-margin"><i class="typcn typcn-plus"></i> Create invoice</button>
-    </div>
-    <!-- /Sidebar panel -->
+
 </aside>

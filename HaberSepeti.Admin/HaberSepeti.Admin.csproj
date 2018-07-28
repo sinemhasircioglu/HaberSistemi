@@ -475,13 +475,11 @@
     <Content Include="Scripts\plugins\icheck.min.js" />
     <Content Include="Scripts\plugins\jquery.min.js" />
     <Content Include="Scripts\plugins\knob.min.js" />
-    <Content Include="Scripts\plugins\maskedinput.min.js" />
     <Content Include="Scripts\plugins\modernizr.min.js" />
     <Content Include="Scripts\plugins\multimenu.min.js" />
     <Content Include="Scripts\plugins\rickshaw\d3.v3.js" />
     <Content Include="Scripts\plugins\rickshaw\rickshaw.min.js" />
     <Content Include="Scripts\plugins\sparkline.min.js" />
-    <Content Include="Scripts\plugins\summernote.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
