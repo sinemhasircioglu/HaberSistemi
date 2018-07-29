@@ -544,6 +544,7 @@
     <Content Include="Views\Haber\Duzenle.cshtml" />
     <Content Include="Views\Slider\Index.cshtml" />
     <Content Include="Views\Slider\Ekle.cshtml" />
+    <Content Include="Views\Slider\Duzenle.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

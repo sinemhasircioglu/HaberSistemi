@@ -8,6 +8,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using PagedList;
+using System.IO;
 
 namespace HaberSepeti.Admin.Controllers
 {
@@ -44,7 +45,7 @@ namespace HaberSepeti.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (ResimURL.ContentLength>0)
+                if (ResimURL != null && ResimURL.ContentLength>0)
                 {
                     string Dosya = Guid.NewGuid().ToString().Replace("-", "");
                     string Uzanti = System.IO.Path.GetExtension(Request.Files[0].FileName);
@@ -67,6 +68,95 @@ namespace HaberSepeti.Admin.Controllers
             }        
             TempData["Bilgi"] = "Slider ekleme işleminiz başarısız!";
             return RedirectToAction("Index", "Slider");
+        }
+
+        [HttpGet]
+        [LoginFilter]
+        public ActionResult Duzenle(int Id)
+        {
+            var gelenSlider = _sliderRepository.GetById(Id);
+            if (gelenSlider == null)
+                TempData["Bilgi"] = "Slider bulunamadı!";
+            return View(gelenSlider);
+        }
+
+        [HttpPost]
+        [LoginFilter]
+        [ValidateInput(false)]
+        public ActionResult Duzenle(Slider slider, HttpPostedFileBase ResimURL)
+        {
+            if (ModelState.IsValid)
+            {
+                Slider dbSlider = _sliderRepository.GetById(slider.Id);
+                dbSlider.Aciklama = slider.Aciklama;
+                dbSlider.AktifMi = slider.AktifMi;
+                dbSlider.Baslik = slider.Baslik;
+                dbSlider.URL = slider.URL;
+                if(ResimURL != null && ResimURL.ContentLength > 0)
+                {
+                    if(dbSlider.ResimURL != null)
+                    {
+                        string url = dbSlider.ResimURL;
+                        string resimPath = Server.MapPath(url);
+                        FileInfo img = new FileInfo(resimPath);
+                        if (img.Exists)
+                        {
+                            img.Delete();
+                        }                        
+                    }
+                    string Dosya = Guid.NewGuid().ToString().Replace("-", "");
+                    string Uzanti = System.IO.Path.GetExtension(Request.Files[0].FileName);
+                    string ResimYolu = "/External/Slider/" + Dosya + Uzanti;
+                    ResimURL.SaveAs(Server.MapPath(ResimYolu));
+                    dbSlider.ResimURL = ResimYolu;
+                }
+                try
+                {
+                    _sliderRepository.Save();
+                    TempData["Bilgi"] = "Slider düzenleme işleminiz başarılı.";
+                    return RedirectToAction("Index", "Slider");
+                }
+                catch (Exception)
+                {
+                    TempData["Bilgi"] = "Slider düzenleme işleminiz başarısız!";
+                    return RedirectToAction("Index", "Slider");
+                }
+            }                    
+            TempData["Bilgi"] = "Slider düzenleme işleminiz başarısız!";
+            return RedirectToAction("Index", "Slider");
+        }
+
+        [LoginFilter]
+        public ActionResult Sil(int Id)
+        {
+            Slider dbSlider = _sliderRepository.GetById(Id);
+            if (dbSlider == null)
+            {
+                TempData["Bilgi"] = "Slider bulunamadı!";
+                return RedirectToAction("Index", "Slider");
+            }
+            if(dbSlider.ResimURL!=null)
+            {
+                string resimUrl = dbSlider.ResimURL;
+                string resimPath = Server.MapPath(resimUrl);
+                FileInfo img = new FileInfo(resimPath);
+                if (img.Exists)
+                {
+                    img.Delete();
+                }
+            }
+            _sliderRepository.Delete(Id);
+            try
+            {
+                _sliderRepository.Save();
+                TempData["Bilgi"] = "Slider silme işleminiz başarılı.";
+                return RedirectToAction("Index", "Slider");
+            }
+            catch (Exception)
+            {
+                TempData["Bilgi"] = "Slider silme işleminiz başarısız!";
+                return RedirectToAction("Index", "Slider");
+            }                       
         }
     }
 }
