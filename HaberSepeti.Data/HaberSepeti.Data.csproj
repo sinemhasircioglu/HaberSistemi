@@ -88,8 +88,12 @@
     <Compile Include="Model\sysdiagram.cs">
       <DependentUpon>HaberSepetiModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\Yorum.cs">
+      <DependentUpon>HaberSepetiModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\HaberEtiketViewModel.cs" />
+    <Compile Include="ViewModels\HaberViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

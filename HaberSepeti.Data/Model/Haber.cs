@@ -19,6 +19,7 @@ namespace HaberSepeti.Data.Model
         {
             this.Resims = new HashSet<Resim>();
             this.Etikets = new HashSet<Etiket>();
+            this.Yorums = new HashSet<Yorum>();
             EklenmeTarihi = DateTime.Now;
         }
     
@@ -39,5 +40,7 @@ namespace HaberSepeti.Data.Model
         public virtual Kategori Kategori { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Etiket> Etikets { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Yorum> Yorums { get; set; }
     }
 }

@@ -81,7 +81,7 @@
           <Property Name="Aciklama" Type="nvarchar(max)" Nullable="false" />
           <Property Name="ResimURL" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="AktifMi" Type="bit" />
+          <Property Name="AktifMi" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -92,6 +92,16 @@
           <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Yorum">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Icerik" Type="nvarchar(max)" />
+          <Property Name="KullaniciId" Type="int" Nullable="false" />
+          <Property Name="HaberId" Type="int" Nullable="false" />
+          <Property Name="EklenmeTarihi" Type="datetime" Nullable="false" />
         </EntityType>
         <Association Name="FK_dbo_HaberEtiket_dbo_Role_UserId">
           <End Role="Haber" Type="Self.Haber" Multiplicity="1">
@@ -171,6 +181,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Yorum_Haber">
+          <End Role="Haber" Type="Self.Haber" Multiplicity="1" />
+          <End Role="Yorum" Type="Self.Yorum" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Haber">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Yorum">
+              <PropertyRef Name="HaberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Yorum_Kullanici">
+          <End Role="Kullanici" Type="Self.Kullanici" Multiplicity="1" />
+          <End Role="Yorum" Type="Self.Yorum" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kullanici">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Yorum">
+              <PropertyRef Name="KullaniciId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="HaberSepetiModelStoreContainer">
           <EntitySet Name="Etiket" EntityType="Self.Etiket" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Haber" EntityType="Self.Haber" Schema="dbo" store:Type="Tables" />
@@ -181,6 +215,7 @@
           <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Slider" EntityType="Self.Slider" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Yorum" EntityType="Self.Yorum" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_dbo_HaberEtiket_dbo_Role_UserId" Association="Self.FK_dbo_HaberEtiket_dbo_Role_UserId">
             <End Role="Haber" EntitySet="Haber" />
             <End Role="HaberEtiket" EntitySet="HaberEtiket" />
@@ -205,6 +240,14 @@
             <End Role="Haber" EntitySet="Haber" />
             <End Role="Resim" EntitySet="Resim" />
           </AssociationSet>
+          <AssociationSet Name="FK_Yorum_Haber" Association="Self.FK_Yorum_Haber">
+            <End Role="Haber" EntitySet="Haber" />
+            <End Role="Yorum" EntitySet="Yorum" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Yorum_Kullanici" Association="Self.FK_Yorum_Kullanici">
+            <End Role="Kullanici" EntitySet="Kullanici" />
+            <End Role="Yorum" EntitySet="Yorum" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -223,6 +266,7 @@
           <Property Name="RolId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Rol" Relationship="Self.FK_Kullanici_Rol" FromRole="Kullanici" ToRole="Rol" />
           <NavigationProperty Name="Habers" Relationship="HaberSepetiModel.FK_Haber_Kullanici" FromRole="Kullanici" ToRole="Haber" />
+          <NavigationProperty Name="Yorums" Relationship="HaberSepetiModel.FK_Yorum_Kullanici" FromRole="Kullanici" ToRole="Yorum" />
         </EntityType>
         <EntityType Name="Rol">
           <Key>
@@ -283,6 +327,15 @@
             <End Role="Etiket" EntitySet="Etikets" />
           </AssociationSet>
           <EntitySet Name="Sliders" EntityType="HaberSepetiModel.Slider" />
+          <EntitySet Name="Yorums" EntityType="HaberSepetiModel.Yorum" />
+          <AssociationSet Name="FK_Yorum_Haber" Association="HaberSepetiModel.FK_Yorum_Haber">
+            <End Role="Haber" EntitySet="Habers" />
+            <End Role="Yorum" EntitySet="Yorums" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Yorum_Kullanici" Association="HaberSepetiModel.FK_Yorum_Kullanici">
+            <End Role="Kullanici" EntitySet="Kullanicis" />
+            <End Role="Yorum" EntitySet="Yorums" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Haber">
           <Key>
@@ -302,6 +355,7 @@
           <NavigationProperty Name="Kategori" Relationship="HaberSepetiModel.FK_Haber_Kategori" FromRole="Haber" ToRole="Kategori" />
           <Property Name="VitrinResim" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Etikets" Relationship="HaberSepetiModel.HaberEtiket2" FromRole="Haber" ToRole="Etiket" />
+          <NavigationProperty Name="Yorums" Relationship="HaberSepetiModel.FK_Yorum_Haber" FromRole="Haber" ToRole="Yorum" />
         </EntityType>
         <EntityType Name="Resim">
           <Key>
@@ -380,8 +434,44 @@
           <Property Name="Aciklama" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ResimURL" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AktifMi" Type="Boolean" />
+          <Property Name="AktifMi" Type="Boolean" Nullable="false" />
         </EntityType>
+        <EntityType Name="Yorum">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Icerik" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="KullaniciId" Type="Int32" Nullable="false" />
+          <Property Name="HaberId" Type="Int32" Nullable="false" />
+          <Property Name="EklenmeTarihi" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Haber" Relationship="HaberSepetiModel.FK_Yorum_Haber" FromRole="Yorum" ToRole="Haber" />
+          <NavigationProperty Name="Kullanici" Relationship="HaberSepetiModel.FK_Yorum_Kullanici" FromRole="Yorum" ToRole="Kullanici" />
+        </EntityType>
+        <Association Name="FK_Yorum_Haber">
+          <End Type="HaberSepetiModel.Haber" Role="Haber" Multiplicity="1" />
+          <End Type="HaberSepetiModel.Yorum" Role="Yorum" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Haber">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Yorum">
+              <PropertyRef Name="HaberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Yorum_Kullanici">
+          <End Type="HaberSepetiModel.Kullanici" Role="Kullanici" Multiplicity="1" />
+          <End Type="HaberSepetiModel.Yorum" Role="Yorum" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kullanici">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Yorum">
+              <PropertyRef Name="KullaniciId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -481,6 +571,17 @@
                 <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
                 <ScalarProperty Name="URL" ColumnName="URL" />
                 <ScalarProperty Name="Baslik" ColumnName="Baslik" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Yorums">
+            <EntityTypeMapping TypeName="HaberSepetiModel.Yorum">
+              <MappingFragment StoreEntitySet="Yorum">
+                <ScalarProperty Name="EklenmeTarihi" ColumnName="EklenmeTarihi" />
+                <ScalarProperty Name="HaberId" ColumnName="HaberId" />
+                <ScalarProperty Name="KullaniciId" ColumnName="KullaniciId" />
+                <ScalarProperty Name="Icerik" ColumnName="Icerik" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

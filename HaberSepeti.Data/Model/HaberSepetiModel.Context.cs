@@ -33,5 +33,6 @@ namespace HaberSepeti.Data.Model
         public virtual DbSet<Kategori> Kategoris { get; set; }
         public virtual DbSet<Etiket> Etikets { get; set; }
         public virtual DbSet<Slider> Sliders { get; set; }
+        public virtual DbSet<Yorum> Yorums { get; set; }
     }
 }

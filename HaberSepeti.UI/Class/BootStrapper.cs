@@ -8,12 +8,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace HaberSepeti.Admin.Class
+namespace HaberSepeti.UI.Class
 {
     public class BootStrapper
     {
-        //Boot aşamasında çalışacak
-
         public static void RunConfig()
         {
             BuildAutoFac();
@@ -32,7 +30,7 @@ namespace HaberSepeti.Admin.Class
             builder.RegisterType<KategoriRepository>().As<IKategoriRepository>();
             builder.RegisterType<EtiketRepository>().As<IEtiketRepository>();
             builder.RegisterType<SliderRepository>().As<ISliderRepository>();
-            
+
             var container = builder.Build();
 
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
