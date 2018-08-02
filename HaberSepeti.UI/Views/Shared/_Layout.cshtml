@@ -47,7 +47,7 @@
                 <!-- Search Widget -->
 
                 <div class="well">
-                    @Html.Partial("_Arama") 
+                    @Html.Partial("_Arama")
                 </div>
 
 
@@ -62,8 +62,10 @@
                     @{ Html.RenderAction("PopulerHaberler", "Default"); }
                 </div>
 
+                <div class="well">
+                    @{ Html.RenderAction("SonYorumlar", "Default"); }
+                </div>
 
-                
             </div>
         </div>
     </div>

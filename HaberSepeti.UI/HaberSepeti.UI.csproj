@@ -141,12 +141,9 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Default\Index.cshtml" />
-    <Content Include="Scripts\bootstrap.bundle.js.map" />
     <Content Include="Scripts\bootstrap.bundle.min.js.map" />
-    <Content Include="Scripts\bootstrap.js.map" />
     <Content Include="Scripts\bootstrap.min.js.map" />
     <Content Include="Scripts\jquery.min.map" />
-    <Content Include="Scripts\jquery.slim.min.map" />
     <Content Include="Views\Shared\_Arama.cshtml" />
     <Content Include="Views\Default\Kategoriler.cshtml" />
     <Content Include="Views\Default\PopulerHaberler.cshtml" />
