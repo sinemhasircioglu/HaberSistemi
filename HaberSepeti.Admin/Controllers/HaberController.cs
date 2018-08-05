@@ -5,6 +5,7 @@ using HaberSepeti.Data.ViewModels;
 using PagedList;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,8 @@ namespace HaberSepeti.Admin.Controllers
         private readonly IKategoriRepository _kategoriRepository;
         private readonly IResimRepository _resimRepository;
         private readonly IEtiketRepository _etiketRepository;
+        string uploadpath = ConfigurationManager.AppSettings["UploadPathHaber"].ToString();
+
 
         public HaberController(IKullaniciRepository kullaniciRepository, IHaberRepository haberRepository, IKategoriRepository kategoriRepository, IResimRepository resimRepository, IEtiketRepository etiketRepository)
         {
@@ -60,9 +63,9 @@ namespace HaberSepeti.Admin.Controllers
             {
                 string dosyaAdi = Guid.NewGuid().ToString().Replace("-", "");
                 string uzanti = System.IO.Path.GetExtension(Request.Files[0].FileName);
-                string tamYol = "/External/Haber/" + dosyaAdi + uzanti;
-                Request.Files[0].SaveAs(Server.MapPath(tamYol));
-                haber.VitrinResim = tamYol;
+                string tamYol = uploadpath + dosyaAdi + uzanti;
+                Request.Files[0].SaveAs(tamYol);
+                haber.VitrinResim = tamYol.Substring(46);
             }
             _haberRepository.Insert(haber);
             _haberRepository.Save();
@@ -78,11 +81,16 @@ namespace HaberSepeti.Admin.Controllers
                     {
                         string dosyaAdi = Guid.NewGuid().ToString().Replace("-", "");
                         string uzanti = System.IO.Path.GetExtension(Request.Files[1].FileName);
-                        string tamYol = "/External/Haber/" + dosyaAdi + uzanti;
-                        file.SaveAs(Server.MapPath(tamYol));
+                        //string tamYol = "/External/Haber/" + dosyaAdi + uzanti;
+                        //string tamYol = "C:\\Users\\sinem\\Source\\Repos\\HaberSepeti\\Exter\\Haber\\" + dosyaAdi + uzanti; // doğru olan
+                        string tamYol = uploadpath + dosyaAdi + uzanti;
+
+
+                        //file.SaveAs(Server.MapPath(tamYol));
+                        file.SaveAs(tamYol);
                         var resim = new Resim
                         {
-                            ResimUrl = tamYol
+                            ResimUrl = tamYol.Substring(46)
                         };
                         resim.HaberId = haber.Id;
                         _resimRepository.Insert(resim);
@@ -176,8 +184,12 @@ namespace HaberSepeti.Admin.Controllers
                     dosya.Delete();
                 string dosya_adi = Guid.NewGuid().ToString().Replace("-", "");
                 string uzanti = System.IO.Path.GetExtension(Request.Files[0].FileName);
-                string tam_yol = "/External/Haber/" + dosya_adi + uzanti;
-                Request.Files[0].SaveAs(Server.MapPath(tam_yol));
+                //string tam_yol = "/External/Haber/" + dosya_adi + uzanti;
+                //string tam_yol = "C:\\Users\\sinem\\Source\\Repos\\HaberSepeti\\Exter\\Haber\\" + dosya_adi + uzanti;
+                string tam_yol = uploadpath + dosya_adi + uzanti;
+
+
+                Request.Files[0].SaveAs(tam_yol);
                 gelenHaber.VitrinResim = tam_yol;
             }
 
@@ -188,8 +200,10 @@ namespace HaberSepeti.Admin.Controllers
                 {
                     string dosya_adi = Guid.NewGuid().ToString().Replace("-", "");
                     string uzanti = System.IO.Path.GetExtension(Request.Files[1].FileName);
-                    string tamyol = "/External/Haber/" + dosya_adi + uzanti;
-                    detay.SaveAs(Server.MapPath(tamyol));
+                    //string tamyol = "/External/Haber/" + dosya_adi + uzanti;
+                    string tamyol = uploadpath + dosya_adi + uzanti;
+                
+                    detay.SaveAs(tamyol);
                     var img = new Resim {
                         ResimUrl = tamyol
                     };

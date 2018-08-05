@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HaberSepeti.Core.Infrastructure
 {
-    interface IYorumRepository : IRepository<Yorum>
+    public interface IYorumRepository : IRepository<Yorum>
     {
     }
 }

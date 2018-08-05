@@ -10,7 +10,7 @@ using System.Data.Entity.Migrations;
 
 namespace HaberSepeti.Core.Repository
 {
-    class YorumRepository : IYorumRepository
+    public class YorumRepository : IYorumRepository
     {
         private readonly HaberSepetiEntities _context = new HaberSepetiEntities();
 

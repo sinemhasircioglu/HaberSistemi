@@ -1,4 +1,6 @@
-﻿@model IEnumerable<HaberSepeti.Data.Model.Haber>
+﻿@using PagedList
+@using PagedList.Mvc
+@model IPagedList<HaberSepeti.Data.Model.Haber>
 @{
     ViewBag.Title = "UI Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -15,7 +17,7 @@
     @foreach (var item in Model)
     {
         <div class="card mb-4">
-            <img class="card-img-top" src="@item.VitrinResim" alt="Card image cap">
+            <img class="card-img-top" src="@item.VitrinResim" alt="Card image cap" />
             <div class="card-body">
                 <h2 class="card-title">@item.Baslik</h2>
                 <p class="card-text">@item.KisaAciklama</p>
@@ -27,15 +29,22 @@
             </div>
         </div>
     }
-
     <!-- Blog Post -->
     <!-- Pagination -->
-    <ul class="pagination justify-content-center mb-4">
-        <li class="page-item">
-            <a class="page-link" href="#">&larr; Older</a>
-        </li>
-        <li class="page-item disabled">
-            <a class="page-link" href="#">Newer &rarr;</a>
-        </li>
-    </ul>
+    @*<ul class="pagination justify-content-center mb-4">
+            <li class="page-item">
+                <a class="page-link" href="#">&larr; Older</a>
+            </li>
+            <li class="page-item disabled">
+                <a class="page-link" href="#">Newer &rarr;</a>
+            </li>
+        </ul>*@
+
+    <div class="row">
+        <div class="col-md-8 text-center">
+            <div class="pagedList pagination pager">
+                @Html.PagedListPager(Model, sayfa => Url.Action("Index", new { sayfa }), PagedListRenderOptions.Classic)
+            </div>
+        </div>
+    </div>
 </div>

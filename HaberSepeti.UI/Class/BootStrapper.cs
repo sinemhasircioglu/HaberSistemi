@@ -30,6 +30,7 @@ namespace HaberSepeti.UI.Class
             builder.RegisterType<KategoriRepository>().As<IKategoriRepository>();
             builder.RegisterType<EtiketRepository>().As<IEtiketRepository>();
             builder.RegisterType<SliderRepository>().As<ISliderRepository>();
+            builder.RegisterType<YorumRepository>().As<IYorumRepository>();
 
             var container = builder.Build();
 

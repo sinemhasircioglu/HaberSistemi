@@ -49,8 +49,8 @@ namespace HaberSepeti.Admin.Controllers
                 {
                     string Dosya = Guid.NewGuid().ToString().Replace("-", "");
                     string Uzanti = System.IO.Path.GetExtension(Request.Files[0].FileName);
-                    string ResimYolu = "/External/Slider/" + Dosya + Uzanti;
-                    ResimURL.SaveAs(Server.MapPath(ResimYolu));
+                    string ResimYolu = "C:\\Users\\sinem\\Source\\Repos\\HaberSepeti\\Exter\\Slider\\" + Dosya + Uzanti;
+                    ResimURL.SaveAs(ResimYolu);
                     slider.ResimURL = ResimYolu;
                 }
                 _sliderRepository.Insert(slider);
@@ -106,8 +106,8 @@ namespace HaberSepeti.Admin.Controllers
                     }
                     string Dosya = Guid.NewGuid().ToString().Replace("-", "");
                     string Uzanti = System.IO.Path.GetExtension(Request.Files[0].FileName);
-                    string ResimYolu = "/External/Slider/" + Dosya + Uzanti;
-                    ResimURL.SaveAs(Server.MapPath(ResimYolu));
+                    string ResimYolu = "C:\\Users\\sinem\\Source\\Repos\\HaberSepeti\\Exter\\Slider\\" + Dosya + Uzanti;
+                    ResimURL.SaveAs(ResimYolu);
                     dbSlider.ResimURL = ResimYolu;
                 }
                 try

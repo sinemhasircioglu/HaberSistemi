@@ -10,6 +10,7 @@
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <!-- Custom styles for this template -->
     <link href="~/Content/blog-home.css" rel="stylesheet" />
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
 </head>
 <body>
     <!-- Navigation -->
@@ -53,18 +54,18 @@
 
                 <!-- Categories Widget -->
                 <div class="well">
-                    @{ Html.RenderAction("Kategoriler", "Default"); }
+                    @{ Html.RenderAction("PopulerHaberler", "Default"); }
                 </div>
 
 
                 <!-- Side Widget -->
                 <div class="well">
-                    @{ Html.RenderAction("PopulerHaberler", "Default"); }
+                    @{ Html.RenderAction("Kategoriler", "Default"); }
                 </div>
 
-                <div class="well">
+                @*<div class="well">
                     @{ Html.RenderAction("SonYorumlar", "Default"); }
-                </div>
+                </div>*@
 
             </div>
         </div>
