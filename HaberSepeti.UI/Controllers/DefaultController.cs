@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using PagedList;
+using HaberSepeti.UI.Models.ViewModels;
 
 namespace HaberSepeti.UI.Controllers
 {
@@ -13,38 +14,49 @@ namespace HaberSepeti.UI.Controllers
         private readonly IHaberRepository _haberRepository;
         private readonly IKategoriRepository _kategoriRepository;
         private readonly IYorumRepository _yorumRepository;
+        private readonly ISliderRepository _sliderRepository;
 
-        public DefaultController(IHaberRepository haberRepository, IKategoriRepository kategoriRepository, IYorumRepository yorumRepository)
+        public DefaultController(IHaberRepository haberRepository, IKategoriRepository kategoriRepository, IYorumRepository yorumRepository, ISliderRepository sliderRepository)
         {
             _haberRepository = haberRepository;
             _kategoriRepository = kategoriRepository;
             _yorumRepository = yorumRepository;
+            _sliderRepository = sliderRepository;
         }
 
-        public ActionResult Index(int sayfa = 1)
+        public ActionResult Index()
         {
-            int sayfaBoyutu = 4;
-            var haberler = _haberRepository.GetAll().OrderByDescending(x => x.Id).ToPagedList(sayfa, sayfaBoyutu);
+            var haberler = _haberRepository.GetAll().OrderByDescending(x => x.Id);
             return View(haberler);
         }
 
-        public ActionResult Arama(string Ara = null)
+        public ActionResult Arama(string kelime, int sayfa = 1)
         {
-
-            var aranan = _haberRepository.GetMany(x => x.Baslik.Contains(Ara)).ToList();
-            return View(aranan.OrderByDescending(x => x.EklenmeTarihi));
+            int sayfaBoyutu = 4;
+            var arananHaberler = _haberRepository.GetMany(x => x.Baslik.Contains(kelime) || x.Aciklama.Contains(kelime)).OrderByDescending(x => x.Id).ToPagedList(sayfa, sayfaBoyutu);
+            ViewBag.Aranan = kelime;
+            return View(arananHaberler);
         }
 
-        public ActionResult Kategoriler()
+        public ActionResult Sidebar()
         {
-            var kategoriler = _kategoriRepository.GetAll();
-            return View(kategoriler);
+            SidebarViewModel model = new SidebarViewModel
+            {
+                SonHaberler = _haberRepository.GetAll().OrderByDescending(x => x.EklenmeTarihi).Take(4),
+                SonYorumlar = _yorumRepository.GetAll().OrderByDescending(x => x.EklenmeTarihi).Take(4),
+                PopulerHaberler = _haberRepository.GetAll().OrderByDescending(x => x.Okunma).Take(4),
+            };
+            return View(model);
         }
 
-        public ActionResult PopulerHaberler()
+        public ActionResult SliderGoruntule()
         {
-            var populer = _haberRepository.GetAll().OrderByDescending(x => x.Okunma).Take(5);
-            return View(populer);
+            SliderViewModel model = new SliderViewModel
+            {
+                Slider = _sliderRepository.GetAll().OrderByDescending(x => x.Id).Take(3),
+                Haber = _haberRepository.GetAll().OrderByDescending(x => x.Id).Take(2),
+            };
+            return View(model);
         }
 
         public ActionResult Detay(int Id)
@@ -64,12 +76,6 @@ namespace HaberSepeti.UI.Controllers
             haber.Okunma += 1;
             _haberRepository.Save();
             return View();
-        }
-
-        public ActionResult SonYorumlar()
-        {
-            var yorumlar = _yorumRepository.GetAll().OrderByDescending(x => x.Id).Take(5);
-            return View(yorumlar);
         }
     }
 }

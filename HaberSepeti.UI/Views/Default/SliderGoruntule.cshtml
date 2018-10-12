@@ -1,0 +1,63 @@
+﻿@model HaberSepeti.UI.Models.ViewModels.SliderViewModel
+@{
+    ViewBag.Title = "SliderGoruntule";
+    Layout = null;
+}
+
+<section class="featured-posts-grid bg-dark">
+    <div class="container clearfix">
+        <!-- Large post slider -->
+        <div class="featured-posts-grid__item featured-posts-grid__item--lg">
+            <div id="owl-hero-grid" class="owl-carousel owl-theme owl-carousel--dots-inside">
+                @foreach (var item in Model.Slider)
+                {
+                    <article class="entry featured-posts-grid__entry">
+                        <div class="thumb-bg-holder owl-lazy" data-src="@item.ResimURL">
+                            <img src="@item.ResimURL" alt="" class="d-none">
+                            <a href="/Default/Detay/@item.Id" class="thumb-url"></a>
+                            <div class="bottom-gradient"></div>
+                        </div>
+                        <div class="thumb-text-holder">
+                            <a href="/Default/Detay/@item.Id" class="entry__meta-category entry__meta-category-color entry__meta-category-color--salad">Gündem</a>
+                            <h2 class="thumb-entry-title">
+                                <a href="/Default/Detay/@item.Id">@item.Baslik</a>
+                            </h2>
+                        </div>
+                    </article>
+                }
+            </div> <!-- end owl slider -->
+        </div> <!-- end large post slider -->
+
+        @foreach (var item in Model.Haber)
+        {
+            <div class="featured-posts-grid__item featured-posts-grid__item--sm">
+                <article class="entry featured-posts-grid__entry">
+                    <div class="thumb-bg-holder" style="background-image: url(@item.VitrinResim);">
+                        <a href="/Default/Detay/@item.Id" class="thumb-url"></a>
+                        <div class="bottom-gradient"></div>
+                    </div>
+
+                    <div class="thumb-text-holder">
+                        <h2 class="thumb-entry-title thumb-entry-title--sm">
+                            <a href="/Default/Detay/@item.Id">@item.Baslik</a>
+                        </h2>
+                        <ul class="entry__meta">
+                            <li class="entry__meta-author">
+                                <i class="ui-author"></i>
+                                <a href="#">@item.Kullanici.AdSoyad</a>
+                            </li>
+                            <li class="entry__meta-date">
+                                <i class="ui-date"></i>
+                                @item.EklenmeTarihi
+                            </li>
+                            <li class="entry__meta-comments">
+                                <i class="ui-comments"></i>
+                                <a href="#">@item.Okunma</a>
+                            </li>
+                        </ul>
+                    </div>
+                </article>
+            </div>
+        }
+    </div>
+</section>

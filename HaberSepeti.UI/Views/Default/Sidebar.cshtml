@@ -1,0 +1,152 @@
+﻿@model HaberSepeti.UI.Models.ViewModels.SidebarViewModel
+@{
+    Layout = null;
+}
+
+<aside class="col-lg-4 sidebar sidebar--right">
+    <!-- Widget Popular/Latest Posts -->
+    <div class="widget widget-tabpost">
+        <div class="tabs widget-tabpost__tabs">
+            <ul class="tabs__list widget-tabpost__tabs-list">
+                <li class="tabs__item widget-tabpost__tabs-item tabs__item--active">
+                    <a href="#tab-trending" class="tabs__url tabs__trigger widget-tabpost__tabs-url">Popüler</a>
+                </li>
+                <li class="tabs__item widget-tabpost__tabs-item">
+                    <a href="#tab-latest" class="tabs__url tabs__trigger widget-tabpost__tabs-url">Son</a>
+                </li>
+                <li class="tabs__item widget-tabpost__tabs-item">
+                    <a href="#tab-comments" class="tabs__url tabs__trigger widget-tabpost__tabs-url">Yorumlar</a>
+                </li>
+            </ul> <!-- end tabs -->
+            <!-- tab content -->
+            <div class="tabs__content tabs__content-trigger widget-tabpost__tabs-content">
+                <div class="tabs__content-pane tabs__content-pane--active" id="tab-trending">
+                    <ul class="post-list-small">
+                        @foreach (var item in Model.PopulerHaberler)
+                        {
+                            <li class="post-list-small__item">
+                                <article class="post-list-small__entry clearfix">
+                                    <div class="post-list-small__img-holder">
+                                        <div class="thumb-container thumb-75">
+                                            <a href="/Default/Detay/@item.Id">
+                                                <img data-src="@item.VitrinResim" src="@item.VitrinResim" alt="" class=" lazyload">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="post-list-small__body">
+                                        <h3 class="post-list-small__entry-title">
+                                            <a href="/Default/Detay/@item.Id">@item.Baslik</a>
+                                        </h3>
+                                        <ul class="entry__meta">
+                                            <li class="entry__meta-date">
+                                                <i class="ui-date"></i>
+                                                @item.EklenmeTarihi
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </article>
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+                <div class="tabs__content-pane" id="tab-latest">
+                    <ul class="post-list-small">
+                        @foreach (var item in Model.SonHaberler)
+                        {
+                            <li class="post-list-small__item">
+                                <article class="post-list-small__entry clearfix">
+                                    <div class="post-list-small__img-holder">
+                                        <div class="thumb-container thumb-75">
+                                            <a href="/Default/Detay/@item.Id">
+                                                <img data-src="@item.VitrinResim" src="@item.VitrinResim" alt="" class=" lazyload">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="post-list-small__body">
+                                        <h3 class="post-list-small__entry-title">
+                                            <a href="/Default/Detay/@item.Id">@item.Baslik</a>
+                                        </h3>
+                                        <ul class="entry__meta">
+                                            <li class="entry__meta-date">
+                                                <i class="ui-date"></i>
+                                                @item.EklenmeTarihi
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </article>
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+                <div class="tabs__content-pane" id="tab-comments">
+                    <ul class="post-list-small">
+                        @foreach (var item in Model.SonYorumlar)
+                        {
+                            <li class="post-list-small__item">
+                                <article class="post-list-small__entry clearfix">
+                                    <div class="post-list-small__img-holder">
+                                        <div class="thumb-container thumb-75">
+                                            <a href="/Default/Detay/@item.Haber.Id">
+                                                <img data-src="@item.Haber.VitrinResim" src="@item.Haber.VitrinResim" alt="" class=" lazyload">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="post-list-small__body">
+                                        <h3 class="post-list-small__entry-title">
+                                            <a href="/Default/Detay/@item.Haber.Id">@item.Haber.Baslik</a>
+                                        </h3>
+                                        <ul class="entry__meta">
+                                            <li class="entry__meta-date">
+                                                <i class="ui-date"></i>
+                                                @item.EklenmeTarihi
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </article>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div> <!-- end tab content -->
+        </div> <!-- end tabs -->
+    </div>
+    <!-- end widget popular/latest posts -->
+    <!-- Widget Socials -->
+    <div class="widget widget-socials">
+        <h4 class="widget-title">Bizi takip edin</h4>
+        <div class="socials">
+            <a class="social social-facebook social--large" href="https://www.facebook.com/sinemhsrc" title="facebook" target="_blank" aria-label="facebook">
+                <i class="ui-facebook"></i>
+            </a>
+            <!--
+            -->
+            <a class="social social-twitter social--large" href="https://www.twitter.com/sinemhasirciogl" title="twitter" target="_blank" aria-label="twitter">
+                <i class="ui-twitter"></i>
+            </a>
+            <!--
+            -->
+            <a class="social social-google-plus social--large" href="#" title="google" target="_blank" aria-label="google">
+                <i class="ui-google"></i>
+            </a>
+            <!--
+            -->
+            <a class="social social-instagram social--large" href="https://www.instagram.com/sinemhasircioglu" title="instagram" target="_blank" aria-label="instagram">
+                <i class="ui-instagram"></i>
+            </a>
+            <!--
+            -->
+            <a class="social social-youtube social--large" href="#" title="youtube" target="_blank" aria-label="youtube">
+                <i class="ui-youtube"></i>
+            </a>
+            <!--
+            -->
+            <a class="social social-rss social--large" href="#" title="rss" target="_blank" aria-label="rss">
+                <i class="ui-rss"></i>
+            </a>
+        </div>
+    </div> <!-- end widget socials -->
+    <!-- Widget Tags -->
+
+</aside> <!-- end sidebar -->
