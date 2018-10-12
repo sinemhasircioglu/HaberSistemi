@@ -1,0 +1,58 @@
+﻿<header class="nav">
+    <div class="nav__holder nav--sticky">
+        <div class="container relative">
+            <div class="flex-parent">
+                <!-- Mobile logo -->
+                <a href="index.html" class="logo logo--mobile d-lg-none">
+                    <img class="logo__img" src="img/logo_mobile.png" srcset="img/logo_mobile.png 1x, img/logo_mobile@2x.png 2x" alt="logo">
+                </a>
+                <!-- Nav-wrap -->
+                <nav class="flex-child nav__wrap d-none d-lg-block">
+                    <ul class="nav__menu">
+                        <li class="active">
+                            <a href="@Url.Action("Index","Home")">Anasayfa</a>
+                        </li>
+                        <li> <a href="@Url.Action("KategoriyeGoreListele","Home", new {KategoriUrl="guncel"})"> Güncel </a> </li>
+                        <li> <a href="@Url.Action("KategoriyeGoreListele","Home", new {KategoriUrl="spor"})"> Spor </a> </li>
+                        <li> <a href="@Url.Action("KategoriyeGoreListele","Home", new {KategoriUrl="ekonomi"})"> Ekonomi </a> </li>
+                        <li> <a href="@Url.Action("KategoriyeGoreListele","Home", new {KategoriUrl="magazin"})"> Magazin </a> </li>
+                        <li> <a href="@Url.Action("KategoriyeGoreListele","Home", new {KategoriUrl="politika"})"> Politika </a> </li>
+                        <li> <a href="@Url.Action("KategoriyeGoreListele","Home", new {KategoriUrl="teknoloji"})"> Teknoloji </a> </li>
+                        <li> <a href="@Url.Action("KategoriyeGoreListele","Home", new {KategoriUrl="havadurumu"})"> Hava Durumu </a> </li>
+                        <li> <a href="@Url.Action("KategoriyeGoreListele","Home", new {KategoriUrl="dunya"})"> Dünya </a> </li>
+                    </ul> <!-- end menu -->
+                </nav> <!-- end nav-wrap -->
+                <!-- Nav Right -->
+                <div class="nav__right nav--align-right d-lg-flex">
+                    <!-- Search -->
+                    <div class="nav__right-item nav__search">
+                        <a href="#" class="nav__search-trigger" id="nav__search-trigger">
+                            <i class="ui-search nav__search-trigger-icon"></i>
+                        </a>
+                        <div class="nav__search-box" id="nav__search-box">
+                            @using (Html.BeginForm("Arama", "Default", FormMethod.Post, new { @class = "nav__search-form" }))
+                            {
+                                <input type="text" name="kelime" id="kelime" placeholder="Arama.." class="nav__search-input">
+                                <button type="submit" class="search-button btn btn-lg btn-color btn-button">
+                                    <i class="ui-search nav__search-icon"></i>
+                                </button>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <!-- end nav right -->
+                <div>
+                    @if (Session["KullaniciId"] == null)
+                    {
+                        <a href="/Account/Login">Giriş Yap</a>
+                    }
+                    else
+                    {
+                        <a href="/Account/Profil/@Session["KullaniciId"]">Profilim</a>
+                        <a href="/Account/LogOut">Çıkış Yap</a>
+                    }
+                </div>
+            </div> <!-- end flex-parent -->
+        </div> <!-- end container -->
+    </div>
+</header>

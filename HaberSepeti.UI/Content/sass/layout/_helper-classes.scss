@@ -1,0 +1,45 @@
+/*-------------------------------------------------------*/
+/* Helper Classes
+/*-------------------------------------------------------*/
+
+/* Gradients / Overlays
+-------------------------------------------------------*/
+.full-overlay {
+  content: '';
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background-color: rgba(#000,.5);  
+}
+
+.bottom-gradient {
+  position: absolute;
+  width: 100%;
+  height: 50%;
+  bottom: 0;
+  z-index: 1;
+  @include linear-gradient-from-bottom(rgba(#000, .70), transparent);
+}
+
+/* Section Dividers
+-------------------------------------------------------*/
+.top-divider {
+  border-top: 1px solid $border-color;
+}
+
+.bottom-divider {
+  border-bottom: 1px solid $border-color;
+}
+
+
+/* Image Floats
+-------------------------------------------------------*/
+.alignright {
+  float: right;
+  margin: 10px 0 10px 34px; }
+
+.alignleft {
+  float: left;
+  margin: 10px 34px 10px 0; }

@@ -1,0 +1,105 @@
+/*-------------------------------------------------------*/
+/* Footer
+/*-------------------------------------------------------*/
+
+.footer {
+
+  &--dark {
+    background-color: $bg-dark;
+  
+    .widget-title {
+      color: #fff;
+    }
+
+    p, a {
+      color: $text-color;
+    }
+
+    .social {
+      color: #fff;
+    }
+
+    .post-list-small__item,
+    .widget_nav_menu li {
+      border-color: $border-dark-color;
+    }
+
+    .entry__meta li {
+      color: #5f686b;
+    }
+
+    .mc4wp-form-fields input[type=email],
+    .mc4wp-form-fields input[type=text] {
+      background-color: #161718;
+      border-color: transparent;
+      color: #fff;
+
+      &:focus {
+        border-color: #44474a;
+      }
+    }
+  }
+  
+
+  &__widgets {
+    padding: 90px 0;
+    font-family: $heading-font;
+
+    p {
+      font-size: 14px;
+      line-height: 26px;
+    }
+
+    a:hover {
+      color: #fff;
+      text-decoration: underline;
+    }
+
+    @include bp-lg-down {
+      & > .row > div:not(:last-child) {
+        margin-bottom: 50px;
+      }
+    }
+  }  
+}
+
+
+/* Bottom Footer
+-------------------------------------------------------*/
+
+.footer__bottom {
+  padding: 32px 0;
+  background-color: #161718;
+  font-family: $heading-font;
+  font-size: 13px;
+
+  a {
+    color: $text-color;
+
+    &:hover {
+      color: #fff;
+      text-decoration: underline;
+    }
+  }
+
+  .copyright {
+    display: inline-block;
+  }
+
+  @include bp-lg-down {
+    .copyright {
+      margin-top: 15px;
+    }
+  }
+
+  .widget_nav_menu li {
+    display: inline-block;
+    margin-right: 15px;
+    border-bottom: 0;
+    padding: 0;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}

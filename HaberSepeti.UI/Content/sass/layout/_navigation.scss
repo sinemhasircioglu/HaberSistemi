@@ -1,0 +1,698 @@
+/*-------------------------------------------------------*/
+/* Navigation
+/*-------------------------------------------------------*/
+
+.nav {
+  min-height: $nav-height;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  z-index: 120;
+  position: relative;
+  font-weight: 600;
+  @include transition(height .3s ease-in-out);
+
+  &__holder {
+    background-color: $bg-dark;
+  }
+
+  @include bp-lg-up {
+    height: $nav-height;
+
+    .nav.sticky {
+      height: $nav-height;
+    }
+  }
+
+  &__menu,
+  &__dropdown-menu {
+    list-style: none;
+  }
+
+  &__menu {
+    position: relative;
+    @include display-inline-flex;
+    align-items: center;
+
+    & > li {
+      position: relative;
+
+      &.active a:after,
+      &:hover a:after {
+        width: 100%;
+      }
+
+    }
+
+    & > li > a {
+      font-family: $heading-font;
+      color: $nav-color;
+      font-size: 13px;
+      padding: 0 20px;
+      display: block;
+      position: relative;
+      border-left: 1px solid $border-dark-color;
+      border-right: 1px solid $border-dark-color;
+      line-height: $nav-height;
+
+      &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        background-color: $main-color;
+        @include transition($all);
+      }
+
+      &:hover {
+        color: #fff;
+      }
+    }
+  }
+
+  &__dropdown-menu,
+  &__dropdown-submenu > .nav__dropdown-menu {
+
+    & > li > a {
+      font-family: $heading-font;
+    }
+  }
+
+
+  /* Dropdowns (large screen) */
+  @include bp-lg-up {
+
+    &__menu > li {
+      display: inline-block;
+      text-align: center;
+    }
+
+    &__dropdown-menu,
+    &__dropdown-submenu > .nav__dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      padding: 10px 0;
+      z-index: 1000;
+      min-width: 230px;
+      width: 100%;
+      text-align: left;
+      list-style: none;
+      white-space: nowrap;
+      background-color: $bg-dark;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, .10);
+      -webkit-background-clip: padding-box;
+      background-clip: padding-box;
+      display: block;
+      visibility: hidden;
+      opacity: 0;
+      @include transition (all .1s ease-in-out);
+
+
+      & > li > a {
+        color: $text-color;
+        padding: 5px 23px;
+        font-size: 13px;
+        display: block;
+
+        &:hover {
+          color: #fff;
+        }
+      }
+    }
+
+    &__dropdown-menu.hide-dropdown {
+      visibility: hidden !important;
+      opacity: 0 !important;
+    }
+
+    &__dropdown-menu--right {
+      right: 0;
+    }
+
+    &__dropdown:hover > .nav__dropdown-menu,
+    &__dropdown-submenu:hover > .nav__dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    &__dropdown-submenu {
+      position: relative;
+
+      .nav__dropdown-menu {
+        left: 100%;
+        top: 0;
+      }
+    }
+  }
+}
+
+.mobile body {
+  cursor: pointer;
+}
+
+
+/* Header
+-------------------------------------------------------*/
+.header {
+  padding: 23px 0;
+}
+
+
+/* Logo
+-------------------------------------------------------*/
+.logo {
+  line-height: 1;
+}
+
+
+/* Nav Flexbox
+-------------------------------------------------------*/
+
+header .flex-parent {
+  align-items: center;
+  height: $nav-height;
+}
+
+header .flex-child {
+  flex: 1 0 0;
+}
+
+header .flex-child.flex-right {
+  text-align: right;
+}
+
+.nav--align-right {
+  margin-left: auto;
+}
+
+.nav--align-left {
+  margin-right: auto;
+
+  @include bp-md-up {
+    margin-left: 60px;
+  }  
+}
+
+
+/* Nav Right
+-------------------------------------------------------*/
+.nav__right {
+  line-height: $nav-height;
+
+  &-item {
+    margin-right: 28px;
+    font-family: $heading-font;
+    font-size: 13px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  a:hover,
+  a:focus {
+    color: #fff;
+  }
+}
+
+
+/* Nav Socials
+-------------------------------------------------------*/
+.nav__socials {
+  margin-right: 15px;
+}
+
+/* Nav Search
+-------------------------------------------------------*/
+.nav__search {  
+
+  &-box {
+    width: 300px;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    padding: 15px 20px;
+    background-color: $bg-light;
+    display: none;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, .10);
+  }
+
+  &-form {
+    position: relative;
+  }
+
+  &-input {
+    margin-bottom: 0;
+    display: block;
+    line-height: 40px;
+  }
+
+  &-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0 !important;
+    width: 42px;
+  }
+
+  &-trigger {
+    color: $nav-color;
+    font-size: 12px;
+    display: inline-block;
+    width: 50px;
+    height: $nav-height;
+    line-height: 50px;
+    text-align: center;
+    border-left: 1px solid $border-dark-color;
+    border-right: 1px solid $border-dark-color;
+  }
+
+  &-trigger-icon {
+    width: 13px;
+  }
+
+  .ui-close {
+    font-size: 17px;
+    position: relative;
+  }
+
+  @include bp-lg-down {
+
+    &-box {
+      width: 100%;
+    }
+
+    &-trigger {
+      font-size: 16px;
+    }
+
+    .ui-close {
+      font-size: 20px;
+    }    
+  }  
+}
+
+
+
+/* Mobile Search */
+.nav__search-mobile {
+
+  &-form {
+    position: relative;
+  }
+
+  &-input {
+    height: 46px;
+    border: none;
+    background-color: transparent;
+    margin-bottom: 0;
+    font-family: $heading-font;
+    font-size: 13px;
+    color: $nav-color;
+    border-radius: 0;
+    border-bottom: 1px solid #182835;
+
+    &:focus {
+      background-color: transparent;
+      border-color: #fff;
+    }
+  }
+
+  &-submit {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 46px;
+    height: 46px;
+    border: 0;
+    padding: 0;
+    font-size: 14px;
+    cursor: pointer;
+    color: #9AA3AB;
+    background-color: transparent;
+  }
+}
+
+/* Change Color of Placeholders */
+input.nav__search-mobile-input::-webkit-input-placeholder {
+  color: #9AA3AB;
+}
+
+input.nav__search-mobile-input:-moz-placeholder {
+  color: #9AA3AB;
+  opacity: 1;
+}
+
+input.nav__search-mobile-input::-moz-placeholder {
+  color: #9AA3AB;
+  opacity: 1;
+}
+
+input.nav__search-mobile-input:-ms-input-placeholder {
+  color: #9AA3AB;
+}
+
+
+
+/*-------------------------------------------------------*/
+/* Nav Mobile Sidenav
+/*-------------------------------------------------------*/
+
+.sidenav {
+  background-color: $bg-dark;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 320px;
+  font-weight: 600;
+  z-index: 121;
+  overflow-y: auto;
+  @include transition( transform .5s cubic-bezier(0.55, 0, 0.1, 1) );
+  @include transform(translateX(-320px));
+
+  &--is-open {
+    @include transform(translateX(0));
+  }
+}
+
+.content-overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  bottom: 0;
+  z-index: 121;
+  visibility: hidden;
+  opacity: 0;
+  @include transition( .3s cubic-bezier(.16,.36,0,.98) );
+  background-color: rgba(#000,.5);
+
+  &--is-visible {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+
+/* Nav Icon Toggle
+-------------------------------------------------------*/
+.nav-icon-toggle {
+  padding: 0;
+  display: inline-block;
+  cursor: pointer;
+  @include transition( 0.15s linear );
+  font: inherit;
+  color: inherit;
+  text-transform: none;
+  background-color: transparent;
+  border: 0;
+  margin: 0;
+  margin-right: 28px;
+  overflow: visible;
+
+  &:focus {
+    outline: none;
+  }
+
+  &__box {
+    width: 18px;
+    height: 20px;
+    position: relative;
+    display: block;
+  }
+
+  &__inner {
+    display: block;
+    top: 50%;
+    margin-top: -1px;
+  }
+
+  &__inner,
+  &__inner:before,
+  &__inner:after {
+    width: 18px;
+    height: 2px;
+    background-color: $nav-color;
+    position: absolute;
+    @include transition( .2s all );
+  }
+
+  &:hover .nav-icon-toggle__inner,
+  &:hover .nav-icon-toggle__inner:before,
+  &:hover .nav-icon-toggle__inner:after {
+    background-color: #fff;
+  }
+
+  &__inner:before,
+  &__inner:after {
+    content: "";
+    display: block;
+  }
+
+  &__inner:before {
+    top: -6px;
+  }
+
+  &__inner:after {
+    bottom: -6px;
+  }
+}
+
+
+/* Sidenav Menu
+-------------------------------------------------------*/
+
+.sidenav__menu {
+
+  &-container {
+    margin-top: 52px;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  li {
+    position: relative;
+    border-bottom: 1px solid $border-dark-color;
+    font-size: 14px;
+
+    &:last-child {
+      border-bottom: 0;
+    }  
+  } 
+  
+  &-dropdown {
+    overflow: hidden;
+    display: none;
+    background-color: darken($bg-dark, 3%);
+
+    li {
+      border-color: darken($border-dark-color, 3%);
+    }
+
+    a,
+    &:hover,
+    .sidenav__menu-toggle {
+      color: $nav-color;
+    }
+  }
+  
+  &-toggle {
+    position: absolute;
+    top: 0;
+    right: 5px;
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    font-size: 12px;
+    padding: 0;
+    width: 46px;
+    height: 46px;
+    text-align: center;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &--is-open > a {
+    background-color: $bg-dark;
+    color: #fff;
+
+    &:hover {
+      color: #fff;
+    }
+  }
+
+  &--is-open > .sidenav__menu-toggle {
+    @include transform(rotate(180deg));
+    color: #fff;
+
+    &:hover {
+      color: #fff;
+    }
+  }
+
+  &-link {
+    width: 100%;
+    display: block;
+    color: #fff;
+    padding: 12px 22px;
+    font-family: $heading-font;
+    font-size: 15px;
+    @include transition(background .3s ease);
+
+    &:hover,
+    &:focus {
+      color: #fff;
+      background-color: darken($bg-dark, 3%);
+    }
+  }   
+}
+
+
+// Sidenav Close
+.sidenav__close {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+
+  &-button {
+    padding: 0;
+    background: transparent;
+    border: 0;
+    color: $nav-color;
+    width: 24px;
+    height: 24px;
+
+    &:hover {
+      color: $main-color;
+    }
+  }
+
+  &-icon {
+    font-size: 22px;
+    line-height: 24px;
+  }
+}
+
+// Sidenav categories
+.sidenav__menu-link-category {
+  padding-left: 19px;
+}
+
+.sidenav__menu-link--orange { border-left: 3px solid #fc7e19; }
+.sidenav__menu-link--red { border-left: 3px solid #ec3128; }
+.sidenav__menu-link--blue { border-left: 3px solid #0098d0; }
+.sidenav__menu-link--salad { border-left: 3px solid #a3ef41; }
+.sidenav__menu-link--yellow { border-left: 3px solid #ffe744; }
+.sidenav__menu-link--light-blue { border-left: 3px solid #00c9d0; }
+.sidenav__menu-link--violet { border-left: 3px solid #6b41ef; }
+.sidenav__menu-link--purple { border-left: 3px solid #9e45ff; }
+
+
+/* Sidenav Socials
+-------------------------------------------------------*/
+.sidenav__socials {
+  padding: 0 22px;
+  margin-top: 20px;
+}
+
+/* Sticky Nav
+-------------------------------------------------------*/
+.nav--sticky {
+  position: fixed;
+  height: $nav-height;
+  left: 0;
+  right: 0;
+  top: 0;
+
+  &.sticky {
+    z-index: 120;
+    height: $nav-height;
+  }
+}
+
+.nav.sticky {
+  height: $nav-height;
+}
+
+
+/* Go to Top
+-------------------------------------------------------*/
+
+#back-to-top {
+  display: block;
+  z-index: 100;
+  width: 34px;
+  height: 34px;
+  text-align: center;
+  font-size: 12px;
+  position: fixed;
+  bottom: -34px;
+  right: 20px;
+  line-height: 32px;
+  background-color: rgba($bg-dark, .5);
+  box-shadow: 1px 1.732px 12px 0px rgba(0, 0, 0, 0.03);
+  border-radius: 2px;
+  @include transition ($all);
+  text-decoration: none;
+
+  i {
+    @include transition ($all);
+  }
+
+  a {
+    display: block;
+    color: #fff;
+  }
+
+  &.show {
+    bottom: 20px;
+  }
+
+  &:hover {
+    background-color: $main-color;
+    border-color: transparent;
+  }
+
+  &:hover i {
+    color: #fff;
+  }
+}
+
+
+/*-------------------------------------------------------*/
+/* Nav Mobile Styles
+/*-------------------------------------------------------*/
+
+@include bp-lg-down {
+
+  .nav {
+
+    &__header {
+      height: $nav-height;
+    }
+
+    &__wrap {
+      text-align: left;
+    }
+  }
+
+  // Logo
+  .logo {
+    line-height: 1;
+    position: absolute;
+    left: 50%;
+    @include transform(translateX(-50%));
+    text-align: center;
+  }
+}
