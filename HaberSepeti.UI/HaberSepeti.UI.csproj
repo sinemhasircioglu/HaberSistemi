@@ -191,6 +191,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Class\BootStrapper.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -235,6 +236,7 @@
     <Content Include="Views\Default\Sidebar.cshtml" />
     <Content Include="Views\Default\Etiketler.cshtml" />
     <Content Include="Views\Default\EtiketeGoreListele.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
