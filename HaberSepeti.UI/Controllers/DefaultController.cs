@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using PagedList;
 using HaberSepeti.UI.Models.ViewModels;
+using HaberSepeti.Data.Model;
 
 namespace HaberSepeti.UI.Controllers
 {
@@ -16,15 +17,17 @@ namespace HaberSepeti.UI.Controllers
         private readonly IYorumRepository _yorumRepository;
         private readonly ISliderRepository _sliderRepository;
         private readonly IEtiketRepository _etiketRepository;
+        private readonly IKullaniciRepository _kullaniciRepository;
 
         public DefaultController(IHaberRepository haberRepository, IKategoriRepository kategoriRepository, IYorumRepository yorumRepository, ISliderRepository sliderRepository,
-            IEtiketRepository etiketRepository)
+            IEtiketRepository etiketRepository, IKullaniciRepository kullaniciRepository)
         {
             _haberRepository = haberRepository;
             _kategoriRepository = kategoriRepository;
             _yorumRepository = yorumRepository;
             _sliderRepository = sliderRepository;
             _etiketRepository = etiketRepository;
+            _kullaniciRepository = kullaniciRepository;
         }
 
         public ActionResult Index()
@@ -64,20 +67,50 @@ namespace HaberSepeti.UI.Controllers
 
         public ActionResult Detay(int Id)
         {
-            var haber = _haberRepository.Get(x => x.Id == Id);
-            if (haber == null)
+            DetayViewModel model = new DetayViewModel
             {
-                return HttpNotFound();
-            }
-            return View(haber);
+                Haber = _haberRepository.Get(x => x.Id == Id),
+                Yorumlar = _yorumRepository.GetMany(x => x.HaberId == Id),
+                IliskiliHaberler = _haberRepository.GetAll().OrderByDescending(x => x.Id).Take(3),
+                Slider = _sliderRepository.Get(x => x.Id == Id),
+            };
+            return View(model);
         }
 
-        public ActionResult OkunmaArttir(int Id)
+        public ActionResult YorumYap(string icerik, int haberId)
         {
-            var haber = _haberRepository.Get(x => x.Id == Id);
+            var sessionControl = HttpContext.Session["KullaniciId"];
+            Kullanici kullanici = _kullaniciRepository.Get(x => x.Id == (int)sessionControl);
+            if (icerik != null)
+            {
+                Yorum yeniyorum = new Yorum
+                {
+                    Icerik = icerik,
+                    HaberId = haberId,
+                    KullaniciId = kullanici.Id,
+                    EklenmeTarihi = DateTime.Now,
+                };
+                try
+                {
+                    _yorumRepository.Insert(yeniyorum);
+                    _yorumRepository.Save();
+                    return RedirectToAction("Detay/" + haberId, "Default");
+                }
+                catch
+                {
+                    return RedirectToAction("Detay/" + haberId, "Default");
+                }
+            }
+            return RedirectToAction("Detay/" + haberId, "Default");
+        }
+
+        public ActionResult OkunmaArttir(int haberId)
+        {
+            var haber = _haberRepository.GetById(haberId);
             haber.Okunma += 1;
             _haberRepository.Save();
             return View();
+
         }
 
         public ActionResult Etiketler()
@@ -93,5 +126,6 @@ namespace HaberSepeti.UI.Controllers
             ViewBag.EtiketAd = etiketAdi;
             return View(etiketHaberler);
         }
+
     }
 }

@@ -8,7 +8,7 @@
     <div class="tagcloud">
         @foreach (var item in Model)
         {
-            <a href="@Url.Action("EtiketeGoreListele","Home", new {etiketAdi=item.EtiketAdi})">@item.EtiketAdi</a>
+            <a href="@Url.Action("EtiketeGoreListele","Default", new {etiketAdi=item.EtiketAdi})">@item.EtiketAdi</a>
         }
     </div>
 </div>

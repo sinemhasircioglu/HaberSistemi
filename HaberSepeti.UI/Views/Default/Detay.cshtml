@@ -1,6 +1,258 @@
-﻿@model HaberSepeti.Data.Model.Haber
-@{
-    ViewBag.Title = "Detay";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿@model HaberSepeti.UI.Models.ViewModels.DetayViewModel
+    @{
+        ViewBag.Title = "Detay";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
 
+    <div class="col-lg-8 blog__content mb-30">
+        <!-- Breadcrumbs -->
+        <ul class="breadcrumbs">
+            <li class="breadcrumbs__item">
+                <a href="/Default/Index" class="breadcrumbs__url"><i class="ui-home"></i></a>
+            </li>
+            <li class="breadcrumbs__item">
+                <a href="/Default/Index" class="breadcrumbs__url">Haber</a>
+            </li>
+            <li class="breadcrumbs__item breadcrumbs__item--current">
+            </li>
+        </ul>
+
+
+        <!-- standard post -->
+        <article class="entry">
+
+            @if (Model.Haber != null)
+            {
+                <div class="single-post__entry-header entry__header">
+                    <a href="@Url.Action("KategoriyeGoreListele","Default", new {KategoriUrl=Model.Haber.Kategori.URL})" class="entry__meta-category">@Model.Haber.Kategori.Ad</a>
+                    <h1 class="single-post__entry-title">
+                        @Model.Haber.Baslik
+                    </h1>
+                    <ul class="entry__meta">
+                        <li class="entry__meta-author">
+                            <i class="ui-author"></i>
+                            <a href="#">@Model.Haber.Kullanici.AdSoyad</a>
+                        </li>
+                        <li class="entry__meta-date">
+                            <i class="ui-date"></i>
+                            @Model.Haber.EklenmeTarihi
+                        </li>
+                        <li class="entry__meta-comments">
+                            <i class="ui-comments"></i>
+                            <a href="#">@Model.Haber.Okunma</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="entry__img-holder">
+                    <img src="@Model.Haber.VitrinResim" alt="@Model.Haber.Baslik" class="entry__img">
+                </div>
+                <!-- Share -->
+                <div class="entry__share">
+                    <div class="socials entry__share-socials">
+                        <a href="https://www.facebook.com/sinemhsrc" class="social social-facebook entry__share-social social--wide social--medium">
+                            <i class="ui-facebook"></i>
+                            <span class="social__text">Share on Facebook</span>
+                        </a>
+                        <a href="https://twitter.com/SinemHasirciogl" class="social social-twitter entry__share-social social--wide social--medium">
+                            <i class="ui-twitter"></i>
+                            <span class="social__text">Share on Twitter</span>
+                        </a>
+                        <a href="#" class="social social-google-plus entry__share-social social--medium">
+                            <i class="ui-google"></i>
+                        </a>
+                        <a href="#" class="social social-pinterest entry__share-social social--medium">
+                            <i class="ui-pinterest"></i>
+                        </a>
+                    </div>
+                </div> <!-- share -->
+
+                <div class="entry__article">
+                    @Html.Raw(Model.Haber.Aciklama)
+                    <!-- tags -->
+                    <div class="entry__tags">
+                        <span class="entry__tags-label">Etiketler:</span>
+                        @foreach (var item in Model.Haber.Etikets)
+                        {
+                            <a href="@Url.Action("EtiketeGoreListele","Home", new {etiketAdi=item.EtiketAdi})" rel="tag">@item.EtiketAdi</a>
+                        }
+                    </div>
+                    <!-- end tags -->
+                </div>
+                <!-- end entry article -->
+                <!-- Author -->
+                <div class="title-wrap mt-40">
+                    <h5 class="uppercase">Yazar</h5>
+                </div>
+                <div class="entry-author clearfix">
+                    <img alt="" data-src="~/External/Kullanici/avatar.png" src="~/External/Kullanici/avatar.png" class="avatar lazyloaded" width="100">
+                    <div class="entry-author__info">
+                        <h6 class="entry-author__name">
+                            <a href="#">@Model.Haber.Kullanici.AdSoyad</a>
+                        </h6>
+                        <p class="mb-0"></p>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="single-post__entry-header entry__header">
+
+                    <h1 class="single-post__entry-title">
+                        @Model.Slider.Baslik
+                    </h1>
+                </div>
+                <div class="entry__img-holder">
+                    <img src="@Model.Slider.ResimURL" alt="@Model.Slider.Baslik" class="entry__img">
+                </div>
+                <!-- Share -->
+                <div class="entry__share">
+                    <div class="socials entry__share-socials">
+                        <a href="https://www.facebook.com/sinemhsrc" class="social social-facebook entry__share-social social--wide social--medium">
+                            <i class="ui-facebook"></i>
+                            <span class="social__text">Share on Facebook</span>
+                        </a>
+                        <a href="https://twitter.com/SinemHasirciogl" class="social social-twitter entry__share-social social--wide social--medium">
+                            <i class="ui-twitter"></i>
+                            <span class="social__text">Share on Twitter</span>
+                        </a>
+                        <a href="#" class="social social-google-plus entry__share-social social--medium">
+                            <i class="ui-google"></i>
+                        </a>
+                        <a href="#" class="social social-pinterest entry__share-social social--medium">
+                            <i class="ui-pinterest"></i>
+                        </a>
+                    </div>
+                </div> <!-- share -->
+
+                <div class="entry__article">
+                    @Html.Raw(Model.Slider.Aciklama)
+                    <!-- tags -->
+                    <div class="entry__tags">
+                        <span class="entry__tags-label">Etiketler:</span>
+
+                    </div>
+                    <!-- end tags -->
+                </div>
+                <!-- end entry article -->
+
+            }
+
+            <!-- Related Posts -->
+            <div class="related-posts">
+                <div class="title-wrap mt-40">
+                    <h5 class="uppercase">Related Posts</h5>
+                </div>
+                <div class="row row-20">
+                    @foreach (var item in Model.IliskiliHaberler)
+                    {
+                        <div class="col-md-4">
+                            <article class="entry">
+                                <div class="entry__img-holder">
+                                    <a href="/Default/Detay/@item.Id">
+                                        <div class="thumb-container thumb-75">
+                                            <img data-src="@item.VitrinResim" src="@item.VitrinResim" class="entry__img lazyloaded" alt="">
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="entry__body">
+                                    <div class="entry__header">
+                                        <h2 class="entry__title entry__title--sm">
+                                            <a href="/Default/Detay/@item.Id">@item.Baslik</a>
+                                        </h2>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    }
+                </div>
+            </div>
+            <!-- end related posts -->
+        </article> <!-- end standard post -->
+        <!-- Comments -->
+        <div class="entry-comments mt-30">
+            <div class="title-wrap mt-40">
+                <h5 class="uppercase">@Model.Yorumlar.Count() yorum</h5>
+            </div>
+            <ul class="comment-list">
+                @foreach (var item in Model.Yorumlar)
+                {
+                    if (item.AktifMi == true)
+                    {
+                        <li class="comment">
+                            <div class="comment-body">
+                                <div class="comment-avatar">
+                                    <img alt="" src="~/External/Kullanici/avatar.png" width="100">
+                                </div>
+                                <div class="comment-text">
+                                    <h6 class="comment-author">@item.Kullanici.AdSoyad</h6>
+                                    <div class="comment-metadata">
+                                        <a href="#" class="comment-date">@item.EklenmeTarihi</a>
+                                    </div>
+                                    <p>@item.Icerik</p>
+                                </div>
+                            </div>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+        <!-- end comments -->
+        @if (Session["KullaniciId"] != null)
+        {
+            <div id="respond" class="comment-respond">
+                <div class="title-wrap">
+                    <h5 class="comment-respond__title uppercase">Yorum yapın</h5>
+                </div>
+                @using (Html.BeginForm("YorumYap", "Home", FormMethod.Post, new { @class = "comment-form" }))
+                {
+                    <div class="form-group comment-form-comment">
+                        <input type="text" id="icerik" name="icerik" multiple required="required" placeholder="Yorumunuz" width="200" />
+                    </div>
+
+                    <div class="form-group comment-form-submit">
+                        <a href="@Url.Action("YorumYap", "Default", new { haberId=Model.Haber.Id})" name="Yorumyap" id="Yorumyap" class="btn btn-default btn-sm" type="submit">yorum yap</a>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <h2>
+                Yorum yapmak için giriş yapınız. <br />
+                <a href="/Account/Login/" style="color:blue">Giriş yap</a>
+            </h2>
+        }
+        <!-- Comment Form -->
+        <!-- end comment form -->
+    </div>
+
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery.min.js"></script>
+    @if (Model.Haber != null)
+    {
+        <script type="text/javascript">
+
+     $(document).ready(function(){
+        $("#Yorumyap").click(function () {
+            var yorumunuz = $("#icerik").val();
+            $.ajax({
+                url: '/Default/YorumYap/',
+                data: {icerik:yorumunuz, haberId:@Model.Haber.Id},
+                type: 'POST',
+                dataType: 'json',
+                success: function (data) { }
+                });
+        });
+    })
+        </script>
+
+        <script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            url: '/Default/OkunmaArttir/',
+            data: { haberId:@Model.Haber.Id},
+            type: 'POST',
+        });
+    })
+        </script>
+    }
