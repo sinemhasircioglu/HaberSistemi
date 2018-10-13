@@ -1,0 +1,14 @@
+﻿@model List<HaberSepeti.Data.Model.Etiket>
+@{
+    Layout = null;
+}
+
+<div class="widget widget_tag_cloud">
+    <h4 class="widget-title">Etiketler</h4>
+    <div class="tagcloud">
+        @foreach (var item in Model)
+        {
+            <a href="@Url.Action("EtiketeGoreListele","Home", new {etiketAdi=item.EtiketAdi})">@item.EtiketAdi</a>
+        }
+    </div>
+</div>

@@ -15,13 +15,16 @@ namespace HaberSepeti.UI.Controllers
         private readonly IKategoriRepository _kategoriRepository;
         private readonly IYorumRepository _yorumRepository;
         private readonly ISliderRepository _sliderRepository;
+        private readonly IEtiketRepository _etiketRepository;
 
-        public DefaultController(IHaberRepository haberRepository, IKategoriRepository kategoriRepository, IYorumRepository yorumRepository, ISliderRepository sliderRepository)
+        public DefaultController(IHaberRepository haberRepository, IKategoriRepository kategoriRepository, IYorumRepository yorumRepository, ISliderRepository sliderRepository,
+            IEtiketRepository etiketRepository)
         {
             _haberRepository = haberRepository;
             _kategoriRepository = kategoriRepository;
             _yorumRepository = yorumRepository;
             _sliderRepository = sliderRepository;
+            _etiketRepository = etiketRepository;
         }
 
         public ActionResult Index()
@@ -69,13 +72,26 @@ namespace HaberSepeti.UI.Controllers
             return View(haber);
         }
 
-
         public ActionResult OkunmaArttir(int Id)
         {
             var haber = _haberRepository.Get(x => x.Id == Id);
             haber.Okunma += 1;
             _haberRepository.Save();
             return View();
+        }
+
+        public ActionResult Etiketler()
+        {
+            var etiketler = _etiketRepository.GetAll().Take(30).ToList();
+            return View(etiketler);
+        }
+
+        public ActionResult EtiketeGoreListele(string etiketAdi, int sayfa = 1)
+        {
+            int sayfaBoyutu = 4;
+            var etiketHaberler = _haberRepository.GetAll().Where(x => x.Etikets.Any(y => y.EtiketAdi == etiketAdi)).OrderByDescending(x => x.Id).ToPagedList(sayfa, sayfaBoyutu);
+            ViewBag.EtiketAd = etiketAdi;
+            return View(etiketHaberler);
         }
     }
 }

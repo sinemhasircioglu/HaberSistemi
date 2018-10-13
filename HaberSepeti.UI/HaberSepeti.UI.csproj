@@ -232,6 +232,8 @@
     <Content Include="Views\Shared\_Header.cshtml" />
     <Content Include="Views\Default\SliderGoruntule.cshtml" />
     <Content Include="Views\Default\Sidebar.cshtml" />
+    <Content Include="Views\Default\Etiketler.cshtml" />
+    <Content Include="Views\Default\EtiketeGoreListele.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

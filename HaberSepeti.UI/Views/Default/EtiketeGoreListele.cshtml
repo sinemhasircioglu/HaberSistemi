@@ -1,0 +1,60 @@
+﻿@using PagedList.Mvc;
+@model PagedList.IPagedList<HaberSepeti.Data.Model.Haber>
+@{
+    ViewBag.Title = "EtiketeGoreListele";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-lg-8 blog__content mb-30">
+
+    <div class="title-wrap">
+        <h1>Etiket: @ViewBag.EtiketAd</h1>
+    </div>
+
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-6">
+                <article class="entry">
+                    <div class="entry__img-holder">
+                        <a href="/Home/Detay/@item.Id">
+                            <div class="thumb-container thumb-75">
+                                <img data-src="@item.VitrinResim" src="@item.VitrinResim" class="entry__img lazyloaded" alt="">
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="entry__body">
+                        <div class="entry__header">
+                            <h2 class="entry__title">
+                                <a href="/Home/Detay/@item.Id">@item.Baslik</a>
+                            </h2>
+                            <ul class="entry__meta">
+                                <li class="entry__meta-author">
+                                    <i class="ui-author"></i>
+                                    <a href="#">@item.Kullanici.AdSoyad</a>
+                                </li>
+                                <li class="entry__meta-date">
+                                    <i class="ui-date"></i>
+                                    @item.EklenmeTarihi.ToString("dddd, dd MMMM yyyy")
+                                </li>
+                                <li class="entry__meta-comments">
+                                    <i class="ui-comments"></i>
+                                    <a href="#">@item.Okunma</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="entry__excerpt">
+                            <p>@item.Aciklama.Substring(0, 100)</p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        }
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+        @Html.PagedListPager(Model, sayfa => Url.Action("EtiketeGoreListele", new { sayfa, etiketAdi = ViewBag.EtiketAd }), PagedListRenderOptions.Classic)
+    </div>
+</div>
