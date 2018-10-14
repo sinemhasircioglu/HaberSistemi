@@ -1,4 +1,5 @@
 ﻿using HaberSepeti.Core.Infrastructure;
+using HaberSepeti.Data.Model;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -24,5 +25,15 @@ namespace HaberSepeti.Admin.Controllers
             return View(kullaniciListesi);
         }
 
+        public ActionResult Sil(int id)
+        {
+            Kullanici kullanici = _kullaniciRepository.GetById(id);
+            if (kullanici == null)
+                TempData["Bilgi"] = "Kullanıcı bulunamadı!";
+            _kullaniciRepository.Delete(id);
+            _kullaniciRepository.Save();
+            TempData["Bilgi"] = "Kullanıcı başarıyla silindi";
+            return RedirectToAction("Index", "Kullanici");
+        }
     }
 }
