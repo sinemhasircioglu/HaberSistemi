@@ -35,5 +35,49 @@ namespace HaberSepeti.Admin.Controllers
             TempData["Bilgi"] = "Kullanıcı başarıyla silindi";
             return RedirectToAction("Index", "Kullanici");
         }
+
+        public ActionResult MakeAdmin(int id)
+        {
+            Kullanici kullanici = _kullaniciRepository.GetById(id);
+            if (kullanici == null)
+                TempData["Bilgi"] = "Kullanıcı bulunamadı!";
+            kullanici.RolId = 1;
+            _kullaniciRepository.Save();
+            TempData["Bilgi"] = "Kullanıcı artık admin";
+            return RedirectToAction("Index", "Kullanici");
+        }
+
+        public ActionResult MakeEditor(int id)
+        {
+            Kullanici kullanici = _kullaniciRepository.GetById(id);
+            if (kullanici == null)
+                TempData["Bilgi"] = "Kullanıcı bulunamadı!";
+            kullanici.RolId = 2;
+            _kullaniciRepository.Save();
+            TempData["Bilgi"] = "Kullanıcı artık editör";
+            return RedirectToAction("Index", "Kullanici");
+        }
+
+        public ActionResult MakeAuthor(int id)
+        {
+            Kullanici kullanici = _kullaniciRepository.GetById(id);
+            if (kullanici == null)
+                TempData["Bilgi"] = "Kullanıcı bulunamadı!";
+            kullanici.RolId = 4;
+            _kullaniciRepository.Save();
+            TempData["Bilgi"] = "Kullanıcı artık yazar";
+            return RedirectToAction("Index", "Kullanici");
+        }
+
+        public ActionResult MakeMember(int id)
+        {
+            Kullanici kullanici = _kullaniciRepository.GetById(id);
+            if (kullanici == null)
+                TempData["Bilgi"] = "Kullanıcı bulunamadı!";
+            kullanici.RolId = 3;
+            _kullaniciRepository.Save();
+            TempData["Bilgi"] = "Kullanıcı artık sadece üye";
+            return RedirectToAction("Index", "Kullanici");
+        }
     }
 }

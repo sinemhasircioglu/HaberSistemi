@@ -46,6 +46,25 @@
                                     }
                                 </td>
                                 <td>
+                                    @if (item.RolId == 3)
+                                    {
+                                        <a href="@Url.Action("MakeAdmin","Kullanici",new { Id=item.Id})" class="btn btn-default btn-sm">Admin yap</a>
+                                        <a href="@Url.Action("MakeEditor","Kullanici",new { Id=item.Id})" class="btn btn-default btn-sm">Editör yap</a>
+                                        <a href="@Url.Action("MakeAuthor","Kullanici",new { Id=item.Id})" class="btn btn-default btn-sm">Yazar yap</a>
+                                    }
+                                    else if (item.RolId == 2)
+                                    {
+                                        <a href="@Url.Action("MakeAdmin","Kullanici",new { Id=item.Id})" class="btn btn-default btn-sm">Admin yap</a>
+                                    }
+                                    else if (item.RolId == 4)
+                                    {
+                                        <a href="@Url.Action("MakeAdmin","Kullanici",new { Id=item.Id})" class="btn btn-default btn-sm">Admin yap</a>
+                                        <a href="@Url.Action("MakeEditor","Kullanici",new { Id=item.Id})" class="btn btn-default btn-sm">Editör yap</a>
+                                    }
+                                    @if (item.RolId != 3)
+                                    {
+                                        <a href="@Url.Action("MakeMember","Kullanici",new { Id=item.Id})" class="btn btn-default btn-sm">Yetki al</a>
+                                    }
                                     <a href="@Url.Action("Sil","Kullanici", new { Id=item.Id })" class="btn btn-default btn-sm">Sil</a>
                                 </td>
                             </tr>
