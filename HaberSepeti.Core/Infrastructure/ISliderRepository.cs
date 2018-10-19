@@ -1,4 +1,4 @@
-﻿using HaberSepeti.Data.Model;
+﻿using HaberSepeti.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

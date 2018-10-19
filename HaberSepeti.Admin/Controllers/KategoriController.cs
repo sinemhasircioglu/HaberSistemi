@@ -1,6 +1,6 @@
 ﻿using HaberSepeti.Admin.Class;
 using HaberSepeti.Core.Infrastructure;
-using HaberSepeti.Data.Model;
+using HaberSepeti.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +13,11 @@ namespace HaberSepeti.Admin.Controllers
 {
     public class KategoriController : Controller
     {
-        private readonly IKategoriRepository _kategoriRepository;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public KategoriController(IKategoriRepository kategoriRepository)
+        public KategoriController(ICategoryRepository categoryRepository)
         {
-            _kategoriRepository = kategoriRepository;
+            _categoryRepository = categoryRepository;
         }
 
         [HttpGet]
@@ -25,7 +25,7 @@ namespace HaberSepeti.Admin.Controllers
         public ActionResult Index(int sayfa = 1)
         {
             int sayfaBoyutu = 5;
-            return View(_kategoriRepository.GetAll().OrderByDescending(x => x.Id).ToPagedList(sayfa, sayfaBoyutu));
+            return View(_categoryRepository.GetAll().OrderByDescending(x => x.Id).ToPagedList(sayfa, sayfaBoyutu));
         }
 
         [HttpGet]
@@ -39,28 +39,28 @@ namespace HaberSepeti.Admin.Controllers
         [HttpPost]
         [LoginFilter]
         [ValidateInput(false)]
-        public ActionResult Ekle(Kategori kategori)
+        public ActionResult Ekle(Category category)
         {
-            _kategoriRepository.Insert(kategori);
-            _kategoriRepository.Save();
+            _categoryRepository.Insert(category);
+            _categoryRepository.Save();
             TempData["Bilgi"] = "Kategori ekleme işleminiz başarılı";
             return RedirectToAction("Index", "Kategori");
         }
 
         public void SetKategoriListele()
         {
-            var KategoriList = _kategoriRepository.GetMany(x => x.ParentId == 0).ToList();
+            var KategoriList = _categoryRepository.GetMany(x => x.ParentId == 0).ToList();
             ViewBag.Kategori = KategoriList;
         }
 
         [LoginFilter]
         public ActionResult Sil(int id)
         {
-            Kategori kategori = _kategoriRepository.GetById(id);
+            Category kategori = _categoryRepository.GetById(id);
             if (kategori == null)
                 TempData["Bilgi"] = "Kategori bulunamadı!";
-            _kategoriRepository.Delete(id);
-            _kategoriRepository.Save();
+            _categoryRepository.Delete(id);
+            _categoryRepository.Save();
             TempData["Bilgi"] = "Kategori başarıyla silindi";
             return RedirectToAction("Index", "Kategori");
         }
@@ -69,7 +69,7 @@ namespace HaberSepeti.Admin.Controllers
         [LoginFilter]
         public ActionResult Duzenle(int id)
         {
-            Kategori gelenKategori = _kategoriRepository.GetById(id);
+            Category gelenKategori = _categoryRepository.GetById(id);
             if (gelenKategori == null)
                 TempData["Bilgi"] = "Kategori bulunamadı!";
             SetKategoriListele();
@@ -78,14 +78,14 @@ namespace HaberSepeti.Admin.Controllers
 
         [HttpPost]
         [LoginFilter]
-        public ActionResult Duzenle(Kategori kategori)
+        public ActionResult Duzenle(Category kategori)
         {
-            Kategori dbKategori = _kategoriRepository.GetById(kategori.Id);
-            dbKategori.AktifMi = kategori.AktifMi;
-            dbKategori.Ad = kategori.Ad;
+            Category dbKategori = _categoryRepository.GetById(kategori.Id);
+            dbKategori.IsActive = kategori.IsActive;
+            dbKategori.Name = kategori.Name;
             dbKategori.URL = kategori.URL;
             dbKategori.ParentId = kategori.ParentId;
-            _kategoriRepository.Save();
+            _categoryRepository.Save();
             TempData["Bilgi"] = "Kategori düzenleme işleminiz başarılı.";
             return RedirectToAction("Index", "Kategori");
         }

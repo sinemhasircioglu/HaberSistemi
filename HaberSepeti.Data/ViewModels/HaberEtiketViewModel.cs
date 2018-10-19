@@ -1,4 +1,4 @@
-﻿using HaberSepeti.Data.Model;
+﻿using HaberSepeti.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +9,12 @@ namespace HaberSepeti.Data.ViewModels
 {
     public class HaberEtiketViewModel
     {
-        public Haber Haber { get; set; }
+        public News News { get; set; }
 
         public string[] GelenEtiketler { get; set; }
 
-        public IEnumerable<Etiket> Etiketler { get; set; }
+        public IEnumerable<Tag> Tags { get; set; }
 
-        public string EtiketAdi { get; set; }
+        public string TagName { get; set; }
     }
 }

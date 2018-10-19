@@ -1,4 +1,4 @@
-﻿using HaberSepeti.Data.Model;
+﻿using HaberSepeti.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +10,6 @@ namespace HaberSepeti.UI.Models.ViewModels
     {
         public IEnumerable<Slider> Slider { get; set; }
 
-        public IEnumerable<Haber> Haber { get; set; }
+        public IEnumerable<News> Haber { get; set; }
     }
 }

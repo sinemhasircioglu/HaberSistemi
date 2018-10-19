@@ -1,4 +1,4 @@
-﻿using HaberSepeti.Data.Model;
+﻿using HaberSepeti.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,12 +8,12 @@ namespace HaberSepeti.UI.Models.ViewModels
 {
     public class DetayViewModel
     {
-        public Haber Haber { get; set; }
+        public News Haber { get; set; }
 
         public Slider Slider { get; set; }
 
-        public IEnumerable<Yorum> Yorumlar { get; set; }
+        public IEnumerable<Comment> Yorumlar { get; set; }
 
-        public IEnumerable<Haber> IliskiliHaberler { get; set; }
+        public IEnumerable<News> IliskiliHaberler { get; set; }
     }
 }

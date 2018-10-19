@@ -1,5 +1,5 @@
 ﻿using HaberSepeti.Core.Infrastructure;
-using HaberSepeti.Data.Model;
+using HaberSepeti.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +10,9 @@ namespace HaberSepeti.Admin.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IKullaniciRepository _kullaniciRepository;
+        private readonly IUserRepository _kullaniciRepository;
 
-        public AccountController(IKullaniciRepository kullaniciRepository)
+        public AccountController(IUserRepository kullaniciRepository)
         {
             _kullaniciRepository = kullaniciRepository;
         }
@@ -24,12 +24,12 @@ namespace HaberSepeti.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(Kullanici kullanici) //giriş yap butonuna basınca çalışacak kodlar
+        public ActionResult Login(User kullanici) //giriş yap butonuna basınca çalışacak kodlar
         {
-            var KullaniciVarMi = _kullaniciRepository.GetMany(x => x.Email == kullanici.Email && x.Sifre == kullanici.Sifre && x.AktifMi == true).SingleOrDefault();
+            var KullaniciVarMi = _kullaniciRepository.GetMany(x => x.Email == kullanici.Email && x.Password == kullanici.Password && x.IsActive == true).SingleOrDefault();
             if(KullaniciVarMi != null)
             {
-                if(KullaniciVarMi.Rol.Ad == "Admin")
+                if(KullaniciVarMi.Role.Name == "Admin")
                 {
                     Session["KullaniciEmail"] = KullaniciVarMi.Email;
                     return RedirectToAction("Index","Home");

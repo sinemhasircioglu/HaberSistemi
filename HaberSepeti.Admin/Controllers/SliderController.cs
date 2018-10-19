@@ -1,7 +1,6 @@
 ﻿using HaberSepeti.Admin.Class;
 using HaberSepeti.Admin.CustomFilter;
 using HaberSepeti.Core.Infrastructure;
-using HaberSepeti.Data.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using PagedList;
 using System.IO;
+using HaberSepeti.Data.Entities;
 
 namespace HaberSepeti.Admin.Controllers
 {
@@ -51,7 +51,7 @@ namespace HaberSepeti.Admin.Controllers
                     string Uzanti = System.IO.Path.GetExtension(Request.Files[0].FileName);
                     string ResimYolu = "C:\\Users\\sinem\\Source\\Repos\\HaberSepeti\\Exter\\Slider\\" + Dosya + Uzanti;
                     ResimURL.SaveAs(ResimYolu);
-                    slider.ResimURL = ResimYolu;
+                    slider.PictureURL = ResimYolu;
                 }
                 _sliderRepository.Insert(slider);
                 try
@@ -88,15 +88,15 @@ namespace HaberSepeti.Admin.Controllers
             if (ModelState.IsValid)
             {
                 Slider dbSlider = _sliderRepository.GetById(slider.Id);
-                dbSlider.Aciklama = slider.Aciklama;
-                dbSlider.AktifMi = slider.AktifMi;
-                dbSlider.Baslik = slider.Baslik;
+                dbSlider.Description = slider.Description;
+                dbSlider.IsActive = slider.IsActive;
+                dbSlider.Title = slider.Title;
                 dbSlider.URL = slider.URL;
                 if(ResimURL != null && ResimURL.ContentLength > 0)
                 {
-                    if(dbSlider.ResimURL != null)
+                    if(dbSlider.PictureURL != null)
                     {
-                        string url = dbSlider.ResimURL;
+                        string url = dbSlider.PictureURL;
                         string resimPath = Server.MapPath(url);
                         FileInfo img = new FileInfo(resimPath);
                         if (img.Exists)
@@ -108,7 +108,7 @@ namespace HaberSepeti.Admin.Controllers
                     string Uzanti = System.IO.Path.GetExtension(Request.Files[0].FileName);
                     string ResimYolu = "C:\\Users\\sinem\\Source\\Repos\\HaberSepeti\\Exter\\Slider\\" + Dosya + Uzanti;
                     ResimURL.SaveAs(ResimYolu);
-                    dbSlider.ResimURL = ResimYolu;
+                    dbSlider.PictureURL = ResimYolu;
                 }
                 try
                 {
@@ -135,9 +135,9 @@ namespace HaberSepeti.Admin.Controllers
                 TempData["Bilgi"] = "Slider bulunamadı!";
                 return RedirectToAction("Index", "Slider");
             }
-            if(dbSlider.ResimURL!=null)
+            if(dbSlider.PictureURL!=null)
             {
-                string resimUrl = dbSlider.ResimURL;
+                string resimUrl = dbSlider.PictureURL;
                 string resimPath = Server.MapPath(resimUrl);
                 FileInfo img = new FileInfo(resimPath);
                 if (img.Exists)

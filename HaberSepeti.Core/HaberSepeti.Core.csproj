@@ -47,24 +47,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Infrastructure\IEtiketRepository.cs" />
-    <Compile Include="Infrastructure\IHaberRepository.cs" />
-    <Compile Include="Infrastructure\IKategoriRepository.cs" />
-    <Compile Include="Infrastructure\IKullaniciRepository.cs" />
+    <Compile Include="Infrastructure\ITagRepository.cs" />
+    <Compile Include="Infrastructure\INewsRepository.cs" />
+    <Compile Include="Infrastructure\ICategoryRepository.cs" />
+    <Compile Include="Infrastructure\IUserRepository.cs" />
     <Compile Include="Infrastructure\IRepository.cs" />
-    <Compile Include="Infrastructure\IResimRepository.cs" />
-    <Compile Include="Infrastructure\IRolRepository.cs" />
+    <Compile Include="Infrastructure\IPictureRepository.cs" />
+    <Compile Include="Infrastructure\IRoleRepository.cs" />
     <Compile Include="Infrastructure\ISliderRepository.cs" />
-    <Compile Include="Infrastructure\IYorumRepository.cs" />
+    <Compile Include="Infrastructure\ICommentRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repository\EtiketRepository.cs" />
-    <Compile Include="Repository\HaberRepository.cs" />
-    <Compile Include="Repository\KategoriRepository.cs" />
-    <Compile Include="Repository\KullaniciRepository.cs" />
-    <Compile Include="Repository\ResimRepository.cs" />
-    <Compile Include="Repository\RolRepository.cs" />
+    <Compile Include="Repository\TagRepository.cs" />
+    <Compile Include="Repository\NewsRepository.cs" />
+    <Compile Include="Repository\CategoryRepository.cs" />
+    <Compile Include="Repository\UserRepository.cs" />
+    <Compile Include="Repository\PictureRepository.cs" />
+    <Compile Include="Repository\RoleRepository.cs" />
     <Compile Include="Repository\SliderRepository.cs" />
-    <Compile Include="Repository\YorumRepository.cs" />
+    <Compile Include="Repository\CommentRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

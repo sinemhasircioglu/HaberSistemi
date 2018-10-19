@@ -6,21 +6,21 @@ using System.Web;
 using System.Web.Mvc;
 using PagedList;
 using HaberSepeti.UI.Models.ViewModels;
-using HaberSepeti.Data.Model;
+using HaberSepeti.Data.Entities;
 
 namespace HaberSepeti.UI.Controllers
 {
     public class DefaultController : Controller
     {
-        private readonly IHaberRepository _haberRepository;
-        private readonly IKategoriRepository _kategoriRepository;
-        private readonly IYorumRepository _yorumRepository;
+        private readonly INewsRepository _haberRepository;
+        private readonly ICategoryRepository _kategoriRepository;
+        private readonly ICommentRepository _yorumRepository;
         private readonly ISliderRepository _sliderRepository;
-        private readonly IEtiketRepository _etiketRepository;
-        private readonly IKullaniciRepository _kullaniciRepository;
+        private readonly ITagRepository _etiketRepository;
+        private readonly IUserRepository _kullaniciRepository;
 
-        public DefaultController(IHaberRepository haberRepository, IKategoriRepository kategoriRepository, IYorumRepository yorumRepository, ISliderRepository sliderRepository,
-            IEtiketRepository etiketRepository, IKullaniciRepository kullaniciRepository)
+        public DefaultController(INewsRepository haberRepository, ICategoryRepository kategoriRepository, ICommentRepository yorumRepository, ISliderRepository sliderRepository,
+            ITagRepository etiketRepository, IUserRepository kullaniciRepository)
         {
             _haberRepository = haberRepository;
             _kategoriRepository = kategoriRepository;
@@ -39,7 +39,7 @@ namespace HaberSepeti.UI.Controllers
         public ActionResult Arama(string kelime, int sayfa = 1)
         {
             int sayfaBoyutu = 4;
-            var arananHaberler = _haberRepository.GetMany(x => x.Baslik.Contains(kelime) || x.Aciklama.Contains(kelime)).OrderByDescending(x => x.Id).ToPagedList(sayfa, sayfaBoyutu);
+            var arananHaberler = _haberRepository.GetMany(x => x.Title.Contains(kelime) || x.Content.Contains(kelime)).OrderByDescending(x => x.Id).ToPagedList(sayfa, sayfaBoyutu);
             ViewBag.Aranan = kelime;
             return View(arananHaberler);
         }
@@ -48,9 +48,9 @@ namespace HaberSepeti.UI.Controllers
         {
             SidebarViewModel model = new SidebarViewModel
             {
-                SonHaberler = _haberRepository.GetAll().OrderByDescending(x => x.EklenmeTarihi).Take(4),
-                SonYorumlar = _yorumRepository.GetAll().OrderByDescending(x => x.EklenmeTarihi).Take(4),
-                PopulerHaberler = _haberRepository.GetAll().OrderByDescending(x => x.Okunma).Take(4),
+                SonHaberler = _haberRepository.GetAll().OrderByDescending(x => x.CreatedDate).Take(4),
+                SonYorumlar = _yorumRepository.GetAll().OrderByDescending(x => x.CreatedDate).Take(4),
+                PopulerHaberler = _haberRepository.GetAll().OrderByDescending(x => x.Reads).Take(4),
             };
             return View(model);
         }
@@ -70,7 +70,7 @@ namespace HaberSepeti.UI.Controllers
             DetayViewModel model = new DetayViewModel
             {
                 Haber = _haberRepository.Get(x => x.Id == Id),
-                Yorumlar = _yorumRepository.GetMany(x => x.HaberId == Id),
+                Yorumlar = _yorumRepository.GetMany(x => x.NewsId == Id),
                 IliskiliHaberler = _haberRepository.GetAll().OrderByDescending(x => x.Id).Take(3),
                 Slider = _sliderRepository.Get(x => x.Id == Id),
             };
@@ -80,15 +80,15 @@ namespace HaberSepeti.UI.Controllers
         public ActionResult YorumYap(string icerik, int haberId)
         {
             var sessionControl = HttpContext.Session["KullaniciId"];
-            Kullanici kullanici = _kullaniciRepository.Get(x => x.Id == (int)sessionControl);
+            User kullanici = _kullaniciRepository.Get(x => x.Id == (int)sessionControl);
             if (icerik != null)
             {
-                Yorum yeniyorum = new Yorum
+                Comment yeniyorum = new Comment
                 {
-                    Icerik = icerik,
-                    HaberId = haberId,
-                    KullaniciId = kullanici.Id,
-                    EklenmeTarihi = DateTime.Now,
+                    Content = icerik,
+                    NewsId = haberId,
+                    UserId = kullanici.Id,
+                    CreatedDate = DateTime.Now,
                 };
                 try
                 {
@@ -107,7 +107,7 @@ namespace HaberSepeti.UI.Controllers
         public ActionResult OkunmaArttir(int haberId)
         {
             var haber = _haberRepository.GetById(haberId);
-            haber.Okunma += 1;
+            haber.Reads += 1;
             _haberRepository.Save();
             return View();
 
@@ -122,7 +122,7 @@ namespace HaberSepeti.UI.Controllers
         public ActionResult EtiketeGoreListele(string etiketAdi, int sayfa = 1)
         {
             int sayfaBoyutu = 4;
-            var etiketHaberler = _haberRepository.GetAll().Where(x => x.Etikets.Any(y => y.EtiketAdi == etiketAdi)).OrderByDescending(x => x.Id).ToPagedList(sayfa, sayfaBoyutu);
+            var etiketHaberler = _haberRepository.GetAll().Where(x => x.Tags.Any(y => y.Name == etiketAdi)).OrderByDescending(x => x.Id).ToPagedList(sayfa, sayfaBoyutu);
             ViewBag.EtiketAd = etiketAdi;
             return View(etiketHaberler);
         }

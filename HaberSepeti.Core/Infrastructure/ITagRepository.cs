@@ -1,4 +1,4 @@
-﻿using HaberSepeti.Data.Model;
+﻿using HaberSepeti.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace HaberSepeti.Core.Infrastructure
 {
-    public interface IEtiketRepository : IRepository<Etiket>
+    public interface ITagRepository : IRepository<Tag>
     {
-        IQueryable<Etiket> Etiketler(string[] etiketler);
+        IQueryable<Tag> Etiketler(string[] etiketler);
 
         void EtiketEkle(int HaberId, string Etiket);
 

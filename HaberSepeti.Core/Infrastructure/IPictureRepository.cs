@@ -1,4 +1,4 @@
-﻿using HaberSepeti.Data.Model;
+﻿using HaberSepeti.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HaberSepeti.Core.Infrastructure
 {
-    public interface IResimRepository : IRepository<Resim>
+    public interface IPictureRepository : IRepository<Picture>
     {
     }
 }

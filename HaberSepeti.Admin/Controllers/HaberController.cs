@@ -1,6 +1,6 @@
 ﻿using HaberSepeti.Admin.CustomFilter;
 using HaberSepeti.Core.Infrastructure;
-using HaberSepeti.Data.Model;
+using HaberSepeti.Data.Entities;
 using HaberSepeti.Data.ViewModels;
 using PagedList;
 using System;
@@ -16,21 +16,21 @@ namespace HaberSepeti.Admin.Controllers
 {
     public class HaberController : Controller
     {
-        private readonly IKullaniciRepository _kullaniciRepository;
-        private readonly IHaberRepository _haberRepository;
-        private readonly IKategoriRepository _kategoriRepository;
-        private readonly IResimRepository _resimRepository;
-        private readonly IEtiketRepository _etiketRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly INewsRepository _newsRepository;
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly IPictureRepository _pictureRepository;
+        private readonly ITagRepository _tagRepository;
         string uploadpath = ConfigurationManager.AppSettings["UploadPathHaber"].ToString();
 
 
-        public HaberController(IKullaniciRepository kullaniciRepository, IHaberRepository haberRepository, IKategoriRepository kategoriRepository, IResimRepository resimRepository, IEtiketRepository etiketRepository)
+        public HaberController(IUserRepository kullaniciRepository, INewsRepository haberRepository, ICategoryRepository kategoriRepository, IPictureRepository resimRepository, ITagRepository etiketRepository)
         {
-            _kullaniciRepository = kullaniciRepository;
-            _haberRepository = haberRepository;
-            _kategoriRepository = kategoriRepository;
-            _resimRepository = resimRepository;
-            _etiketRepository = etiketRepository;
+            _userRepository = kullaniciRepository;
+            _newsRepository = haberRepository;
+            _categoryRepository = kategoriRepository;
+            _pictureRepository = resimRepository;
+            _tagRepository = etiketRepository;
         }
 
         [HttpGet]
@@ -38,7 +38,7 @@ namespace HaberSepeti.Admin.Controllers
         public ActionResult Index(int sayfa = 1)
         {
             int sayfaBoyutu = 5;
-            var HaberListesi = _haberRepository.GetAll().OrderByDescending(x => x.Id).ToPagedList(sayfa, sayfaBoyutu);
+            var HaberListesi = _newsRepository.GetAll().OrderByDescending(x => x.Id).ToPagedList(sayfa, sayfaBoyutu);
             return View(HaberListesi);
         }
 
@@ -53,24 +53,24 @@ namespace HaberSepeti.Admin.Controllers
         [HttpPost]
         [LoginFilter]
         [ValidateInput(false)]
-        public ActionResult Ekle(Haber haber, int KategoriId, HttpPostedFileBase VitrinResim, IEnumerable<HttpPostedFileBase> DetayResim, string Etiket)
+        public ActionResult Ekle(News haber, int KategoriId, HttpPostedFileBase VitrinResim, IEnumerable<HttpPostedFileBase> DetayResim, string Etiket)
         {
             var sessionControl = HttpContext.Session["KullaniciEmail"];
-            Kullanici kullanici = _kullaniciRepository.Get(x => x.Email == sessionControl);
-            haber.KullaniciId = kullanici.Id;
-            haber.KategoriId = KategoriId;
+            User kullanici = _userRepository.Get(x => x.Email == sessionControl);
+            haber.UserId = kullanici.Id;
+            haber.CategoryId = KategoriId;
             if (VitrinResim != null)
             {
                 string dosyaAdi = Guid.NewGuid().ToString().Replace("-", "");
                 string uzanti = System.IO.Path.GetExtension(Request.Files[0].FileName);
                 string tamYol = uploadpath + dosyaAdi + uzanti;
                 Request.Files[0].SaveAs(tamYol);
-                haber.VitrinResim = tamYol.Substring(46);
+                haber.ShowcasePicture = tamYol.Substring(46);
             }
-            _haberRepository.Insert(haber);
-            _haberRepository.Save();
+            _newsRepository.Insert(haber);
+            _newsRepository.Save();
 
-            _etiketRepository.EtiketEkle(haber.Id, Etiket);
+            _tagRepository.EtiketEkle(haber.Id, Etiket);
 
             string cokluResim = System.IO.Path.GetExtension(Request.Files[1].FileName);
             if (cokluResim != "")
@@ -88,13 +88,13 @@ namespace HaberSepeti.Admin.Controllers
 
                         //file.SaveAs(Server.MapPath(tamYol));
                         file.SaveAs(tamYol);
-                        var resim = new Resim
+                        var resim = new Picture
                         {
-                            ResimUrl = tamYol.Substring(46)
+                            PictureUrl = tamYol.Substring(46)
                         };
-                        resim.HaberId = haber.Id;
-                        _resimRepository.Insert(resim);
-                        _resimRepository.Save();
+                        resim.NewsId = haber.Id;
+                        _pictureRepository.Insert(resim);
+                        _pictureRepository.Save();
                     }
                 }
             }
@@ -104,19 +104,19 @@ namespace HaberSepeti.Admin.Controllers
 
         public void SetKategoriListele(object kategori = null)
         {
-            var KategoriList = _kategoriRepository.GetMany(x => x.ParentId == 0).ToList();
+            var KategoriList = _categoryRepository.GetMany(x => x.ParentId == 0).ToList();
             ViewBag.Kategori = KategoriList;
         }
 
         [LoginFilter]
         public ActionResult Sil(int id)
         {
-            Haber dbHaber = _haberRepository.GetById(id);
-            var dbDetayResim = _resimRepository.GetMany(x => x.HaberId == id);
+            News dbHaber = _newsRepository.GetById(id);
+            var dbDetayResim = _pictureRepository.GetMany(x => x.NewsId == id);
             if (dbHaber == null)
                 throw new Exception("Haber Bulunamadı!");
 
-            string file_name = dbHaber.VitrinResim;
+            string file_name = dbHaber.ShowcasePicture;
             string path = Server.MapPath(file_name);
             FileInfo file = new FileInfo(path);
             if (file.Exists) // dosyanın varlığı kontrol ediliyor. fiziksel olarak varsa siliniyor.
@@ -125,14 +125,14 @@ namespace HaberSepeti.Admin.Controllers
             {
                 foreach (var item in dbDetayResim)
                 {
-                    string detayPath = Server.MapPath(item.ResimUrl);
+                    string detayPath = Server.MapPath(item.PictureUrl);
                     FileInfo files = new FileInfo(detayPath);
                     if (files.Exists)
                         files.Delete();
                 }
             }
-            _haberRepository.Delete(id);
-            _haberRepository.Save();
+            _newsRepository.Delete(id);
+            _newsRepository.Save();
             TempData["Bilgi"] = "Haber başarıyla silindi";
             return RedirectToAction("Index", "Haber");
         }
@@ -142,12 +142,12 @@ namespace HaberSepeti.Admin.Controllers
         [ValidateInput(false)]
         public ActionResult Duzenle(int id)
         {
-            Haber gelenHaber = _haberRepository.GetById(id);
-            var gelenEtiket = gelenHaber.Etikets.Select(x => x.EtiketAdi).ToArray();
+            News gelenHaber = _newsRepository.GetById(id);
+            var gelenEtiket = gelenHaber.Tags.Select(x => x.Name).ToArray();
             HaberEtiketViewModel model = new HaberEtiketViewModel
             {
-                Haber = gelenHaber,
-                Etiketler = _etiketRepository.GetAll(),
+                News = gelenHaber,
+                Tags = _tagRepository.GetAll(),
                 GelenEtiketler = gelenEtiket
             };
             StringBuilder birlestir = new StringBuilder();
@@ -156,7 +156,7 @@ namespace HaberSepeti.Admin.Controllers
                 birlestir.Append(etiket.ToString());
                 birlestir.Append(",");
             }
-            model.EtiketAdi = birlestir.ToString();
+            model.TagName = birlestir.ToString();
             if (gelenHaber == null)
                 throw new Exception("Haber bulunamadı!");
             SetKategoriListele();
@@ -166,18 +166,18 @@ namespace HaberSepeti.Admin.Controllers
         [HttpPost]
         [LoginFilter]
         [ValidateInput(false)]
-        public ActionResult Duzenle(Haber haber, HttpPostedFileBase VitrinResim, IEnumerable<HttpPostedFileBase> DetayResim,string EtiketAdi)
+        public ActionResult Duzenle(News haber, HttpPostedFileBase VitrinResim, IEnumerable<HttpPostedFileBase> DetayResim,string EtiketAdi)
         {
-            Haber gelenHaber = _haberRepository.GetById(haber.Id);
-            gelenHaber.Aciklama = haber.Aciklama;
-            gelenHaber.KisaAciklama = haber.KisaAciklama;
-            gelenHaber.Baslik = haber.Baslik;
-            gelenHaber.AktifMi = haber.AktifMi;
-            gelenHaber.KategoriId = haber.KategoriId;
+            News gelenHaber = _newsRepository.GetById(haber.Id);
+            gelenHaber.Content = haber.Content;
+            gelenHaber.Description = haber.Description;
+            gelenHaber.Title = haber.Title;
+            gelenHaber.IsActive = haber.IsActive;
+            gelenHaber.CategoryId = haber.CategoryId;
 
             if(VitrinResim!=null)
             {
-                string dosyaAdi = gelenHaber.VitrinResim;
+                string dosyaAdi = gelenHaber.ShowcasePicture;
                 string dosyaYolu = Server.MapPath(dosyaAdi);
                 FileInfo dosya = new FileInfo(dosyaYolu);
                 if (dosya.Exists)
@@ -190,7 +190,7 @@ namespace HaberSepeti.Admin.Controllers
 
 
                 Request.Files[0].SaveAs(tam_yol);
-                gelenHaber.VitrinResim = tam_yol;
+                gelenHaber.ShowcasePicture = tam_yol;
             }
 
             string cokluResim = System.IO.Path.GetExtension(Request.Files[1].FileName);
@@ -204,33 +204,33 @@ namespace HaberSepeti.Admin.Controllers
                     string tamyol = uploadpath + dosya_adi + uzanti;
                 
                     detay.SaveAs(tamyol);
-                    var img = new Resim {
-                        ResimUrl = tamyol
+                    var img = new Picture {
+                        PictureUrl = tamyol
                     };
-                    img.HaberId = gelenHaber.Id;
-                    _resimRepository.Insert(img);
-                    _resimRepository.Save();
+                    img.NewsId = gelenHaber.Id;
+                    _pictureRepository.Insert(img);
+                    _pictureRepository.Save();
                 }
             }
-            _etiketRepository.EtiketEkle(haber.Id, EtiketAdi);
+            _tagRepository.EtiketEkle(haber.Id, EtiketAdi);
 
-            _haberRepository.Save();
+            _newsRepository.Save();
             TempData["Bilgi"] = "Haber düzenleme işleminiz başarılı.";
             return RedirectToAction("Index", "Haber");
         }
 
         public ActionResult ResimSil(int id)
         {
-            Resim dbResim = _resimRepository.GetById(id);
+            Picture dbResim = _pictureRepository.GetById(id);
             if (dbResim == null)
                 throw new Exception("Resim bulunamadı!");
-            string file_name = dbResim.ResimUrl;
+            string file_name = dbResim.PictureUrl;
             string path = Server.MapPath(file_name);
             FileInfo file = new FileInfo(path);
             if (file.Exists)
                 file.Delete();
-            _resimRepository.Delete(id);
-            _resimRepository.Save();
+            _pictureRepository.Delete(id);
+            _pictureRepository.Save();
             TempData["Bilgi"] = "Resim silme işleminiz başarılı!";
             return RedirectToAction("Index", "Haber");
         }

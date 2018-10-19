@@ -1,5 +1,5 @@
 ﻿using HaberSepeti.Core.Infrastructure;
-using HaberSepeti.Data.Model;
+using HaberSepeti.Data.Entities;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -21,9 +21,9 @@ namespace HaberSepeti.UI.Controllers
 
     public class AccountController : Controller
     {
-        private readonly IKullaniciRepository _kullaniciRepository;
+        private readonly IUserRepository _kullaniciRepository;
 
-        public AccountController(IKullaniciRepository kullaniciRepository)
+        public AccountController(IUserRepository kullaniciRepository)
         {
             _kullaniciRepository = kullaniciRepository;
         }
@@ -35,17 +35,17 @@ namespace HaberSepeti.UI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(Kullanici kullanici) 
+        public ActionResult Login(User user) 
         {
-            var KullaniciVarMi = _kullaniciRepository.GetMany(x => x.Email == kullanici.Email && x.Sifre == kullanici.Sifre && x.AktifMi == true).SingleOrDefault();
+            var KullaniciVarMi = _kullaniciRepository.GetMany(x => x.Email == user.Email && x.Password == user.Password && x.IsActive == true).SingleOrDefault();
             if (KullaniciVarMi != null)
             {
-                if (KullaniciVarMi.Rol.Ad == "Admin" || KullaniciVarMi.Rol.Ad == "Editör" || KullaniciVarMi.Rol.Ad == "Yazar")
+                if (KullaniciVarMi.Role.Name == "Admin" || KullaniciVarMi.Role.Name == "Editör" || KullaniciVarMi.Role.Name == "Yazar")
                 {
                     Session["KullaniciId"] = KullaniciVarMi.Id;
                     return RedirectToAction("Index", "Admin");
                 }
-                else if (KullaniciVarMi.Rol.Ad == "Üye")
+                else if (KullaniciVarMi.Role.Name == "Üye")
                 {
                     Session["KullaniciId"] = KullaniciVarMi.Id;
                     return RedirectToAction("Index", "Default");
@@ -64,22 +64,22 @@ namespace HaberSepeti.UI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Register(Kullanici kullanici)
+        public ActionResult Register(User user)
         {
-            var KullaniciVarMi = _kullaniciRepository.GetMany(x => x.Email == kullanici.Email).SingleOrDefault();
+            var KullaniciVarMi = _kullaniciRepository.GetMany(x => x.Email == user.Email).SingleOrDefault();
             if (KullaniciVarMi != null)
             {
                 ViewBag.Mesaj = "Bu email kullanılmış !";
                 return View();
             }
-            Kullanici yeniKullanici = new Kullanici
+            User yeniKullanici = new User
             {
-                AdSoyad = kullanici.AdSoyad,
-                Email = kullanici.Email,
-                Sifre = kullanici.Sifre,
-                RolId = 3,
-                KayitTarihi = DateTime.Now,
-                AktifMi = true,
+                NameSurname = user.NameSurname,
+                Email = user.Email,
+                Password = user.Password,
+                RoleId = 3,
+                CreatedDate = DateTime.Now,
+                IsActive = true,
             };
 
             var recaptcha = Request.Form["g-recaptcha-response"];

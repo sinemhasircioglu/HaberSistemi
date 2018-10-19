@@ -25,12 +25,12 @@ namespace HaberSepeti.Admin.Class
 
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
 
-            builder.RegisterType<HaberRepository>().As<IHaberRepository>();
-            builder.RegisterType<ResimRepository>().As<IResimRepository>();
-            builder.RegisterType<KullaniciRepository>().As<IKullaniciRepository>();
-            builder.RegisterType<RolRepository>().As<IRolRepository>();
-            builder.RegisterType<KategoriRepository>().As<IKategoriRepository>();
-            builder.RegisterType<EtiketRepository>().As<IEtiketRepository>();
+            builder.RegisterType<NewsRepository>().As<INewsRepository>();
+            builder.RegisterType<PictureRepository>().As<IPictureRepository>();
+            builder.RegisterType<UserRepository>().As<IUserRepository>();
+            builder.RegisterType<RoleRepository>().As<IRoleRepository>();
+            builder.RegisterType<CategoryRepository>().As<ICategoryRepository>();
+            builder.RegisterType<TagRepository>().As<ITagRepository>();
             builder.RegisterType<SliderRepository>().As<ISliderRepository>();
             
             var container = builder.Build();
