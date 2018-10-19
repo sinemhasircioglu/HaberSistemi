@@ -1,7 +1,7 @@
 ﻿@using PagedList.Mvc;
-@model PagedList.IPagedList<HaberSepeti.Data.Model.Haber>
+@model PagedList.IPagedList<HaberSepeti.Data.Entities.News>
 @{
-    ViewBag.Title = "EtiketeGoreListele";
+    ViewBag.Title = "List By Tag";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -17,9 +17,9 @@
             <div class="col-md-6">
                 <article class="entry">
                     <div class="entry__img-holder">
-                        <a href="/Default/Detay/@item.Id">
+                        <a href="/Default/Detail/@item.Id">
                             <div class="thumb-container thumb-75">
-                                <img data-src="@item.VitrinResim" src="@item.VitrinResim" class="entry__img lazyloaded" alt="">
+                                <img data-src="@item.ShowcasePicture" src="@item.ShowcasePicture" class="entry__img lazyloaded" alt="">
                             </div>
                         </a>
                     </div>
@@ -27,25 +27,25 @@
                     <div class="entry__body">
                         <div class="entry__header">
                             <h2 class="entry__title">
-                                <a href="/Default/Detay/@item.Id">@item.Baslik</a>
+                                <a href="/Default/Detail/@item.Id">@item.Title</a>
                             </h2>
                             <ul class="entry__meta">
                                 <li class="entry__meta-author">
                                     <i class="ui-author"></i>
-                                    <a href="#">@item.Kullanici.AdSoyad</a>
+                                    <a href="#">@item.User.NameSurname</a>
                                 </li>
                                 <li class="entry__meta-date">
                                     <i class="ui-date"></i>
-                                    @item.EklenmeTarihi.ToString("dddd, dd MMMM yyyy")
+                                    @item.CreatedDate.ToString("dddd, dd MMMM yyyy")
                                 </li>
                                 <li class="entry__meta-comments">
                                     <i class="ui-comments"></i>
-                                    <a href="#">@item.Okunma</a>
+                                    <a href="#">@item.Reads</a>
                                 </li>
                             </ul>
                         </div>
                         <div class="entry__excerpt">
-                            <p>@item.Aciklama.Substring(0, 100)</p>
+                            <p>@item.Title.Substring(0, 100)</p>
                         </div>
                     </div>
                 </article>
@@ -55,6 +55,6 @@
 
     <!-- Pagination -->
     <div class="pagination">
-        @Html.PagedListPager(Model, sayfa => Url.Action("EtiketeGoreListele", new { sayfa, etiketAdi = ViewBag.EtiketAd }), PagedListRenderOptions.Classic)
+        @Html.PagedListPager(Model, page => Url.Action("ListByTag", new { page, tagName = ViewBag.TagName }), PagedListRenderOptions.Classic)
     </div>
 </div>

@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace HaberSepeti.Data.ViewModels
 {
-    public class HaberViewModel
+    public class NewsViewModel
     {
-        public List<News> IlkDortlu { get; set; }
+        public List<News> FirstFour { get; set; }
 
-        public List<News> IkinciAltili { get; set; }
+        public List<News> SecondSix { get; set; }
 
     }
 }

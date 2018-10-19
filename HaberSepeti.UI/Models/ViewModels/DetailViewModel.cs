@@ -6,14 +6,14 @@ using System.Web;
 
 namespace HaberSepeti.UI.Models.ViewModels
 {
-    public class DetayViewModel
+    public class DetailViewModel
     {
-        public News Haber { get; set; }
+        public News News { get; set; }
 
         public Slider Slider { get; set; }
 
-        public IEnumerable<Comment> Yorumlar { get; set; }
+        public IEnumerable<Comment> Comments { get; set; }
 
-        public IEnumerable<News> IliskiliHaberler { get; set; }
+        public IEnumerable<News> RelatedNews { get; set; }
     }
 }

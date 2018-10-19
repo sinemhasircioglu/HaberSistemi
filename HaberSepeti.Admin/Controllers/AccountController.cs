@@ -10,11 +10,11 @@ namespace HaberSepeti.Admin.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IUserRepository _kullaniciRepository;
+        private readonly IUserRepository _userRepository;
 
-        public AccountController(IUserRepository kullaniciRepository)
+        public AccountController(IUserRepository userRepository)
         {
-            _kullaniciRepository = kullaniciRepository;
+            _userRepository = userRepository;
         }
 
         [HttpGet]
@@ -24,20 +24,20 @@ namespace HaberSepeti.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(User kullanici) //giriş yap butonuna basınca çalışacak kodlar
+        public ActionResult Login(User user) //giriş yap butonuna basınca çalışacak kodlar
         {
-            var KullaniciVarMi = _kullaniciRepository.GetMany(x => x.Email == kullanici.Email && x.Password == kullanici.Password && x.IsActive == true).SingleOrDefault();
-            if(KullaniciVarMi != null)
+            var isRegister = _userRepository.GetMany(x => x.Email == user.Email && x.Password == user.Password && x.IsActive == true).SingleOrDefault();
+            if(isRegister != null)
             {
-                if(KullaniciVarMi.Role.Name == "Admin")
+                if(isRegister.Role.Name == "Admin")
                 {
-                    Session["KullaniciEmail"] = KullaniciVarMi.Email;
+                    Session["UserId"] = isRegister.Id;
                     return RedirectToAction("Index","Home");
                 }
-                ViewBag.Mesaj = "Yetkisiz kullanıcı";
+                ViewBag.Message = "Yetkisiz kullanıcı";
                 return View();
             }
-            ViewBag.Mesaj = "Kullanıcı bulunamadı";
+            ViewBag.Message = "Kullanıcı bulunamadı";
             return View();
         }
     }

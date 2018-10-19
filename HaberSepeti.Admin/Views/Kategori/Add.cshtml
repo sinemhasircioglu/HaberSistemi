@@ -1,4 +1,4 @@
-﻿@model HaberSepeti.Data.Model.Kategori
+﻿@model HaberSepeti.Data.Entities.Category
 @{
     ViewBag.Title = "Kategori Ekle";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -13,11 +13,11 @@
                     <form role="form"  method="post">
                         <div class="form-group">
                             <label for="ParentId">Üst kategori</label>
-                            @Html.DropDownListFor(Model => Model.ParentId, new SelectList(ViewBag.Kategori, "Id", "Ad"), ("Seçiniz"), new { @class = "form-control", id = "ParentId" })
+                            @Html.DropDownListFor(Model => Model.ParentId, new SelectList(ViewBag.Category, "Id", "Name"), ("Seçiniz"), new { @class = "form-control", id = "ParentId" })
                         </div>
                         <div class="form-group">
                             <label for="Ad">Kategori Adı</label>
-                            @Html.TextBoxFor(x => x.Ad, new { @class="form-control", id="Ad" , name="Ad", placeholder="Kategori Ad"})
+                            @Html.TextBoxFor(x => x.Name, new { @class="form-control", id="Ad" , name="Name", placeholder="Kategori Ad"})
                         </div>
                         <div class="form-group">
                             <label for="URL">Kategori Url</label>
@@ -25,7 +25,7 @@
                         </div>
                         <div class="checkbox">
                             <label>
-                                @Html.CheckBoxFor(x => x.AktifMi, new { @checked = "checked", id = "AktifMi" }) Aktif Mi
+                                @Html.CheckBoxFor(x => x.IsActive, new { @checked = "checked", id = "IsActive" }) Aktif Mi
                             </label>
                         </div>
                         <button type="submit" class="btn btn-default">Ekle</button>

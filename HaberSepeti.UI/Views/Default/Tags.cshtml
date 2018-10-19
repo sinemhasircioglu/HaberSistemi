@@ -1,4 +1,4 @@
-﻿@model List<HaberSepeti.Data.Model.Etiket>
+﻿@model List<HaberSepeti.Data.Entities.Tag>
 @{
     Layout = null;
 }
@@ -8,7 +8,7 @@
     <div class="tagcloud">
         @foreach (var item in Model)
         {
-            <a href="@Url.Action("EtiketeGoreListele","Default", new {etiketAdi=item.EtiketAdi})">@item.EtiketAdi</a>
+            <a href="@Url.Action("ListByTag","Default", new {tagName=item.Name})">@item.Name</a>
         }
     </div>
 </div>

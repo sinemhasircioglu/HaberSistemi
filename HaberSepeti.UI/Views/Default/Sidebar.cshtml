@@ -22,25 +22,25 @@
             <div class="tabs__content tabs__content-trigger widget-tabpost__tabs-content">
                 <div class="tabs__content-pane tabs__content-pane--active" id="tab-trending">
                     <ul class="post-list-small">
-                        @foreach (var item in Model.PopulerHaberler)
+                        @foreach (var item in Model.PopularNews)
                         {
                             <li class="post-list-small__item">
                                 <article class="post-list-small__entry clearfix">
                                     <div class="post-list-small__img-holder">
                                         <div class="thumb-container thumb-75">
-                                            <a href="/Default/Detay/@item.Id">
-                                                <img data-src="@item.VitrinResim" src="@item.VitrinResim" alt="" class=" lazyload">
+                                            <a href="/Default/Detail/@item.Id">
+                                                <img data-src="@item.ShowcasePicture" src="@item.ShowcasePicture" alt="" class=" lazyload">
                                             </a>
                                         </div>
                                     </div>
                                     <div class="post-list-small__body">
                                         <h3 class="post-list-small__entry-title">
-                                            <a href="/Default/Detay/@item.Id">@item.Baslik</a>
+                                            <a href="/Default/Detail/@item.Id">@item.Title</a>
                                         </h3>
                                         <ul class="entry__meta">
                                             <li class="entry__meta-date">
                                                 <i class="ui-date"></i>
-                                                @item.EklenmeTarihi
+                                                @item.CreatedDate
                                             </li>
                                         </ul>
                                     </div>
@@ -52,25 +52,25 @@
 
                 <div class="tabs__content-pane" id="tab-latest">
                     <ul class="post-list-small">
-                        @foreach (var item in Model.SonHaberler)
+                        @foreach (var item in Model.LatestNews)
                         {
                             <li class="post-list-small__item">
                                 <article class="post-list-small__entry clearfix">
                                     <div class="post-list-small__img-holder">
                                         <div class="thumb-container thumb-75">
-                                            <a href="/Default/Detay/@item.Id">
-                                                <img data-src="@item.VitrinResim" src="@item.VitrinResim" alt="" class=" lazyload">
+                                            <a href="/Default/Detail/@item.Id">
+                                                <img data-src="@item.ShowcasePicture" src="@item.ShowcasePicture" alt="" class=" lazyload">
                                             </a>
                                         </div>
                                     </div>
                                     <div class="post-list-small__body">
                                         <h3 class="post-list-small__entry-title">
-                                            <a href="/Default/Detay/@item.Id">@item.Baslik</a>
+                                            <a href="/Default/Detail/@item.Id">@item.Title</a>
                                         </h3>
                                         <ul class="entry__meta">
                                             <li class="entry__meta-date">
                                                 <i class="ui-date"></i>
-                                                @item.EklenmeTarihi
+                                                @item.CreatedDate
                                             </li>
                                         </ul>
                                     </div>
@@ -82,25 +82,25 @@
 
                 <div class="tabs__content-pane" id="tab-comments">
                     <ul class="post-list-small">
-                        @foreach (var item in Model.SonYorumlar)
+                        @foreach (var item in Model.LatestComments)
                         {
                             <li class="post-list-small__item">
                                 <article class="post-list-small__entry clearfix">
                                     <div class="post-list-small__img-holder">
                                         <div class="thumb-container thumb-75">
-                                            <a href="/Default/Detay/@item.Haber.Id">
-                                                <img data-src="@item.Haber.VitrinResim" src="@item.Haber.VitrinResim" alt="" class=" lazyload">
+                                            <a href="/Default/Detail/@item.News.Id">
+                                                <img data-src="@item.News.ShowcasePicture" src="@item.News.ShowcasePicture" alt="" class=" lazyload">
                                             </a>
                                         </div>
                                     </div>
                                     <div class="post-list-small__body">
                                         <h3 class="post-list-small__entry-title">
-                                            <a href="/Default/Detay/@item.Haber.Id">@item.Haber.Baslik</a>
+                                            <a href="/Default/Detail/@item.News.Id">@item.News.Title</a>
                                         </h3>
                                         <ul class="entry__meta">
                                             <li class="entry__meta-date">
                                                 <i class="ui-date"></i>
-                                                @item.EklenmeTarihi
+                                                @item.CreatedDate
                                             </li>
                                         </ul>
                                     </div>
@@ -149,6 +149,6 @@
     </div> <!-- end widget socials -->
     <!-- Widget Tags -->
 
-    @{ Html.RenderAction("Etiketler", "Default"); } 
+    @{ Html.RenderAction("Tags", "Default"); } 
 
 </aside> <!-- end sidebar -->

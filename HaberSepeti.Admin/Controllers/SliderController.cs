@@ -23,46 +23,45 @@ namespace HaberSepeti.Admin.Controllers
 
         [HttpGet]
         [LoginFilter]
-        public ActionResult Index(int sayfa=1)
+        public ActionResult Index(int page=1)
         {
-            int sayfaBoyutu = 5;
-            var SliderListesi = _sliderRepository.GetAll().OrderByDescending(x => x.Id).ToPagedList(sayfa, sayfaBoyutu);
-            return View(SliderListesi);
+            int pageSize = 5;
+            var sliderList = _sliderRepository.GetAll().OrderByDescending(x => x.Id).ToPagedList(page, pageSize);
+            return View(sliderList);
         }
 
         [HttpGet]
         [LoginFilter]
-        public ActionResult Ekle()
+        public ActionResult Add()
         {
-
             return View();
         }
 
         [HttpPost]
         [LoginFilter]
         [ValidateInput(false)]
-        public ActionResult Ekle(Slider slider, HttpPostedFileBase ResimURL)
+        public ActionResult Add(Slider slider, HttpPostedFileBase PictureURL)
         {
             if (ModelState.IsValid)
             {
-                if (ResimURL != null && ResimURL.ContentLength>0)
+                if (PictureURL != null && PictureURL.ContentLength>0)
                 {
-                    string Dosya = Guid.NewGuid().ToString().Replace("-", "");
-                    string Uzanti = System.IO.Path.GetExtension(Request.Files[0].FileName);
-                    string ResimYolu = "C:\\Users\\sinem\\Source\\Repos\\HaberSepeti\\Exter\\Slider\\" + Dosya + Uzanti;
-                    ResimURL.SaveAs(ResimYolu);
-                    slider.PictureURL = ResimYolu;
+                    string file = Guid.NewGuid().ToString().Replace("-", "");
+                    string extension = System.IO.Path.GetExtension(Request.Files[0].FileName);
+                    string path = "C:\\Users\\sinem\\Source\\Repos\\HaberSepeti\\Exter\\Slider\\" + file + extension;
+                    PictureURL.SaveAs(path);
+                    slider.PictureURL = path;
                 }
                 _sliderRepository.Insert(slider);
                 try
                 {
                     _sliderRepository.Save();
-                    TempData["Bilgi"] = "Slider ekleme işleminiz başarılı.";
+                    TempData["Message"] = "Slider ekleme işleminiz başarılı.";
                     return RedirectToAction("Index", "Slider");
                 }
                 catch (Exception)
                 {
-                    TempData["Bilgi"] = "Slider ekleme işleminiz başarısız!";
+                    TempData["Message"] = "Slider ekleme işleminiz başarısız!";
                     return RedirectToAction("Index", "Slider");
                 }
             }        
@@ -72,18 +71,18 @@ namespace HaberSepeti.Admin.Controllers
 
         [HttpGet]
         [LoginFilter]
-        public ActionResult Duzenle(int Id)
+        public ActionResult Edit(int Id)
         {
-            var gelenSlider = _sliderRepository.GetById(Id);
-            if (gelenSlider == null)
-                TempData["Bilgi"] = "Slider bulunamadı!";
-            return View(gelenSlider);
+            var slider = _sliderRepository.GetById(Id);
+            if (slider == null)
+                TempData["Message"] = "Slider bulunamadı!";
+            return View(slider);
         }
 
         [HttpPost]
         [LoginFilter]
         [ValidateInput(false)]
-        public ActionResult Duzenle(Slider slider, HttpPostedFileBase ResimURL)
+        public ActionResult Duzenle(Slider slider, HttpPostedFileBase PictureURL)
         {
             if (ModelState.IsValid)
             {
@@ -92,54 +91,54 @@ namespace HaberSepeti.Admin.Controllers
                 dbSlider.IsActive = slider.IsActive;
                 dbSlider.Title = slider.Title;
                 dbSlider.URL = slider.URL;
-                if(ResimURL != null && ResimURL.ContentLength > 0)
+                if(PictureURL != null && PictureURL.ContentLength > 0)
                 {
                     if(dbSlider.PictureURL != null)
                     {
                         string url = dbSlider.PictureURL;
-                        string resimPath = Server.MapPath(url);
-                        FileInfo img = new FileInfo(resimPath);
+                        string picturePath = Server.MapPath(url);
+                        FileInfo img = new FileInfo(picturePath);
                         if (img.Exists)
                         {
                             img.Delete();
                         }                        
                     }
-                    string Dosya = Guid.NewGuid().ToString().Replace("-", "");
-                    string Uzanti = System.IO.Path.GetExtension(Request.Files[0].FileName);
-                    string ResimYolu = "C:\\Users\\sinem\\Source\\Repos\\HaberSepeti\\Exter\\Slider\\" + Dosya + Uzanti;
-                    ResimURL.SaveAs(ResimYolu);
-                    dbSlider.PictureURL = ResimYolu;
+                    string file = Guid.NewGuid().ToString().Replace("-", "");
+                    string extension = System.IO.Path.GetExtension(Request.Files[0].FileName);
+                    string path = "C:\\Users\\sinem\\Source\\Repos\\HaberSepeti\\Exter\\Slider\\" + file + extension;
+                    PictureURL.SaveAs(path);
+                    dbSlider.PictureURL = path;
                 }
                 try
                 {
                     _sliderRepository.Save();
-                    TempData["Bilgi"] = "Slider düzenleme işleminiz başarılı.";
+                    TempData["Message"] = "Slider düzenleme işleminiz başarılı.";
                     return RedirectToAction("Index", "Slider");
                 }
                 catch (Exception)
                 {
-                    TempData["Bilgi"] = "Slider düzenleme işleminiz başarısız!";
+                    TempData["Message"] = "Slider düzenleme işleminiz başarısız!";
                     return RedirectToAction("Index", "Slider");
                 }
             }                    
-            TempData["Bilgi"] = "Slider düzenleme işleminiz başarısız!";
+            TempData["Message"] = "Slider düzenleme işleminiz başarısız!";
             return RedirectToAction("Index", "Slider");
         }
 
         [LoginFilter]
-        public ActionResult Sil(int Id)
+        public ActionResult Delete(int Id)
         {
             Slider dbSlider = _sliderRepository.GetById(Id);
             if (dbSlider == null)
             {
-                TempData["Bilgi"] = "Slider bulunamadı!";
+                TempData["Message"] = "Slider bulunamadı!";
                 return RedirectToAction("Index", "Slider");
             }
             if(dbSlider.PictureURL!=null)
             {
-                string resimUrl = dbSlider.PictureURL;
-                string resimPath = Server.MapPath(resimUrl);
-                FileInfo img = new FileInfo(resimPath);
+                string pictureUrl = dbSlider.PictureURL;
+                string picturePath = Server.MapPath(pictureUrl);
+                FileInfo img = new FileInfo(picturePath);
                 if (img.Exists)
                 {
                     img.Delete();
@@ -149,12 +148,12 @@ namespace HaberSepeti.Admin.Controllers
             try
             {
                 _sliderRepository.Save();
-                TempData["Bilgi"] = "Slider silme işleminiz başarılı.";
+                TempData["Message"] = "Slider silme işleminiz başarılı.";
                 return RedirectToAction("Index", "Slider");
             }
             catch (Exception)
             {
-                TempData["Bilgi"] = "Slider silme işleminiz başarısız!";
+                TempData["Message"] = "Slider silme işleminiz başarısız!";
                 return RedirectToAction("Index", "Slider");
             }                       
         }

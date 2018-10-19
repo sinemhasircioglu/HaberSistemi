@@ -22,9 +22,9 @@ namespace HaberSepeti.Core.Repository
 
         public void Delete(int id)
         {
-            var Kullanici = GetById(id);
-            if (Kullanici != null)
-                _context.Users.Remove(Kullanici);
+            User user = GetById(id);
+            if (user != null)
+                _context.Users.Remove(user);
         }
 
         public User Get(Expression<Func<User, bool>> expression)

@@ -22,9 +22,9 @@ namespace HaberSepeti.Core.Repository
 
         public void Delete(int id)
         {
-            var Rol = GetById(id);
-            if (Rol != null)
-                _context.Roles.Remove(Rol);
+            Role role = GetById(id);
+            if (role != null)
+                _context.Roles.Remove(role);
         }
 
         public Role Get(Expression<Func<Role, bool>> expression)

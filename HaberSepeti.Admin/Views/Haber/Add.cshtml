@@ -1,4 +1,4 @@
-﻿@model HaberSepeti.Data.Model.Haber
+﻿@model HaberSepeti.Data.Entities.News
 @{
     ViewBag.Title = "Haber Ekle";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -18,40 +18,40 @@
                     <form role="form" method="post" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="KategoriId">Kategori</label>
-                            @Html.DropDownListFor(Model => Model.KategoriId, new SelectList(ViewBag.Kategori, "Id", "Ad"), ("Seçiniz"), new { @class = "form-control", id = "KategoriId" })
+                            @Html.DropDownListFor(Model => Model.CategoryId, new SelectList(ViewBag.Category, "Id", "Ad"), ("Seçiniz"), new { @class = "form-control", id = "CategoryId" })
                         </div>
                         <div class="form-group">
                             <label for="Baslik">Haber Başlığı</label>
-                            @Html.TextBoxFor(x => x.Baslik, new { @class = "form-control", id = "Baslik", placeholder = "Başlık" })
+                            @Html.TextBoxFor(x => x.Title, new { @class = "form-control", id = "Title", placeholder = "Başlık" })
                         </div>
                         <div class="form-group">
                             <label for="KisaAciklama">Kısa Açıklama</label>
-                            @Html.TextBoxFor(x => x.KisaAciklama, new { @class = "form-control", id = "KisaAciklama", placeholder = "Kısa Açıklama" })
+                            @Html.TextBoxFor(x => x.Description, new { @class = "form-control", id = "Description", placeholder = "Kısa Açıklama" })
                         </div>
                         <div class="form-group">
                             <label for="Aciklama">Açıklama</label>
-                            @Html.TextArea("Aciklama")
+                            @Html.TextArea("Content")
                             <script type="text/javascript">
-                                var editor = CKEDITOR.instances['Aciklama'];
+                                var editor = CKEDITOR.instances['Content'];
                                 if (editor) { editor.destroy(true); }
-                                CKEDITOR.replace('Aciklama', { enterMODE: CKEDITOR.ENTER_BR, });
+                                CKEDITOR.replace('Content', { enterMODE: CKEDITOR.ENTER_BR, });
                             </script>
                         </div>
                         <div class="form-group">
-                            <label for="Etiket">Etiket</label>
-                            <input type="text" class="form-control" data-role="tagsinput" name="Etiket" id="Etiket">
+                            <label for="Tag">Etiket</label>
+                            <input type="text" class="form-control" data-role="tagsinput" name="Tag" id="Tag">
                         </div>
                         <div class="form-group">
                             <label for="VitrinResim">Vitrin Resmi</label>
-                            <input type="file" class="form-control" accept="image/*" name="VitrinResim" id="VitrinResim">
+                            <input type="file" class="form-control" accept="image/*" name="ShowcasePicture" id="ShowcasePicture">
                         </div>
                         <div class="form-group">
                             <label for="DetayResim">Detay Resim(ler)</label>
-                            <input type="file" class="form-control" accept="image/*" name="DetayResim" id="DetayResim" multiple>
+                            <input type="file" class="form-control" accept="image/*" name="DetailPicture" id="DetailPicture" multiple>
                         </div>
                         <div class="checkbox">
                             <label>
-                                @Html.CheckBoxFor(x => x.AktifMi, new { @checked = "checked", id = "AktifMi" }) Aktif Mi
+                                @Html.CheckBoxFor(x => x.IsActive, new { @checked = "checked", id = "IsActive" }) Aktif Mi
                             </label>
                         </div>
                         <button type="submit" class="btn btn-default">Ekle</button>

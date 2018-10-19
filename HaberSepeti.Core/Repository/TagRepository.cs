@@ -22,14 +22,14 @@ namespace HaberSepeti.Core.Repository
 
         public void Delete(int id)
         {
-            Tag etiket = GetById(id);
-            if (etiket != null)
-                _context.Tags.Remove(etiket);
+            Tag tag = GetById(id);
+            if (tag != null)
+                _context.Tags.Remove(tag);
         }
 
-        public IQueryable<Tag> Etiketler(string[] etiketler)
+        public IQueryable<Tag> Tags(string[] tags)
         {
-            return _context.Tags.Where(x => etiketler.Contains(x.Name));
+            return _context.Tags.Where(x => tags.Contains(x.Name));
         }
 
         public Tag Get(Expression<Func<Tag, bool>> expression)
@@ -52,32 +52,32 @@ namespace HaberSepeti.Core.Repository
             return _context.Tags.Where(expression);
         }
 
-        public void EtiketEkle(int HaberId, string Etiket)
+        public void AddTag(int NewsId, string Tag)
         {
-            if (Etiket != null && Etiket != "")
+            if (Tag != null && Tag != "")
             {
-                string[] Etikets = Etiket.Split(',');
-                foreach (var tag in Etikets)
+                string[] Tags = Tag.Split(',');
+                foreach (var t in Tags)
                 {
-                    Tag etiket = this.Get(x => x.Name.ToLower() == tag.ToLower().Trim());
-                    if (etiket == null)
+                    Tag tag = this.Get(x => x.Name.ToLower() == t.ToLower().Trim());
+                    if (tag == null)
                     {
-                        etiket = new Tag();
-                        etiket.Name = tag;
-                        this.Insert(etiket);
+                        tag = new Tag();
+                        tag.Name = t;
+                        this.Insert(tag);
                         this.Save();
                     }                    
                 }
-                this.HaberEtiketEkle(HaberId, Etikets);
+                this.AddNewsTag(NewsId, Tags);
             }
         }
 
-        public void HaberEtiketEkle(int HaberId, string[] etiketler)
+        public void AddNewsTag(int NewsId, string[] tags)
         {
-            var haber = _context.News.FirstOrDefault(x => x.Id == HaberId);
-            var gelenEtiket = this.Etiketler(etiketler);
-            haber.Tags.Clear();
-            gelenEtiket.ToList().ForEach(etiket => haber.Tags.Add(etiket));
+            var news = _context.News.FirstOrDefault(x => x.Id == NewsId);
+            var pTag = this.Tags(tags);
+            news.Tags.Clear();
+            pTag.ToList().ForEach(t => news.Tags.Add(t));
             _context.SaveChanges();
         }
 

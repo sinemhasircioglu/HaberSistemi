@@ -1,5 +1,5 @@
 ﻿@using PagedList.Mvc;
-@model PagedList.IPagedList<HaberSepeti.Data.Model.Kullanici>
+@model PagedList.IPagedList<HaberSepeti.Data.Entities.User>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -9,9 +9,9 @@
     <div class="panel panel-default">
         <header class="panel-heading">@ViewBag.Title</header>
         <div class="panel-body">
-            @if (TempData["Bilgi"] != null)
+            @if (TempData["Message"] != null)
             {
-                <div class="alert alert-success">@TempData["Bilgi"]</div>
+                <div class="alert alert-success">@TempData["Message"]</div>
             }
             <div class="table-responsive">
                 <table class="table table-striped">
@@ -31,12 +31,12 @@
                         {
                             <tr>
                                 <td><span class="label label-success">@item.Id</span></td>
-                                <td>@item.AdSoyad</td>
+                                <td>@item.NameSurname</td>
                                 <td> @item.Email</td>
-                                <td> @item.Rol.Ad</td>
-                                <td> @item.KayitTarihi.ToString("dd MM yyyy")</td>
+                                <td> @item.Role.Name</td>
+                                <td> @item.CreatedDate.ToString("dd MM yyyy")</td>
                                 <td>
-                                    @if (item.AktifMi == true)
+                                    @if (item.IsActive == true)
                                     {
                                         <b class="label label-success">Aktif</b>
                                     }
@@ -46,33 +46,33 @@
                                     }
                                 </td>
                                 <td>
-                                    @if (item.RolId == 3)
+                                    @if (item.RoleId == 3)
                                     {
-                                        <a href="@Url.Action("MakeAdmin","Kullanici",new { Id=item.Id})" class="btn btn-default btn-sm">Admin yap</a>
-                                        <a href="@Url.Action("MakeEditor","Kullanici",new { Id=item.Id})" class="btn btn-default btn-sm">Editör yap</a>
-                                        <a href="@Url.Action("MakeAuthor","Kullanici",new { Id=item.Id})" class="btn btn-default btn-sm">Yazar yap</a>
+                                        <a href="@Url.Action("MakeAdmin","User",new { Id=item.Id})" class="btn btn-default btn-sm">Admin yap</a>
+                                        <a href="@Url.Action("MakeEditor","User",new { Id=item.Id})" class="btn btn-default btn-sm">Editör yap</a>
+                                        <a href="@Url.Action("MakeAuthor","User",new { Id=item.Id})" class="btn btn-default btn-sm">Yazar yap</a>
                                     }
-                                    else if (item.RolId == 2)
+                                    else if (item.RoleId == 2)
                                     {
-                                        <a href="@Url.Action("MakeAdmin","Kullanici",new { Id=item.Id})" class="btn btn-default btn-sm">Admin yap</a>
+                                        <a href="@Url.Action("MakeAdmin","User",new { Id=item.Id})" class="btn btn-default btn-sm">Admin yap</a>
                                     }
-                                    else if (item.RolId == 4)
+                                    else if (item.RoleId == 4)
                                     {
-                                        <a href="@Url.Action("MakeAdmin","Kullanici",new { Id=item.Id})" class="btn btn-default btn-sm">Admin yap</a>
-                                        <a href="@Url.Action("MakeEditor","Kullanici",new { Id=item.Id})" class="btn btn-default btn-sm">Editör yap</a>
+                                        <a href="@Url.Action("MakeAdmin","User",new { Id=item.Id})" class="btn btn-default btn-sm">Admin yap</a>
+                                        <a href="@Url.Action("MakeEditor","User",new { Id=item.Id})" class="btn btn-default btn-sm">Editör yap</a>
                                     }
-                                    @if (item.RolId != 3)
+                                    @if (item.RoleId != 3)
                                     {
-                                        <a href="@Url.Action("MakeMember","Kullanici",new { Id=item.Id})" class="btn btn-default btn-sm">Yetki al</a>
+                                        <a href="@Url.Action("MakeMember","User",new { Id=item.Id})" class="btn btn-default btn-sm">Yetki al</a>
                                     }
-                                    <a href="@Url.Action("Sil","Kullanici", new { Id=item.Id })" class="btn btn-default btn-sm">Sil</a>
+                                    <a href="@Url.Action("Delete","User", new { Id=item.Id })" class="btn btn-default btn-sm">Sil</a>
                                 </td>
                             </tr>
                         }
                     </tbody>
                 </table>
             </div>
-            @Html.PagedListPager(Model, sayfa => Url.Action("Index", new { sayfa }), PagedListRenderOptions.Classic)
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.Classic)
         </div>
     </div>
 </div>

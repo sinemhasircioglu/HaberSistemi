@@ -8,10 +8,10 @@ namespace HaberSepeti.UI.Models.ViewModels
 {
     public class SidebarViewModel
     {
-        public IEnumerable<News> SonHaberler { get; set; }
+        public IEnumerable<News> LatestNews { get; set; }
 
-        public IEnumerable<Comment> SonYorumlar { get; set; }
+        public IEnumerable<Comment> LatestComments { get; set; }
 
-        public IEnumerable<News> PopulerHaberler { get; set; }
+        public IEnumerable<News> PopularNews { get; set; }
     }
 }

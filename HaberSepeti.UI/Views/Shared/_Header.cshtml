@@ -10,16 +10,16 @@
                 <nav class="flex-child nav__wrap d-none d-lg-block">
                     <ul class="nav__menu">
                         <li class="active">
-                            <a href="@Url.Action("Index","Home")">Anasayfa</a>
+                            <a href="@Url.Action("Index","Default")">Anasayfa</a>
                         </li>
-                        <li> <a href="@Url.Action("KategoriyeGoreListele","Home", new {KategoriUrl="guncel"})"> Güncel </a> </li>
-                        <li> <a href="@Url.Action("KategoriyeGoreListele","Home", new {KategoriUrl="spor"})"> Spor </a> </li>
-                        <li> <a href="@Url.Action("KategoriyeGoreListele","Home", new {KategoriUrl="ekonomi"})"> Ekonomi </a> </li>
-                        <li> <a href="@Url.Action("KategoriyeGoreListele","Home", new {KategoriUrl="magazin"})"> Magazin </a> </li>
-                        <li> <a href="@Url.Action("KategoriyeGoreListele","Home", new {KategoriUrl="politika"})"> Politika </a> </li>
-                        <li> <a href="@Url.Action("KategoriyeGoreListele","Home", new {KategoriUrl="teknoloji"})"> Teknoloji </a> </li>
-                        <li> <a href="@Url.Action("KategoriyeGoreListele","Home", new {KategoriUrl="havadurumu"})"> Hava Durumu </a> </li>
-                        <li> <a href="@Url.Action("KategoriyeGoreListele","Home", new {KategoriUrl="dunya"})"> Dünya </a> </li>
+                        <li> <a href="@Url.Action("ListByCategory","Default", new {KategoriUrl="guncel"})"> Güncel </a> </li>
+                        <li> <a href="@Url.Action("ListByCategory","Default", new {KategoriUrl="spor"})"> Spor </a> </li>
+                        <li> <a href="@Url.Action("ListByCategory","Default", new {KategoriUrl="ekonomi"})"> Ekonomi </a> </li>
+                        <li> <a href="@Url.Action("ListByCategory","Default", new {KategoriUrl="magazin"})"> Magazin </a> </li>
+                        <li> <a href="@Url.Action("ListByCategory","Default", new {KategoriUrl="politika"})"> Politika </a> </li>
+                        <li> <a href="@Url.Action("ListByCategory","Default", new {KategoriUrl="teknoloji"})"> Teknoloji </a> </li>
+                        <li> <a href="@Url.Action("ListByCategory","Default", new {KategoriUrl="havadurumu"})"> Hava Durumu </a> </li>
+                        <li> <a href="@Url.Action("ListByCategory","Default", new {KategoriUrl="dunya"})"> Dünya </a> </li>
                     </ul> <!-- end menu -->
                 </nav> <!-- end nav-wrap -->
                 <!-- Nav Right -->
@@ -30,9 +30,9 @@
                             <i class="ui-search nav__search-trigger-icon"></i>
                         </a>
                         <div class="nav__search-box" id="nav__search-box">
-                            @using (Html.BeginForm("Arama", "Default", FormMethod.Post, new { @class = "nav__search-form" }))
+                            @using (Html.BeginForm("Search", "Default", FormMethod.Post, new { @class = "nav__search-form" }))
                             {
-                                <input type="text" name="kelime" id="kelime" placeholder="Arama.." class="nav__search-input">
+                                <input type="text" name="word" id="word" placeholder="Arama.." class="nav__search-input">
                                 <button type="submit" class="search-button btn btn-lg btn-color btn-button">
                                     <i class="ui-search nav__search-icon"></i>
                                 </button>
@@ -42,13 +42,13 @@
                 </div>
                 <!-- end nav right -->
                 <div>
-                    @if (Session["KullaniciId"] == null)
+                    @if (Session["UserId"] == null)
                     {
                         <a href="/Account/Login">Giriş Yap</a>
                     }
                     else
                     {
-                        <a href="/Account/Profil/@Session["KullaniciId"]">Profilim</a>
+                        <a href="/Account/Profil/@Session["UserId"]">Profilim</a>
                         <a href="/Account/LogOut">Çıkış Yap</a>
                     }
                 </div>

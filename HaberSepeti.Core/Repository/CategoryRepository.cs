@@ -22,7 +22,7 @@ namespace HaberSepeti.Core.Repository
 
         public void Delete(int id)
         {
-            var category = GetById(id);
+            Category category = GetById(id);
             if (category != null)
                 _context.Categories.Remove(category);
         }

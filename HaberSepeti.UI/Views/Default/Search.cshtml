@@ -1,0 +1,60 @@
+﻿@model IEnumerable<HaberSepeti.Data.Entities.News>
+@{
+    ViewBag.Title = "Arama";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-md-8">
+    <h2>Aradığınız İçerikteki Makaleler</h2>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Category.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User.NameSurname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.ShowcasePicture)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Reads)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.NameSurname)
+                </td>
+                <td>
+                    <a href="/Default/Detail/@item.Id"> @Html.DisplayFor(modelItem => item.Title)</a>
+                </td>
+
+                <td>
+                    <img class="img-rounded img-responsive" width="75" src="@item.ShowcasePicture" alt="@item.Title" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Reads)
+                </td>
+
+            </tr>
+        }
+
+    </table>
+</div>

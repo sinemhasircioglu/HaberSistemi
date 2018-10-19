@@ -488,10 +488,10 @@
     <Compile Include="Class\BootStrapper.cs" />
     <Compile Include="Class\ResultJson.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\HaberController.cs" />
+    <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\KategoriController.cs" />
-    <Compile Include="Controllers\KullaniciController.cs" />
+    <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\SliderController.cs" />
     <Compile Include="CustomFilter\LoginFilter.cs" />
     <Compile Include="Global.asax.cs">
@@ -543,15 +543,15 @@
     <Content Include="Views\Shared\_Header.cshtml" />
     <Content Include="Views\Shared\_Sidebar.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Kategori\Ekle.cshtml" />
+    <Content Include="Views\Kategori\Add.cshtml" />
     <Content Include="Views\Kategori\Index.cshtml" />
-    <Content Include="Views\Kategori\Duzenle.cshtml" />
-    <Content Include="Views\Haber\Ekle.cshtml" />
+    <Content Include="Views\Kategori\Edit.cshtml" />
+    <Content Include="Views\Haber\Add.cshtml" />
     <Content Include="Views\Haber\Index.cshtml" />
-    <Content Include="Views\Haber\Duzenle.cshtml" />
+    <Content Include="Views\Haber\Edit.cshtml" />
     <Content Include="Views\Slider\Index.cshtml" />
-    <Content Include="Views\Slider\Ekle.cshtml" />
-    <Content Include="Views\Slider\Duzenle.cshtml" />
+    <Content Include="Views\Slider\Add.cshtml" />
+    <Content Include="Views\Slider\Edit.cshtml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

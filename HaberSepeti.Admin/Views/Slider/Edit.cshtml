@@ -1,4 +1,4 @@
-﻿@model HaberSepeti.Data.Model.Slider
+﻿@model HaberSepeti.Data.Entities.Slider
 @{
     ViewBag.Title = "Slider Duzenle";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -16,7 +16,7 @@
                         @Html.HiddenFor(x => x.Id)
                         <div class="form-group">
                             <label for="Baslik">Slider Başlığı</label>
-                            @Html.TextBoxFor(x => x.Baslik, new { @class = "form-control", id = "Baslik", placeholder = "Başlık" })
+                            @Html.TextBoxFor(x => x.Title, new { @class = "form-control", id = "Title", placeholder = "Başlık" })
                         </div>
                         <div class="form-group">
                             <label for="URL">Slider Url</label>
@@ -24,21 +24,21 @@
                         </div>
                         <div class="form-group">
                             <label for="Aciklama">Açıklama</label>
-                            @Html.TextArea("Aciklama")
+                            @Html.TextArea("Description")
                             <script type="text/javascript">
-                                var editor = CKEDITOR.instances['Aciklama'];
+                                var editor = CKEDITOR.instances['Description'];
                                 if (editor) { editor.destroy(true); }
-                                CKEDITOR.replace('Aciklama', { enterMODE: CKEDITOR.ENTER_BR, });
+                                CKEDITOR.replace('Description', { enterMODE: CKEDITOR.ENTER_BR, });
                             </script>
                         </div>
                         <div class="form-group">
                             <label for="ResimURL">Resim</label>
-                            <input type="file" class="form-control" accept="image/*" name="ResimURL" id="ResimURL">
-                            <img src="@Model.ResimURL" style="width:100px" />
+                            <input type="file" class="form-control" accept="image/*" name="PictureURL" id="ResimURL">
+                            <img src="@Model.PictureURL" style="width:100px" />
                         </div>
                         <div class="checkbox">
                             <label>
-                                @Html.CheckBoxFor(x => x.AktifMi, new { @checked = "checked", id = "AktifMi" }) Aktif Mi
+                                @Html.CheckBoxFor(x => x.IsActive, new { @checked = "checked", id = "IsActive" }) Aktif Mi
                             </label>
                         </div>
                         <button type="submit" class="btn btn-default" id="SliderEkle">Ekle</button>

@@ -1,6 +1,6 @@
 ﻿@model HaberSepeti.UI.Models.ViewModels.SliderViewModel
 @{
-    ViewBag.Title = "SliderGoruntule";
+    ViewBag.Title = "Slider";
     Layout = null;
 }
 
@@ -12,15 +12,15 @@
                 @foreach (var item in Model.Slider)
                 {
                     <article class="entry featured-posts-grid__entry">
-                        <div class="thumb-bg-holder owl-lazy" data-src="@item.ResimURL">
-                            <img src="@item.ResimURL" alt="" class="d-none">
-                            <a href="/Default/Detay/@item.Id" class="thumb-url"></a>
+                        <div class="thumb-bg-holder owl-lazy" data-src="@item.PictureURL">
+                            <img src="@item.PictureURL" alt="" class="d-none">
+                            <a href="/Default/Detail/@item.Id" class="thumb-url"></a>
                             <div class="bottom-gradient"></div>
                         </div>
                         <div class="thumb-text-holder">
-                            <a href="/Default/Detay/@item.Id" class="entry__meta-category entry__meta-category-color entry__meta-category-color--salad">Gündem</a>
+                            <a href="/Default/Detail/@item.Id" class="entry__meta-category entry__meta-category-color entry__meta-category-color--salad">Gündem</a>
                             <h2 class="thumb-entry-title">
-                                <a href="/Default/Detay/@item.Id">@item.Baslik</a>
+                                <a href="/Default/Detail/@item.Id">@item.Title</a>
                             </h2>
                         </div>
                     </article>
@@ -28,31 +28,31 @@
             </div> <!-- end owl slider -->
         </div> <!-- end large post slider -->
 
-        @foreach (var item in Model.Haber)
+        @foreach (var item in Model.News)
         {
             <div class="featured-posts-grid__item featured-posts-grid__item--sm">
                 <article class="entry featured-posts-grid__entry">
-                    <div class="thumb-bg-holder" style="background-image: url(@item.VitrinResim);">
-                        <a href="/Default/Detay/@item.Id" class="thumb-url"></a>
+                    <div class="thumb-bg-holder" style="background-image: url(@item.ShowcasePicture);">
+                        <a href="/Default/Detail/@item.Id" class="thumb-url"></a>
                         <div class="bottom-gradient"></div>
                     </div>
 
                     <div class="thumb-text-holder">
                         <h2 class="thumb-entry-title thumb-entry-title--sm">
-                            <a href="/Default/Detay/@item.Id">@item.Baslik</a>
+                            <a href="/Default/Detail/@item.Id">@item.Title</a>
                         </h2>
                         <ul class="entry__meta">
                             <li class="entry__meta-author">
                                 <i class="ui-author"></i>
-                                <a href="#">@item.Kullanici.AdSoyad</a>
+                                <a href="#">@item.User.NameSurname</a>
                             </li>
                             <li class="entry__meta-date">
                                 <i class="ui-date"></i>
-                                @item.EklenmeTarihi
+                                @item.CreatedDate
                             </li>
                             <li class="entry__meta-comments">
                                 <i class="ui-comments"></i>
-                                <a href="#">@item.Okunma</a>
+                                <a href="#">@item.Reads</a>
                             </li>
                         </ul>
                     </div>

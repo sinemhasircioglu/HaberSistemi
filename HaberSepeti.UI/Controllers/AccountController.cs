@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace HaberSepeti.UI.Controllers
 {
-    public class CaptchaResultt
+    public class CaptchaResult
     {
         [JsonProperty("success")]
         public bool Success { get; set; }
@@ -21,11 +21,11 @@ namespace HaberSepeti.UI.Controllers
 
     public class AccountController : Controller
     {
-        private readonly IUserRepository _kullaniciRepository;
+        private readonly IUserRepository _userRepository;
 
-        public AccountController(IUserRepository kullaniciRepository)
+        public AccountController(IUserRepository userRepository)
         {
-            _kullaniciRepository = kullaniciRepository;
+            _userRepository = userRepository;
         }
 
         [HttpGet]
@@ -37,23 +37,23 @@ namespace HaberSepeti.UI.Controllers
         [HttpPost]
         public ActionResult Login(User user) 
         {
-            var KullaniciVarMi = _kullaniciRepository.GetMany(x => x.Email == user.Email && x.Password == user.Password && x.IsActive == true).SingleOrDefault();
-            if (KullaniciVarMi != null)
+            var isRegister = _userRepository.GetMany(x => x.Email == user.Email && x.Password == user.Password && x.IsActive == true).SingleOrDefault();
+            if (isRegister != null)
             {
-                if (KullaniciVarMi.Role.Name == "Admin" || KullaniciVarMi.Role.Name == "Editör" || KullaniciVarMi.Role.Name == "Yazar")
+                if (isRegister.Role.Name == "Admin" || isRegister.Role.Name == "Editör" || isRegister.Role.Name == "Yazar")
                 {
-                    Session["KullaniciId"] = KullaniciVarMi.Id;
+                    Session["UserId"] = isRegister.Id;
                     return RedirectToAction("Index", "Admin");
                 }
-                else if (KullaniciVarMi.Role.Name == "Üye")
+                else if (isRegister.Role.Name == "Üye")
                 {
-                    Session["KullaniciId"] = KullaniciVarMi.Id;
+                    Session["KullaniciId"] = isRegister.Id;
                     return RedirectToAction("Index", "Default");
                 }
-                ViewBag.Mesaj = "Yetkisiz kullanıcı";
+                ViewBag.Message = "Yetkisiz kullanıcı";
                 return View();
             }
-            ViewBag.Mesaj = "Geçersiz Email/Şifre girdiniz!";
+            ViewBag.Message = "Geçersiz Email/Şifre girdiniz!";
             return View();
         }
 
@@ -64,15 +64,15 @@ namespace HaberSepeti.UI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Register(User user)
+        public ActionResult Register(User user, string PasswordAgain)
         {
-            var KullaniciVarMi = _kullaniciRepository.GetMany(x => x.Email == user.Email).SingleOrDefault();
-            if (KullaniciVarMi != null)
+            var isRegister = _userRepository.GetMany(x => x.Email == user.Email).SingleOrDefault();
+            if (isRegister != null)
             {
-                ViewBag.Mesaj = "Bu email kullanılmış !";
+                ViewBag.Message = "Bu email kullanılmış !";
                 return View();
             }
-            User yeniKullanici = new User
+            User newUser = new User
             {
                 NameSurname = user.NameSurname,
                 Email = user.Email,
@@ -88,11 +88,11 @@ namespace HaberSepeti.UI.Controllers
             WebRequest request = WebRequest.Create(restUrl);
             HttpWebResponse response = request.GetResponse() as HttpWebResponse;
             JsonSerializer serializer = new JsonSerializer();
-            CaptchaResultt result = null;
+            CaptchaResult result = null;
             using (var reader = new StreamReader(response.GetResponseStream()))
             {
                 string resultObject = reader.ReadToEnd();
-                result = JsonConvert.DeserializeObject<CaptchaResultt>(resultObject);
+                result = JsonConvert.DeserializeObject<CaptchaResult>(resultObject);
             }
             if (!result.Success)
             {
@@ -105,14 +105,22 @@ namespace HaberSepeti.UI.Controllers
             }
             else
             {
-                try
+                if(PasswordAgain != null && user.Password == PasswordAgain)
                 {
-                    _kullaniciRepository.Insert(yeniKullanici);
-                    _kullaniciRepository.Save();
-                    return RedirectToAction("Index", "Default");
+                    try
+                    {
+                        _userRepository.Insert(newUser);
+                        _userRepository.Save();
+                        return RedirectToAction("Index", "Default");
+                    }
+                    catch (Exception)
+                    {
+                        return View();
+                    }
                 }
-                catch (Exception)
+                else
                 {
+                    ViewBag.Message = "Bu email kullanılmış !";
                     return View();
                 }
             }

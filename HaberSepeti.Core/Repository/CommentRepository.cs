@@ -22,10 +22,10 @@ namespace HaberSepeti.Core.Repository
 
         public void Delete(int id)
         {
-            Comment yorum = GetById(id);
-            if(yorum != null)
+            Comment comment = GetById(id);
+            if(comment != null)
             {
-                _context.Comments.Remove(yorum);
+                _context.Comments.Remove(comment);
             }
         }
 

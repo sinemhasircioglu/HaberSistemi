@@ -13,7 +13,7 @@ namespace HaberSepeti.Admin.CustomFilter
         {
             HttpContextWrapper wrapper = new HttpContextWrapper(HttpContext.Current);
 
-            var SessionControl = context.HttpContext.Session["KullaniciEmail"];
+            var SessionControl = context.HttpContext.Session["UserId"];
             if(SessionControl == null)
             {
                 context.Result = new RedirectToRouteResult(

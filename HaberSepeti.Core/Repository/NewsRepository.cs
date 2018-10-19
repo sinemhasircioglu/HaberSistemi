@@ -24,9 +24,9 @@ namespace HaberSepeti.Core.Repository
 
         public void Delete(int id)
         {
-            var Haber = GetById(id);
-            if(Haber != null)
-                _context.News.Remove(Haber);
+            News news = GetById(id);
+            if(news != null)
+                _context.News.Remove(news);
         }
 
         public News Get(Expression<Func<News, bool>> expression)

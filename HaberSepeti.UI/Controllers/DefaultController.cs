@@ -12,119 +12,119 @@ namespace HaberSepeti.UI.Controllers
 {
     public class DefaultController : Controller
     {
-        private readonly INewsRepository _haberRepository;
-        private readonly ICategoryRepository _kategoriRepository;
-        private readonly ICommentRepository _yorumRepository;
+        private readonly INewsRepository _newsRepository;
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly ICommentRepository _commentRepository;
         private readonly ISliderRepository _sliderRepository;
-        private readonly ITagRepository _etiketRepository;
-        private readonly IUserRepository _kullaniciRepository;
+        private readonly ITagRepository _tagRepository;
+        private readonly IUserRepository _userRepository;
 
-        public DefaultController(INewsRepository haberRepository, ICategoryRepository kategoriRepository, ICommentRepository yorumRepository, ISliderRepository sliderRepository,
-            ITagRepository etiketRepository, IUserRepository kullaniciRepository)
+        public DefaultController(INewsRepository newsRepository, ICategoryRepository categoryRepository, ICommentRepository commentRepository, ISliderRepository sliderRepository,
+            ITagRepository tagRepository, IUserRepository userRepository)
         {
-            _haberRepository = haberRepository;
-            _kategoriRepository = kategoriRepository;
-            _yorumRepository = yorumRepository;
+            _newsRepository = newsRepository;
+            _categoryRepository = categoryRepository;
+            _commentRepository = commentRepository;
             _sliderRepository = sliderRepository;
-            _etiketRepository = etiketRepository;
-            _kullaniciRepository = kullaniciRepository;
+            _tagRepository = tagRepository;
+            _userRepository = userRepository;
         }
 
         public ActionResult Index()
         {
-            var haberler = _haberRepository.GetAll().OrderByDescending(x => x.Id);
-            return View(haberler);
+            var news = _newsRepository.GetAll().OrderByDescending(x => x.Id);
+            return View(news);
         }
 
-        public ActionResult Arama(string kelime, int sayfa = 1)
+        public ActionResult Search(string word, int page = 1)
         {
-            int sayfaBoyutu = 4;
-            var arananHaberler = _haberRepository.GetMany(x => x.Title.Contains(kelime) || x.Content.Contains(kelime)).OrderByDescending(x => x.Id).ToPagedList(sayfa, sayfaBoyutu);
-            ViewBag.Aranan = kelime;
-            return View(arananHaberler);
+            int pageSize = 4;
+            var news = _newsRepository.GetMany(x => x.Title.Contains(word) || x.Content.Contains(word)).OrderByDescending(x => x.Id).ToPagedList(page, pageSize);
+            ViewBag.Word = word;
+            return View(news);
         }
 
         public ActionResult Sidebar()
         {
             SidebarViewModel model = new SidebarViewModel
             {
-                SonHaberler = _haberRepository.GetAll().OrderByDescending(x => x.CreatedDate).Take(4),
-                SonYorumlar = _yorumRepository.GetAll().OrderByDescending(x => x.CreatedDate).Take(4),
-                PopulerHaberler = _haberRepository.GetAll().OrderByDescending(x => x.Reads).Take(4),
+                LatestNews = _newsRepository.GetAll().OrderByDescending(x => x.CreatedDate).Take(4),
+                LatestComments = _commentRepository.GetAll().OrderByDescending(x => x.CreatedDate).Take(4),
+                PopularNews = _newsRepository.GetAll().OrderByDescending(x => x.Reads).Take(4),
             };
             return View(model);
         }
 
-        public ActionResult SliderGoruntule()
+        public ActionResult Slider()
         {
             SliderViewModel model = new SliderViewModel
             {
                 Slider = _sliderRepository.GetAll().OrderByDescending(x => x.Id).Take(3),
-                Haber = _haberRepository.GetAll().OrderByDescending(x => x.Id).Take(2),
+                News = _newsRepository.GetAll().OrderByDescending(x => x.Id).Take(2),
             };
             return View(model);
         }
 
-        public ActionResult Detay(int Id)
+        public ActionResult Detail(int Id)
         {
-            DetayViewModel model = new DetayViewModel
+            DetailViewModel model = new DetailViewModel
             {
-                Haber = _haberRepository.Get(x => x.Id == Id),
-                Yorumlar = _yorumRepository.GetMany(x => x.NewsId == Id),
-                IliskiliHaberler = _haberRepository.GetAll().OrderByDescending(x => x.Id).Take(3),
+                News = _newsRepository.Get(x => x.Id == Id),
+                Comments = _commentRepository.GetMany(x => x.NewsId == Id),
+                RelatedNews = _newsRepository.GetAll().OrderByDescending(x => x.Id).Take(3),
                 Slider = _sliderRepository.Get(x => x.Id == Id),
             };
             return View(model);
         }
 
-        public ActionResult YorumYap(string icerik, int haberId)
+        public ActionResult Comment(string content, int newsId)
         {
-            var sessionControl = HttpContext.Session["KullaniciId"];
-            User kullanici = _kullaniciRepository.Get(x => x.Id == (int)sessionControl);
-            if (icerik != null)
+            var sessionControl = HttpContext.Session["UserId"];
+            User user = _userRepository.Get(x => x.Id == (int)sessionControl);
+            if (content != null)
             {
-                Comment yeniyorum = new Comment
+                Comment newComment = new Comment
                 {
-                    Content = icerik,
-                    NewsId = haberId,
-                    UserId = kullanici.Id,
+                    Content = content,
+                    NewsId = newsId,
+                    UserId = user.Id,
                     CreatedDate = DateTime.Now,
                 };
                 try
                 {
-                    _yorumRepository.Insert(yeniyorum);
-                    _yorumRepository.Save();
-                    return RedirectToAction("Detay/" + haberId, "Default");
+                    _commentRepository.Insert(newComment);
+                    _commentRepository.Save();
+                    return RedirectToAction("Detail/" + newsId, "Default");
                 }
                 catch
                 {
-                    return RedirectToAction("Detay/" + haberId, "Default");
+                    return RedirectToAction("Detail/" + newsId, "Default");
                 }
             }
-            return RedirectToAction("Detay/" + haberId, "Default");
+            return RedirectToAction("Detail/" + newsId, "Default");
         }
 
-        public ActionResult OkunmaArttir(int haberId)
+        public ActionResult ReadIncrease(int newsId)
         {
-            var haber = _haberRepository.GetById(haberId);
-            haber.Reads += 1;
-            _haberRepository.Save();
+            var news = _newsRepository.GetById(newsId);
+            news.Reads += 1;
+            _newsRepository.Save();
             return View();
 
         }
 
-        public ActionResult Etiketler()
+        public ActionResult Tags()
         {
-            var etiketler = _etiketRepository.GetAll().Take(30).ToList();
-            return View(etiketler);
+            var tags = _tagRepository.GetAll().Take(30).ToList();
+            return View(tags);
         }
 
-        public ActionResult EtiketeGoreListele(string etiketAdi, int sayfa = 1)
+        public ActionResult ListByTag(string tagName, int page = 1)
         {
-            int sayfaBoyutu = 4;
-            var etiketHaberler = _haberRepository.GetAll().Where(x => x.Tags.Any(y => y.Name == etiketAdi)).OrderByDescending(x => x.Id).ToPagedList(sayfa, sayfaBoyutu);
-            ViewBag.EtiketAd = etiketAdi;
-            return View(etiketHaberler);
+            int pageSize = 4;
+            var news = _newsRepository.GetAll().Where(x => x.Tags.Any(y => y.Name == tagName)).OrderByDescending(x => x.Id).ToPagedList(page, pageSize);
+            ViewBag.TagName = tagName;
+            return View(news);
         }
 
     }

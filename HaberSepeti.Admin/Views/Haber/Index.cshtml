@@ -1,5 +1,5 @@
 ﻿@using PagedList.Mvc;
-@model PagedList.IPagedList<HaberSepeti.Data.Model.Haber>
+@model PagedList.IPagedList<HaberSepeti.Data.Entities.News>
 @{
     ViewBag.Title = "Haber Listesi";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -9,9 +9,9 @@
     <div class="panel panel-default">
         <header class="panel-heading">@ViewBag.Title</header>
         <div class="panel-body">
-            @if (TempData["Bilgi"] != null)
+            @if (TempData["Message"] != null)
             {
-                <div class="alert alert-success">@TempData["Bilgi"]</div>
+                <div class="alert alert-success">@TempData["Message"]</div>
             }
             <div class="table-responsive">
                 <table class="table table-striped">
@@ -31,12 +31,12 @@
                         {
                             <tr>
                                 <td><span class="label label-success">@item.Id</span></td>
-                                <td><img src="@item.VitrinResim" alt="@item.Baslik" width="100" /></td>
-                                <td>@item.Baslik</td>
-                                <td>@item.EklenmeTarihi</td>
-                                <td>@item.Kategori.Ad</td>
+                                <td><img src="@item.ShowcasePicture" alt="@item.Title" width="100" /></td>
+                                <td>@item.Title</td>
+                                <td>@item.CreatedDate</td>
+                                <td>@item.Category.Name</td>
                                 <td>
-                                    @if (item.AktifMi == true)
+                                    @if (item.IsActive == true)
                                     {
                                         <b class="label label-success">Aktif</b>
                                     }
@@ -46,15 +46,15 @@
                                     }
                                 </td>
                                 <td>
-                                    <a href="@Url.Action("Duzenle","Haber", new { Id=item.Id })" class="btn btn-default btn-sm">Duzenle</a>
-                                    <a href="@Url.Action("Sil","Haber", new { Id=item.Id })" class="btn btn-default btn-sm">Sil</a>
+                                    <a href="@Url.Action("Edit","News", new { Id=item.Id })" class="btn btn-default btn-sm">Duzenle</a>
+                                    <a href="@Url.Action("Delete","News", new { Id=item.Id })" class="btn btn-default btn-sm">Sil</a>
                                 </td>
                             </tr>
                         }
                     </tbody>
                 </table>
             </div>
-            @Html.PagedListPager(Model, sayfa => Url.Action("Index", new { sayfa }), PagedListRenderOptions.Classic)
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.Classic)
         </div>
     </div>
 </div>

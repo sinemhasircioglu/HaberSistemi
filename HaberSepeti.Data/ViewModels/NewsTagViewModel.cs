@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace HaberSepeti.Data.ViewModels
 {
-    public class HaberEtiketViewModel
+    public class NewsTagViewModel
     {
         public News News { get; set; }
 
-        public string[] GelenEtiketler { get; set; }
+        public string[] AddedTags { get; set; }
 
         public IEnumerable<Tag> Tags { get; set; }
 

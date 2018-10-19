@@ -9,10 +9,10 @@ namespace HaberSepeti.Core.Infrastructure
 {
     public interface ITagRepository : IRepository<Tag>
     {
-        IQueryable<Tag> Etiketler(string[] etiketler);
+        IQueryable<Tag> Tags(string[] tags);
 
-        void EtiketEkle(int HaberId, string Etiket);
+        void AddTag(int NewsId, string Tag);
 
-        void HaberEtiketEkle(int HaberId, string[] etiketler);
+        void AddNewsTag(int NewsId, string[] tags);
     }
 }

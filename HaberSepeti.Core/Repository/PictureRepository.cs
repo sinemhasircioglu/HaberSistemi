@@ -22,9 +22,9 @@ namespace HaberSepeti.Core.Repository
 
         public void Delete(int id)
         {
-            var Resim = GetById(id);
-            if (Resim != null)
-                _context.Pictures.Remove(Resim);
+            Picture picture = GetById(id);
+            if (picture != null)
+                _context.Pictures.Remove(picture);
         }
 
         public Picture Get(Expression<Func<Picture, bool>> expression)

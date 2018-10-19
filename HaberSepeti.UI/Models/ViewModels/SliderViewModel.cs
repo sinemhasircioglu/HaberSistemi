@@ -10,6 +10,6 @@ namespace HaberSepeti.UI.Models.ViewModels
     {
         public IEnumerable<Slider> Slider { get; set; }
 
-        public IEnumerable<News> Haber { get; set; }
+        public IEnumerable<News> News { get; set; }
     }
 }
