@@ -543,12 +543,12 @@
     <Content Include="Views\Shared\_Header.cshtml" />
     <Content Include="Views\Shared\_Sidebar.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Kategori\Add.cshtml" />
-    <Content Include="Views\Kategori\Index.cshtml" />
-    <Content Include="Views\Kategori\Edit.cshtml" />
-    <Content Include="Views\Haber\Add.cshtml" />
-    <Content Include="Views\Haber\Index.cshtml" />
-    <Content Include="Views\Haber\Edit.cshtml" />
+    <Content Include="Views\Category\Add.cshtml" />
+    <Content Include="Views\Category\Index.cshtml" />
+    <Content Include="Views\Category\Edit.cshtml" />
+    <Content Include="Views\News\Add.cshtml" />
+    <Content Include="Views\News\Index.cshtml" />
+    <Content Include="Views\News\Edit.cshtml" />
     <Content Include="Views\Slider\Index.cshtml" />
     <Content Include="Views\Slider\Add.cshtml" />
     <Content Include="Views\Slider\Edit.cshtml" />
@@ -556,7 +556,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <Content Include="Views\Kullanici\Index.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
