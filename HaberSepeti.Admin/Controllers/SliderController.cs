@@ -82,7 +82,7 @@ namespace HaberSepeti.Admin.Controllers
         [HttpPost]
         [LoginFilter]
         [ValidateInput(false)]
-        public ActionResult Duzenle(Slider slider, HttpPostedFileBase PictureURL)
+        public ActionResult Edit(Slider slider, HttpPostedFileBase PictureURL)
         {
             if (ModelState.IsValid)
             {

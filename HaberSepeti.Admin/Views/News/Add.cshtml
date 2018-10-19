@@ -18,7 +18,7 @@
                     <form role="form" method="post" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="KategoriId">Kategori</label>
-                            @Html.DropDownListFor(Model => Model.CategoryId, new SelectList(ViewBag.Category, "Id", "Ad"), ("Seçiniz"), new { @class = "form-control", id = "CategoryId" })
+                            @Html.DropDownListFor(Model => Model.CategoryId, new SelectList(ViewBag.Category, "Id", "Name"), ("Seçiniz"), new { @class = "form-control", id = "CategoryId" })
                         </div>
                         <div class="form-group">
                             <label for="Baslik">Haber Başlığı</label>

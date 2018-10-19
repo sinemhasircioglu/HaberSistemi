@@ -32,7 +32,8 @@ namespace HaberSepeti.Admin.Class
             builder.RegisterType<CategoryRepository>().As<ICategoryRepository>();
             builder.RegisterType<TagRepository>().As<ITagRepository>();
             builder.RegisterType<SliderRepository>().As<ISliderRepository>();
-            
+            builder.RegisterType<CommentRepository>().As<ICommentRepository>();
+
             var container = builder.Build();
 
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));

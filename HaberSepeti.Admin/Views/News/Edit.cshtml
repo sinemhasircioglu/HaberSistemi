@@ -19,7 +19,7 @@
                     {
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary()
-                        @Html.HiddenFor(x => x.Haber.Id)
+                        @Html.HiddenFor(x => x.News.Id)
                         <div class="form-group">
                             <label for="KategoriId">Kategori</label>
                             @Html.DropDownListFor(Model => Model.News.CategoryId, new SelectList(ViewBag.Category, "Id", "Name"), ("Seçiniz"), new { @class = "form-control", id = "CategoryId" })
@@ -55,7 +55,7 @@
                             <input type="file" class="form-control" accept="image/*" name="DetailPicture" id="DetailPicture" multiple>
                             @foreach (var item in Model.News.Pictures.Where(x => x.NewsId == Model.News.Id))
                             {
-                                <img src="@item.PictureURL" width="100" />
+                                <img src="@item.PictureUrl" width="100" />
                                 <label><a href="@Url.Action("DeletePicture","News", new { Id=item.Id})">Resim sil</a></label>
                             }
                         </div>

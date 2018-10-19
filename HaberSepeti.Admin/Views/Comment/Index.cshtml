@@ -1,7 +1,7 @@
 ﻿@using PagedList.Mvc;
-@model PagedList.IPagedList<HaberSepeti.Data.Entities.Category>
+@model PagedList.IPagedList<HaberSepeti.Data.Entities.Comment>
 @{
-    ViewBag.Title = "Kategori Listesi";
+    ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -18,8 +18,10 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Kategori Adı</th>
-                            <th>Üst Kategori</th>
+                            <th>İcerik</th>
+                            <th>Haber</th>
+                            <th>Kullanıcı</th>
+                            <th>Eklenme Tarihi</th>
                             <th>Durum</th>
                             <th>İşlemler</th>
                         </tr>
@@ -29,26 +31,10 @@
                         {
                             <tr>
                                 <td><span class="label label-success">@item.Id</span></td>
-                                <td>@item.Name</td>
-                                <td>
-                                    @if (item.ParentId != 0)
-                                    {
-                                        <span>-</span>
-                                        foreach (var parentCategory in Model.Where(x => x.ParentId == item.Id).Select(x=>x.Name))
-                                        {
-                                            <span>@parentCategory-</span>
-                                        }
-                                    }
-
-                                    @*@if (item.ParentId != 0 && )
-                                        {
-                                            <span>Model.Where(x=>x.Id==item.ParentId).First().Name</span>
-                                        }
-                                        else
-                                        {
-                                            <span>-</span>
-                                        }*@
-                                </td>
+                                <td>@item.Content</td>
+                                <td> @item.News.Title</td>
+                                <td> @item.User.NameSurname</td>
+                                <td> @item.CreatedDate.ToString("dd MM yyyy")</td>
                                 <td>
                                     @if (item.IsActive == true)
                                     {
@@ -60,8 +46,15 @@
                                     }
                                 </td>
                                 <td>
-                                    <a href="@Url.Action("Edit","Category",new { Id=item.Id})" class="btn btn-default btn-sm">Düzenle</a>
-                                    <a href="@Url.Action("Delete","Category", new { Id=item.Id })" class="btn btn-default btn-sm">Sil</a>
+                                    @if (item.IsActive == true)
+                                    {
+                                        <a href="@Url.Action("Reject","Comment",new { Id=item.Id})" class="btn btn-default btn-sm">İzin kaldır</a>
+                                    }
+                                    else
+                                    {
+                                        <a href="@Url.Action("Confirm","Comment",new { Id=item.Id})" class="btn btn-default btn-sm">İzin ver</a>
+                                    }
+                                    <a href="@Url.Action("Delete","Comment", new { Id=item.Id })" class="btn btn-default btn-sm">Sil</a>
                                 </td>
                             </tr>
                         }
