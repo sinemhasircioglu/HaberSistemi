@@ -31,7 +31,8 @@
     <!-- Page container -->
     <div class="container">
         <p class="text-center">
-            MVC HABER SEPETİ
+            MVC HABER SEPETİ <br />
+            @ViewBag.Message
         </p>
         <div class="login-buttons">
             <button class="btn btn-login" data-toggle="modal" data-target="#loginModal">Giriş Yap</button>
@@ -57,8 +58,8 @@
                             <div class="form-group">
                                 <input type="password" class="form-control" placeholder="Şifre" name="Password" required>
                             </div>
-                            <label class="checkbox">
-                                <input type="checkbox" value="remember-me"> Beni hatırla
+                            <label>
+                                <a href="/Account/Register" style="color:navy">Bir hesabınız yok mu? Hemen kayıt olun</a>
                             </label>
                         </form>
                     </div>

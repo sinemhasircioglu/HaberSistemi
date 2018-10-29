@@ -9,12 +9,14 @@ using System.Web.Mvc;
 using PagedList;
 using System.IO;
 using HaberSepeti.Data.Entities;
+using System.Configuration;
 
 namespace HaberSepeti.Admin.Controllers
 {
     public class SliderController : Controller
     {
         private readonly ISliderRepository _sliderRepository;
+        string uploadpathSlider = ConfigurationManager.AppSettings["UploadPathSlider"].ToString();
 
         public SliderController(ISliderRepository sliderRepository)
         {
@@ -48,7 +50,7 @@ namespace HaberSepeti.Admin.Controllers
                 {
                     string file = Guid.NewGuid().ToString().Replace("-", "");
                     string extension = System.IO.Path.GetExtension(Request.Files[0].FileName);
-                    string path = "C:\\Users\\sinem\\Source\\Repos\\HaberSepeti\\Exter\\Slider\\" + file + extension;
+                    string path = uploadpathSlider + file + extension;
                     PictureURL.SaveAs(path);
                     slider.PictureURL = path;
                 }
@@ -96,8 +98,7 @@ namespace HaberSepeti.Admin.Controllers
                     if(dbSlider.PictureURL != null)
                     {
                         string url = dbSlider.PictureURL;
-                        string picturePath = Server.MapPath(url);
-                        FileInfo img = new FileInfo(picturePath);
+                        FileInfo img = new FileInfo(url);
                         if (img.Exists)
                         {
                             img.Delete();
@@ -105,7 +106,7 @@ namespace HaberSepeti.Admin.Controllers
                     }
                     string file = Guid.NewGuid().ToString().Replace("-", "");
                     string extension = System.IO.Path.GetExtension(Request.Files[0].FileName);
-                    string path = "C:\\Users\\sinem\\Source\\Repos\\HaberSepeti\\Exter\\Slider\\" + file + extension;
+                    string path = uploadpathSlider + file + extension;
                     PictureURL.SaveAs(path);
                     dbSlider.PictureURL = path;
                 }
@@ -137,8 +138,7 @@ namespace HaberSepeti.Admin.Controllers
             if(dbSlider.PictureURL!=null)
             {
                 string pictureUrl = dbSlider.PictureURL;
-                string picturePath = Server.MapPath(pictureUrl);
-                FileInfo img = new FileInfo(picturePath);
+                FileInfo img = new FileInfo(pictureUrl);
                 if (img.Exists)
                 {
                     img.Delete();

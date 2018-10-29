@@ -1,0 +1,35 @@
+﻿@model HaberSepeti.Data.Entities.User
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <header class="panel-heading">@ViewBag.Title</header>
+                <div>
+                    @TempData["Message"]
+                </div>
+                <div class="panel-body">
+                    <form role="form" method="post">
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary()
+                        @Html.HiddenFor(x => x.Id)
+                        <div class="form-group">
+                            <label for="NameSurname">Adınız Soyadınız</label>
+                            @Html.TextBoxFor(x => x.NameSurname, new { @class = "form-control", id = "NameSurname", placeholder = "Ad Soyad" })
+                        </div>
+                        <div class="form-group">
+                            <label for="Email">Email adresiniz</label>
+                            @Html.TextBoxFor(x => x.Email, new { @class = "form-control", id = "Email", placeholder = "Email" })
+                        </div>
+
+                        <button type="submit" class="btn btn-default">Değişiklikleri kaydet</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

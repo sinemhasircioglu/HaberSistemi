@@ -21,7 +21,7 @@ namespace HaberSepeti.Admin.Controllers
         private readonly ICategoryRepository _categoryRepository;
         private readonly IPictureRepository _pictureRepository;
         private readonly ITagRepository _tagRepository;
-        string uploadpath = ConfigurationManager.AppSettings["UploadPathHaber"].ToString();
+        string uploadpathNews = ConfigurationManager.AppSettings["UploadPathNews"].ToString();
 
 
         public NewsController(IUserRepository userRepository, INewsRepository newsRepository, ICategoryRepository categoryRepository, IPictureRepository pictureRepository, 
@@ -64,9 +64,9 @@ namespace HaberSepeti.Admin.Controllers
             {
                 string file = Guid.NewGuid().ToString().Replace("-", "");
                 string extension = System.IO.Path.GetExtension(Request.Files[0].FileName);
-                string path = uploadpath + file + extension;
+                string path = uploadpathNews + file + extension;
                 Request.Files[0].SaveAs(path);
-                news.ShowcasePicture = path.Substring(46);
+                news.ShowcasePicture = path;
             }
             _newsRepository.Insert(news);
             _newsRepository.Save();
@@ -82,16 +82,11 @@ namespace HaberSepeti.Admin.Controllers
                     {
                         string fileName = Guid.NewGuid().ToString().Replace("-", "");
                         string fileExtension = System.IO.Path.GetExtension(Request.Files[1].FileName);
-                        //string tamYol = "/External/Haber/" + dosyaAdi + uzanti;
-                        //string tamYol = "C:\\Users\\sinem\\Source\\Repos\\HaberSepeti\\Exter\\Haber\\" + dosyaAdi + uzanti; // doğru olan
-                        string filePath = uploadpath + fileName + fileExtension;
-
-
-                        //file.SaveAs(Server.MapPath(tamYol));
+                        string filePath = uploadpathNews + fileName + fileExtension;
                         file.SaveAs(filePath);
                         var image = new Picture
                         {
-                            PictureUrl = filePath.Substring(46)
+                            PictureUrl = filePath
                         };
                         image.NewsId = news.Id;
                         _pictureRepository.Insert(image);
@@ -118,16 +113,16 @@ namespace HaberSepeti.Admin.Controllers
                 throw new Exception("Haber Bulunamadı!");
 
             string file_name = dbNews.ShowcasePicture;
-            string path = Server.MapPath(file_name);
-            FileInfo file = new FileInfo(path);
+            //string path = Server.MapPath(file_name);
+            FileInfo file = new FileInfo(file_name);
             if (file.Exists) // dosyanın varlığı kontrol ediliyor. fiziksel olarak varsa siliniyor.
                 file.Delete();
             if (dbDetailPicture != null)
             {
                 foreach (var item in dbDetailPicture)
                 {
-                    string detailPath = Server.MapPath(item.PictureUrl);
-                    FileInfo files = new FileInfo(detailPath);
+                    //string detailPath = Server.MapPath(item.PictureUrl);
+                    FileInfo files = new FileInfo(item.PictureUrl);
                     if (files.Exists)
                         files.Delete();
                 }
@@ -179,15 +174,14 @@ namespace HaberSepeti.Admin.Controllers
             if(ShowcasePicture != null)
             {
                 string fileName = dbNews.ShowcasePicture;
-                string filePath = Server.MapPath(fileName);
-                FileInfo file = new FileInfo(filePath);
+                //string filePath = Server.MapPath(fileName);
+                FileInfo file = new FileInfo(fileName);
                 if (file.Exists)
                     file.Delete();
                 string file_name = Guid.NewGuid().ToString().Replace("-", "");
                 string file_extension = System.IO.Path.GetExtension(Request.Files[0].FileName);
-                //string tam_yol = "/External/Haber/" + dosya_adi + uzanti;
                 //string tam_yol = "C:\\Users\\sinem\\Source\\Repos\\HaberSepeti\\Exter\\Haber\\" + dosya_adi + uzanti;
-                string file_path = uploadpath + file_name + file_extension;
+                string file_path = uploadpathNews + file_name + file_extension;
 
                 Request.Files[0].SaveAs(file_path);
                 dbNews.ShowcasePicture = file_path;
@@ -200,8 +194,7 @@ namespace HaberSepeti.Admin.Controllers
                 {
                     string file = Guid.NewGuid().ToString().Replace("-", "");
                     string extension = System.IO.Path.GetExtension(Request.Files[1].FileName);
-                    //string tamyol = "/External/Haber/" + dosya_adi + uzanti;
-                    string path = uploadpath + file + extension;
+                    string path = uploadpathNews + file + extension;
                 
                     detail.SaveAs(path);
                     var img = new Picture {
@@ -225,8 +218,8 @@ namespace HaberSepeti.Admin.Controllers
             if (dbPicture == null)
                 throw new Exception("Resim bulunamadı!");
             string file_name = dbPicture.PictureUrl;
-            string path = Server.MapPath(file_name);
-            FileInfo file = new FileInfo(path);
+            //string path = Server.MapPath(file_name);
+            FileInfo file = new FileInfo(file_name);
             if (file.Exists)
                 file.Delete();
             _pictureRepository.Delete(id);
