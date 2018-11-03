@@ -48,22 +48,21 @@
                                 <td>
                                     @if (item.RoleId == 3)
                                     {
-                                        <a href="@Url.Action("MakeAdmin","User",new { Id=item.Id})" class="btn btn-default btn-sm">Admin yap</a>
-                                        <a href="@Url.Action("MakeEditor","User",new { Id=item.Id})" class="btn btn-default btn-sm">Editör yap</a>
-                                        <a href="@Url.Action("MakeAuthor","User",new { Id=item.Id})" class="btn btn-default btn-sm">Yazar yap</a>
+                                        <a href="@Url.Action("SetRole","User",new { userId=item.Id, roleId=1})" class="btn btn-default btn-sm">Admin yap</a>
+                                        <a href="@Url.Action("SetRole","User",new { userId=item.Id, roleId=2})" class="btn btn-default btn-sm">Editör yap</a>
+                                        <a href="@Url.Action("SetRole","User",new { userId=item.Id, roleId=4})" class="btn btn-default btn-sm">Yazar yap</a>
                                     }
                                     else if (item.RoleId == 2)
                                     {
-                                        <a href="@Url.Action("MakeAdmin","User",new { Id=item.Id})" class="btn btn-default btn-sm">Admin yap</a>
+                                        <a href="@Url.Action("SetRole","User",new { userId=item.Id, roleId=1})" class="btn btn-default btn-sm">Admin yap</a>
+                                        <a href="@Url.Action("SetRole","User",new { userId=item.Id, roleId=4})" class="btn btn-default btn-sm">Yazar yap</a>
+                                        <a href="@Url.Action("SetRole","User",new { userId=item.Id, roleId=3})" class="btn btn-default btn-sm">Üye yap</a>
                                     }
                                     else if (item.RoleId == 4)
                                     {
-                                        <a href="@Url.Action("MakeAdmin","User",new { Id=item.Id})" class="btn btn-default btn-sm">Admin yap</a>
-                                        <a href="@Url.Action("MakeEditor","User",new { Id=item.Id})" class="btn btn-default btn-sm">Editör yap</a>
-                                    }
-                                    @if (item.RoleId != 3)
-                                    {
-                                        <a href="@Url.Action("MakeMember","User",new { Id=item.Id})" class="btn btn-default btn-sm">Yetki al</a>
+                                        <a href="@Url.Action("SetRole","User",new { userId=item.Id, roleId=1})" class="btn btn-default btn-sm">Admin yap</a>
+                                        <a href="@Url.Action("SetRole","User",new { userId=item.Id, roleId=2})" class="btn btn-default btn-sm">Editör yap</a>
+                                        <a href="@Url.Action("SetRole","User",new { userId=item.Id, roleId=3})" class="btn btn-default btn-sm">Üye yap</a>
                                     }
                                     <a href="@Url.Action("Delete","User", new { Id=item.Id })" class="btn btn-default btn-sm">Sil</a>
                                 </td>

@@ -36,48 +36,16 @@ namespace HaberSepeti.Admin.Controllers
             return RedirectToAction("Index", "User");
         }
 
-        public ActionResult MakeAdmin(int id)
+        public ActionResult SetRole(int userId, int roleId)
         {
-            User user = _userRepository.GetById(id);
+            User user = _userRepository.GetById(userId);
             if (user == null)
                 TempData["Message"] = "Kullanıcı bulunamadı!";
-            user.RoleId = 1;
+            user.RoleId = roleId;
             _userRepository.Save();
-            TempData["Message"] = "Kullanıcı artık admin";
+            TempData["Message"] = "Kullanıcının rolü değiştirildi.";
             return RedirectToAction("Index", "User");
         }
 
-        public ActionResult MakeEditor(int id)
-        {
-            User user = _userRepository.GetById(id);
-            if (user == null)
-                TempData["Message"] = "Kullanıcı bulunamadı!";
-            user.RoleId = 2;
-            _userRepository.Save();
-            TempData["Message"] = "Kullanıcı artık editör";
-            return RedirectToAction("Index", "User");
-        }
-
-        public ActionResult MakeAuthor(int id)
-        {
-            User user = _userRepository.GetById(id);
-            if (user == null)
-                TempData["Message"] = "Kullanıcı bulunamadı!";
-            user.RoleId = 4;
-            _userRepository.Save();
-            TempData["Message"] = "Kullanıcı artık yazar";
-            return RedirectToAction("Index", "User");
-        }
-
-        public ActionResult MakeMember(int id)
-        {
-            User user = _userRepository.GetById(id);
-            if (user == null)
-                TempData["Message"] = "Kullanıcı bulunamadı!";
-            user.RoleId = 3;
-            _userRepository.Save();
-            TempData["Message"] = "Kullanıcı artık sadece üye";
-            return RedirectToAction("Index", "User");
-        }
     }
 }
