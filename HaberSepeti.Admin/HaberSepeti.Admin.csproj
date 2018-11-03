@@ -501,6 +501,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewModels\DashboardViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -576,7 +577,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="External\Haber\" />
     <Folder Include="External\Slider\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HaberSepeti.Core\HaberSepeti.Core.csproj">

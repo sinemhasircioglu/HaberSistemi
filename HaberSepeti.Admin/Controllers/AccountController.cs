@@ -142,7 +142,6 @@ namespace HaberSepeti.Admin.Controllers
             User dbUser = _userRepository.GetById(user.Id);
             dbUser.NameSurname = user.NameSurname;
             dbUser.Email = user.Email;
-            dbUser.Password = user.Password;
             _userRepository.Save();
             TempData["Message"] = "Kullanıcı düzenleme işleminiz başarılı.";
             return RedirectToAction("Edit", "Account");
