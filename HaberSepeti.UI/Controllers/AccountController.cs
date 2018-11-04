@@ -47,7 +47,7 @@ namespace HaberSepeti.UI.Controllers
                 }
                 else if (isRegister.Role.Name == "Üye")
                 {
-                    Session["KullaniciId"] = isRegister.Id;
+                    Session["UserId"] = isRegister.Id;
                     return RedirectToAction("Index", "Default");
                 }
                 ViewBag.Message = "Yetkisiz kullanıcı";
