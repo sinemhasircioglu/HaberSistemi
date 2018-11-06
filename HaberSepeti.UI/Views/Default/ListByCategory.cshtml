@@ -1,0 +1,61 @@
+﻿@using PagedList.Mvc;
+@model PagedList.IPagedList<HaberSepeti.Data.Entities.News>
+@{
+    ViewBag.Title = "ListByCategory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-lg-8 blog__content mb-30">
+
+    <div class="title-wrap">
+        <h1>Kategori: @ViewBag.CategoryName </h1>
+    </div>
+
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-6">
+                <article class="entry">
+                    <div class="entry__img-holder">
+                        <a href="/Default/Detail/@item.Id">
+                            <div class="thumb-container thumb-75">
+                                <img data-src="@item.ShowcasePicture" src="@item.ShowcasePicture" class="entry__img lazyloaded" alt="">
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="entry__body">
+                        <div class="entry__header">
+                            <h2 class="entry__title">
+                                <a href="/Default/Detail/@item.Id">@item.Title</a>
+                            </h2>
+                            <ul class="entry__meta">
+                                <li class="entry__meta-author">
+                                    <i class="ui-author"></i>
+                                    <a href="#">@item.User.NameSurname</a>
+                                </li>
+                                <li class="entry__meta-date">
+                                    <i class="ui-date"></i>
+                                    @item.CreatedDate.ToString("dddd, dd MMMM yyyy")
+                                </li>
+                                <li class="entry__meta-comments">
+                                    <i class="ui-comments"></i>
+                                    <a href="#">@item.Reads</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="entry__excerpt">
+                            <p>@item.Description.Substring(0, 100)</p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        }
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+        @Html.PagedListPager(Model, page => Url.Action("ListByCategory", new { page, CategoryUrl = ViewBag.CategoryName }), PagedListRenderOptions.Classic)
+    </div>
+
+</div>

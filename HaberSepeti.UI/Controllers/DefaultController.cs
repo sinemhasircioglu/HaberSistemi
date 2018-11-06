@@ -127,5 +127,13 @@ namespace HaberSepeti.UI.Controllers
             return View(news);
         }
 
+        public ActionResult ListByCategory(string CategoryUrl, int page = 1)
+        {
+            int pageSize = 4;
+            var categoryNews = _newsRepository.GetMany(x => x.Category.URL == CategoryUrl).OrderByDescending(x => x.Id).ToPagedList(page, pageSize);
+            var categoryName = _newsRepository.GetMany(x => x.Category.URL == CategoryUrl).Select(x => x.Category.Name).First();
+            ViewBag.CategoryName = categoryName;
+            return View(categoryNews);
+        }
     }
 }
