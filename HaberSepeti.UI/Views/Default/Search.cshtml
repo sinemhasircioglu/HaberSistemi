@@ -1,60 +1,58 @@
-﻿@model IEnumerable<HaberSepeti.Data.Entities.News>
+﻿@using PagedList.Mvc;
+@model PagedList.IPagedList<HaberSepeti.Data.Entities.News>
 @{
     ViewBag.Title = "Arama";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="col-md-8">
-    <h2>Aradığınız İçerikteki Makaleler</h2>
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Category.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User.NameSurname)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
+<div class="col-lg-8 blog__content mb-30">
 
-            <th>
-                @Html.DisplayNameFor(model => model.ShowcasePicture)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Reads)
-            </th>
-            <th></th>
-        </tr>
+    <h1 class="mb-20">Aradığınız "@ViewBag.Word" için sonuçlar</h1>
 
+    <div class="row">
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Category.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.User.NameSurname)
-                </td>
-                <td>
-                    <a href="/Default/Detail/@item.Id"> @Html.DisplayFor(modelItem => item.Title)</a>
-                </td>
-
-                <td>
-                    <img class="img-rounded img-responsive" width="75" src="@item.ShowcasePicture" alt="@item.Title" />
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Reads)
-                </td>
-
-            </tr>
+            <div class="col-md-6">
+                <article class="entry">
+                    <div class="entry__img-holder">
+                        <a href="/Default/Detail/@item.Id">
+                            <div class="thumb-container thumb-75">
+                                <img data-src="@item.ShowcasePicture" src="@item.ShowcasePicture" class="entry__img lazyloaded" alt="">
+                            </div>
+                        </a>
+                    </div>
+                    <div class="entry__body">
+                        <div class="entry__header">
+                            <a href="@Url.Action("ListByCategory","Default", new {CategoryUrl=item.Category.URL})" class="entry__meta-category">@item.Category.Name</a>
+                            <h2 class="entry__title">
+                                <a href="/Default/Detail/@item.Id">@item.Title</a>
+                            </h2>
+                            <ul class="entry__meta">
+                                <li class="entry__meta-author">
+                                    <i class="ui-author"></i>
+                                    <a href="#">@item.User.NameSurname</a>
+                                </li>
+                                <li class="entry__meta-date">
+                                    <i class="ui-date"></i>
+                                    @item.CreatedDate.ToString("dd MM yyyy")
+                                </li>
+                                <li class="entry__meta-comments">
+                                    <i class="ui-comments"></i>
+                                    <a href="#">@item.Reads</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="entry__excerpt">
+                            <p>@item.Description.Substring(0, 100)</p>
+                        </div>
+                    </div>
+                </article>
+            </div>
         }
+    </div>
 
-    </table>
+    <!-- Pagination -->
+    <div class="pagination">
+        @Html.PagedListPager(Model, page => Url.Action("Search", new { page, word = ViewBag.Word }), PagedListRenderOptions.Classic)
+    </div>
 </div>
